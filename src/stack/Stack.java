@@ -7,13 +7,16 @@ import linkedList.Node;
  * Defines the Stack Data Structure and implements it with a linked list node
  *
  * @author     Shawn Graven (Zekrom)
+ * @date       10/3/19
  *
  * @param  <E>
  *                 The type of the stack
+ * @see        Node
  */
 public class Stack <E>{
 	/**
-	 * Always false as it has no limit
+	 * Always {@code false} as it has no limit, due to implementing the linked list {@link Node}
+	 *
 	 * @return {@code false}
 	 */
 	public static boolean isFull(){
@@ -30,12 +33,13 @@ public class Stack <E>{
 	/**
 	 * Creates a new stack
 	 */
-	public Stack(){}
-
+	public Stack(){
+		//No action needed, inited to null
+	}
 	/**
 	 * @return If the stack is empty return {@code true} else {@code false}
 	 */
-	public boolean isEmpty() {
+	public boolean isEmpty(){
 		return this.node==null;
 	}
 

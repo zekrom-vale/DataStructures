@@ -1,15 +1,47 @@
 package linkedList;
 
+/**
+ * Defines a linked list node with forward and backwards reference
+ *
+ * @author     Zekrom
+ *
+ * @param  <E>
+ *                 The type of the linked list node
+ */
+@SuppressWarnings("hiding")
 public class Node <E>{
+	/**
+	 * The next Node
+	 */
 	private Node<E> next;
+	/**
+	 * The previous Node
+	 */
 	private Node<E> previous;
+	/**
+	 * The value of the Node
+	 */
 	private E value;
 
 
+	/**
+	 * Constructs a node with no previous or next value
+	 *
+	 * @param value
+	 *                  The value to add
+	 */
 	public Node(final E value){
 		this(value, null);
 	}
 
+	/**
+	 * Constructs a node with no next value
+	 *
+	 * @param value
+	 *                  The value to add
+	 * @param node
+	 *                  The previous Node
+	 */
 	public Node(final E value, final Node<E> node){
 		this.value=value;
 		this.previous=node;
