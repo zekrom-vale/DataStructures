@@ -1,4 +1,4 @@
-package stack;
+package linkedList;
 
 public class Node <E>{
 	private Node<E> next;

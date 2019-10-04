@@ -1,5 +1,7 @@
 package stack;
 
+import linkedList.Node;
+
 public class Stack <E>{
 	Node<E> node=null;
 
