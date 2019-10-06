@@ -92,4 +92,11 @@ public class Node <E>{
 	public void setValue(final E value){
 		this.value=value;
 	}
+	/**
+	 * @return A string representation of the value
+	 */
+	@Override
+	public String toString(){
+		return this.value.toString();
+	}
 }
