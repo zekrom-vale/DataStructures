@@ -89,4 +89,20 @@ public class Stack <E>{
 			this.push(values[i]);
 		}
 	}
+	/**
+	 * @return the contents of the Stack as a string
+	 */
+	@Override
+	public String toString(){
+		if(this.node==null)return "Stack []";
+		Node<E> node=this.node;
+		StringBuilder builder=new StringBuilder();
+		builder.append("Stack [");
+		while(node.next()!=null){
+			builder.append(node).append(" ,");
+			node=node.next();
+		}
+		builder.append(node).append("]");
+		return builder.toString();
+	}
 }
