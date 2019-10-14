@@ -13,6 +13,7 @@ import linkedList.Node;
  *                 The type of the stack
  * @see        Node
  */
+@SuppressWarnings("hiding")
 public class Stack <E>{
 	/**
 	 * Always {@code false} as it has no limit, due to implementing the linked list {@link Node}
@@ -96,11 +97,11 @@ public class Stack <E>{
 	public String toString(){
 		if(this.node==null)return "Stack []";
 		Node<E> node=this.node;
-		StringBuilder builder=new StringBuilder();
+		final StringBuilder builder=new StringBuilder();
 		builder.append("Stack [");
-		while(node.next()!=null){
+		while(node.getNext()!=null){
 			builder.append(node).append(" ,");
-			node=node.next();
+			node=node.getNext();
 		}
 		builder.append(node).append("]");
 		return builder.toString();

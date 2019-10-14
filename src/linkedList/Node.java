@@ -49,6 +49,22 @@ public class Node <E>{
 		if(node!=null) node.setNext(this);
 	}
 
+
+	/**
+	 * Constructs a node with no previous value
+	 *
+	 * @param value
+	 *                  The value to add
+	 * @param node
+	 *                  The previous Node
+	 */
+	public Node(final Node<E> node, final E value){
+		this.value=value;
+		this.next=node;
+		this.previous=null;
+		if(node!=null) node.setPrevious(this);
+	}
+
 	/**
 	 * @return the next
 	 */

@@ -1,6 +1,19 @@
 package stack;
 
+/**
+ * Defines the Delim class to check delimiters
+ * 
+ * @author Zekrom
+ *
+ */
 public class Delim{
+	/**
+	 * Checks if all delimiters have a matching pair
+	 *
+	 * @param  string
+	 *                    The string to test
+	 * @return        {@code true} if valid {@code false} otherwise
+	 */
 	public static boolean check(final String string){
 		final Stack<Character> stack=new Stack<>();
 		for(int i=0; i<string.length(); i++){
@@ -20,6 +33,10 @@ public class Delim{
 		return stack.isEmpty();
 	}
 
+	/**
+	 * @param args
+	 *                 Command line arguments
+	 */
 	public static void main(final String[] args){
 		System.out.println(Delim.check("132{123]312(fsd)"));
 		System.out.println(Delim.check("132{123}312(fsd)"));
