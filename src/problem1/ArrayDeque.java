@@ -1,5 +1,7 @@
 package problem1;
 
+import java.util.function.Consumer;
+
 /**
  * Driver ArrayDeque<br>
  * Creates a Deque object implementing the circular array
@@ -140,6 +142,31 @@ public class ArrayDeque <E>{
 	}
 
 	/**
+	 * @param consumer
+	 *                     The operation to do on every element except the last
+	 * @param last
+	 *                     The operation to do on the last element
+	 */
+	@SuppressWarnings("unchecked")
+	protected void forEach(final Consumer<E> consumer, final Consumer<E> last){
+		if(this.isEmpty()) return;
+		if(this.left<=this.right){
+			for(int i=this.left; i<this.right; i++){
+				consumer.accept((E)this.arr[i]);
+			}
+		}
+		else{
+			for(int i=this.left; i<this.arr.length; i++){
+				consumer.accept((E)this.arr[i]);
+			}
+			for(int i=0; i<this.right; i++){
+				consumer.accept((E)this.arr[i]);
+			}
+		}
+		last.accept((E)this.arr[this.right]);
+	}
+
+	/**
 	 * Inserts the element on the left
 	 *
 	 * @param  value
@@ -147,7 +174,6 @@ public class ArrayDeque <E>{
 	 *
 	 * @return       A boolean indicating success
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean insertLeft(final E value){
 		if(this.isFull()) return false;
 		this.size++;
@@ -183,6 +209,7 @@ public class ArrayDeque <E>{
 		return i;
 	}
 
+
 	/**
 	 * Inserts an element to the right
 	 *
@@ -198,7 +225,6 @@ public class ArrayDeque <E>{
 		this.arr[this.right]=value;
 		return true;
 	}
-
 
 	/**
 	 * Inserts the list of values to the right<br>
@@ -279,6 +305,10 @@ public class ArrayDeque <E>{
 		System.out.println(this.toStringRaw());
 	}
 
+	/**
+	 * How many elements are currently in the Deque?
+	 * @return The current size of the Deque
+	 */
 	public int size(){
 		return this.size;
 	}
@@ -291,20 +321,12 @@ public class ArrayDeque <E>{
 		if(this.isEmpty()) return "ArrayDeque []";
 		final StringBuilder builder=new StringBuilder();
 		builder.append("ArrayDeque [");
-		if(this.left<=this.right){
-			for(int i=this.left; i<this.right; i++){
-				builder.append(this.arr[i]).append(", ");
-			}
-		}
-		else{
-			for(int i=this.left; i<this.arr.length; i++){
-				builder.append(this.arr[i]).append(", ");
-			}
-			for(int i=0; i<this.right; i++){
-				builder.append(this.arr[i]).append(", ");
-			}
-		}
-		builder.append(this.arr[this.right]).append("]");
+		this.forEach(x->{
+			builder.append(x).append(", ");
+		}, x->{
+			builder.append(x);
+		});
+		builder.append("]");
 		return builder.toString();
 	}
 

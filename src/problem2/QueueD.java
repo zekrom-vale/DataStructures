@@ -114,6 +114,14 @@ public class QueueD <E>{
 	}
 
 	/**
+	 * @return The size of the QueueD
+	 * @see problem1.ArrayDeque#size()
+	 */
+	public int size(){
+		return this.deque.size();
+	}
+
+	/**
 	 * @return The string representation of the Queue
 	 * @see    problem1.ArrayDeque#toString()
 	 */
