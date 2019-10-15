@@ -279,6 +279,10 @@ public class ArrayDeque <E>{
 		System.out.println(this.toStringRaw());
 	}
 
+	public int size(){
+		return this.size;
+	}
+
 	/**
 	 * Prints a string representation of the ArrayDeque
 	 */
