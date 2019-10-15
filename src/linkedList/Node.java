@@ -46,7 +46,7 @@ public class Node <E>{
 		this.value=value;
 		this.previous=node;
 		this.next=null;
-		if(node!=null) node.setNext(this);
+		if(node!=null) node.next=this;
 	}
 
 
@@ -62,7 +62,7 @@ public class Node <E>{
 		this.value=value;
 		this.next=node;
 		this.previous=null;
-		if(node!=null) node.setPrevious(this);
+		if(node!=null) node.previous=this;
 	}
 
 	/**
