@@ -1,5 +1,7 @@
 package linkedList;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Defines a linked list node with forward and backwards reference
  *
@@ -9,7 +11,8 @@ package linkedList;
  *                 The type of the linked list node
  */
 @SuppressWarnings("hiding")
-public class Node <E>{
+public class Node <@Nullable
+E>{
 	/**
 	 * The next Node
 	 */
@@ -65,6 +68,14 @@ public class Node <E>{
 		if(node!=null) node.previous=this;
 	}
 
+	public Node(final Node<E> prev, final E value, final Node<E> next){
+		this.value=value;
+		this.next=next;
+		this.previous=prev;
+		if(next!=null) next.previous=this;
+		if(prev!=null) prev.next=this;
+	}
+
 	/**
 	 * @return the next
 	 */
@@ -113,6 +124,7 @@ public class Node <E>{
 	 */
 	@Override
 	public String toString(){
+		if(this.value==null) return "null";
 		return this.value.toString();
 	}
 }

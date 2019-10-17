@@ -3,13 +3,37 @@ package linkedList;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
-public class LinkedList <E>{
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
+
+
+public class LinkedList <@Nullable
+E>{
+	@Nullable
 	private Node<E> left=null;
+	@Nullable
 	private Node<E> right=null;
 
 
 	public LinkedList(){
 		//Do nothing
+	}
+
+	public E deleteLeft(final int index){
+		if(index==0) return this.removeLeft();
+
+		Node<E> prev=this.left;
+		int i=0;
+		while(prev!=null&&i<index-1){
+			prev=prev.getNext();
+			i++;
+		}
+		if(prev==null) return null;
+
+		final Node<E> node=prev.getNext(), next=node.getNext();
+		prev.setNext(next);
+		if(next!=null) return this.removeRight();
+		return node.getValue();
 	}
 
 	/**
@@ -61,6 +85,18 @@ public class LinkedList <E>{
 		}
 	}
 
+	public E getLeft(final int index){
+
+		Node<E> node=this.left;
+		int i=0;
+		while(node!=null&&i<index){
+			node=node.getNext();
+			i++;
+		}
+		if(node==null) return null;
+		return node.getValue();
+	}
+
 	private void insert(final E value){
 		this.left=new Node<>(value);
 		this.right=this.left;
@@ -78,6 +114,30 @@ public class LinkedList <E>{
 			return;
 		}
 		this.left=new Node<>(this.left, value);
+	}
+
+	@SuppressWarnings("unused")
+	public boolean insertLeftAfter(final int index, final E value){
+
+		if(index==-1){
+			this.insertLeft(value);
+			return true;
+		}
+
+		Node<E> prev=this.left;
+		int i=0;
+		while(prev!=null&&i<index){
+			prev=prev.getNext();
+			i++;
+		}
+		if(prev==null) return false;
+		final Node<E> next=prev.getNext();
+		if(next==null){
+			this.right=new Node<>(prev, value);
+			return true;
+		}
+		new Node<>(prev, value, next);
+		return true;
 	}
 
 	/**
@@ -100,12 +160,17 @@ public class LinkedList <E>{
 	 *
 	 * @return The removed element
 	 */
+	@SuppressWarnings("null")
 	public E removeLeft(){
-		final Node<E> value=this.left;
+		if(this.left==null) return null;
+		final E value=this.left.getValue();
 		this.left=this.left.getNext();
+		if(this.left==null){
+			this.right=null;
+			return value;
+		}
 		this.left.setPrevious(null);
-		value.setNext(null);
-		return value.getValue();
+		return value;
 	}
 
 
@@ -114,12 +179,28 @@ public class LinkedList <E>{
 	 *
 	 * @return The removed element
 	 */
+	@SuppressWarnings("null")
 	public E removeRight(){
-		final Node<E> value=this.right;
+		if(this.right==null) return null;
+		final E value=this.right.getValue();
 		this.right=this.right.getPrevious();
+		if(this.right==null){
+			this.right=null;
+			return value;
+		}
 		this.right.setNext(null);
-		value.setPrevious(null);
-		return value.getValue();
+		return value;
+	}
+
+	public E searchLeft(final @NonNull
+		E value){
+
+		Node<E> node=this.left;
+		while(node!=null){
+			if(value.equals(node.getValue()));
+			node=node.getNext();
+		}
+		return null;
 	}
 
 
