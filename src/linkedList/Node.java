@@ -75,6 +75,12 @@ E>{
 		if(next!=null) next.previous=this;
 		if(prev!=null) prev.next=this;
 	}
+	
+	public E delete(){
+		if(this.previous!=null)this.previous.next=this.next;
+		if(this.next!=null)this.next.previous=this.previous;
+		return this.value;
+	}
 
 	/**
 	 * @return the next
@@ -119,6 +125,7 @@ E>{
 	public void setValue(final E value){
 		this.value=value;
 	}
+	
 	/**
 	 * @return A string representation of the value
 	 */

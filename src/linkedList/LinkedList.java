@@ -20,10 +20,10 @@ import org.eclipse.jdt.annotation.Nullable;
 public class LinkedList <@Nullable
 E>{
 	@Nullable
-	private Node<E> left=null;
+	protected Node<E> left=null;
 	@Nullable
-	private Node<E> right=null;
-	private long size=0;
+	protected Node<E> right=null;
+	protected long size=0;
 
 	/**
 	 * Returns a new linked list
@@ -31,6 +31,29 @@ E>{
 	public LinkedList(){
 		//Do nothing
 	}
+	
+	
+
+	/**
+	 * Removes the first element
+	 *
+	 * @return The removed element
+	 */
+	public E deleteLeft(){
+		if(this.left==null) return null;
+		@Nullable
+		Node<E> node=this.left;
+		this.left=node.getNext();
+		final E value=node.delete();
+		if(this.left==null){
+			this.right=null;
+			this.size=0;
+			return value;
+		}
+		this.size--;
+		return value;
+	}
+
 
 	/**
 	 * Removes the index from the left
@@ -40,16 +63,35 @@ E>{
 	 * @return       The removed value
 	 */
 	public E deleteLeft(final long index){
-		if(index==0) return this.removeLeft();
-		if(index==this.size-1) this.removeRight();
+		if(index==0) return this.deleteLeft();
+		if(index==this.size-1) this.deleteRight();
 
-		final Node<E> prev=this.getNodeLeft(index-1);
-		if(prev==null)return null;
-
-		final Node<E> node=prev.getNext(), next=node.getNext();
-		prev.setNext(next);
-		if(next!=null) return this.removeRight();
+		final Node<E> node=this.getNodeLeft(index);
+		if(node==null)return null;
+		node.delete();
 		return node.getValue();
+	}
+
+	/**
+	 * Removes the first element
+	 *
+	 * @return The removed element
+	 */
+	@SuppressWarnings("null")
+	public E deleteRight(){
+		
+		if(this.right==null) return null;
+		@Nullable
+		Node<E> node=this.right;
+		this.right=node.getPrevious();
+		final E value=node.delete();
+		if(this.right==null){
+			this.left=null;
+			this.size=0;
+			return value;
+		}
+		this.size--;
+		return value;
 	}
 
 	/**
@@ -60,15 +102,12 @@ E>{
 	 * @return       The removed value
 	 */
 	public E deleteRight(final long index){
-		if(index==0) return this.removeRight();
-		if(index==this.size-1) this.removeLeft();
+		if(index==0) return this.deleteRight();
+		if(index==this.size-1) this.deleteLeft();
 
-		final Node<E> prev=this.getNodeRight(index-1);
-		if(prev==null)return null;
-
-		final Node<E> node=prev.getNext(), next=node.getNext();
-		prev.setNext(next);
-		if(next!=null) return this.removeRight();
+		final Node<E> node=this.getNodeRight(index);
+		if(node==null)return null;
+		node.delete();
 		return node.getValue();
 	}
 
@@ -167,7 +206,7 @@ E>{
 	@SuppressWarnings("null")
 	protected Node<E> getNodeRight(final long index){
 		if(index>=this.size) return null;
-		if(index>this.size/2) return this.getNodeRight(this.size-index-1);
+		if(index>this.size/2) return this.getNodeLeft(this.size-index-1);
 		@NonNull
 		Node<E> next=this.right;
 		int i=0;
@@ -193,7 +232,7 @@ E>{
 	 * @param value
 	 *                  The value to insert
 	 */
-	private void insert(final E value){
+	protected void insert(final E value){
 		this.left=new Node<>(value);
 		this.right=this.left;
 		this.size++;
@@ -328,7 +367,6 @@ E>{
 		this.size--;
 		return value;
 	}
-
 
 	/**
 	 * Finds the value in the Linked List from the left
