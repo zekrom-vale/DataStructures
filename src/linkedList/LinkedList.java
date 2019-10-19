@@ -39,17 +39,17 @@ E>{
 	 *
 	 * @return The removed element
 	 */
-	@SuppressWarnings("null")
 	public E deleteLeft(){
 		if(this.left==null) return null;
-		final E value=this.left.getValue();
-		this.left=this.left.getNext();
+		@Nullable
+		Node<E> node=this.left;
+		this.left=node.getNext();
+		final E value=node.delete();
 		if(this.left==null){
 			this.right=null;
-			this.size--;
+			this.size=0;
 			return value;
 		}
-		this.left.setPrevious(null);
 		this.size--;
 		return value;
 	}
@@ -66,12 +66,9 @@ E>{
 		if(index==0) return this.deleteLeft();
 		if(index==this.size-1) this.deleteRight();
 
-		final Node<E> prev=this.getNodeLeft(index-1);
-		if(prev==null)return null;
-
-		final Node<E> node=prev.getNext(), next=node.getNext();
-		prev.setNext(next);
-		if(next!=null) return this.deleteRight();
+		final Node<E> node=this.getNodeLeft(index);
+		if(node==null)return null;
+		node.delete();
 		return node.getValue();
 	}
 
@@ -82,15 +79,17 @@ E>{
 	 */
 	@SuppressWarnings("null")
 	public E deleteRight(){
+		
 		if(this.right==null) return null;
-		final E value=this.right.getValue();
-		this.right=this.right.getPrevious();
+		@Nullable
+		Node<E> node=this.right;
+		this.right=node.getPrevious();
+		final E value=node.delete();
 		if(this.right==null){
-			this.right=null;
-			this.size--;
+			this.left=null;
+			this.size=0;
 			return value;
 		}
-		this.right.setNext(null);
 		this.size--;
 		return value;
 	}
@@ -106,12 +105,9 @@ E>{
 		if(index==0) return this.deleteRight();
 		if(index==this.size-1) this.deleteLeft();
 
-		final Node<E> prev=this.getNodeRight(index+1);
-		if(prev==null)return null;
-
-		final Node<E> node=prev.getNext(), next=node.getNext();
-		prev.setNext(next);
-		if(next!=null) return this.deleteRight();
+		final Node<E> node=this.getNodeRight(index);
+		if(node==null)return null;
+		node.delete();
 		return node.getValue();
 	}
 
