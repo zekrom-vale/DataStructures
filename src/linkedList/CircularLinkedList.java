@@ -127,9 +127,8 @@ public class CircularLinkedList<@Nullable E> extends LinkedList <E>{
 	 */
 	@Override
 	@SuppressWarnings("null")
-	protected Node<E> getNodeRight(final long index){
+	protected @NonNull Node<E> getNodeRight(final long index){
 		index=index%this.size;
-		if(index>=this.size) return null;
 		if(index>this.size/2) return this.getNodeLeft(this.size-index-1);
 		@NonNull
 		Node<E> next=this.left;
@@ -150,14 +149,13 @@ public class CircularLinkedList<@Nullable E> extends LinkedList <E>{
 	 */
 	@Override
 	@SuppressWarnings("null")
-	protected Node<E> getNodeLeft(final long index){
+	protected @NonNull Node<E> getNodeLeft(final long index){
 		index=index%this.size;
 		/*
 		* //What happens if I do this?
 		* super.getNodeLeft(index%this.size);
 		* //Does it call LinkedList.getNodeRight() or CircularLinkedList.getNodeRight() <- What I want?
 		*/
-		if(index>=this.size) return null;
 		if(index>this.size/2) return this.getNodeRight(this.size-index-1);
 		@NonNull
 		Node<E> prev=this.left;
@@ -167,5 +165,86 @@ public class CircularLinkedList<@Nullable E> extends LinkedList <E>{
 			i++;
 		}
 		return prev;
+	}
+	
+	
+
+	protected void insert(final E value){
+		this.left=new Node<>(value);
+		this.left.setNext(this.left);
+		this.left.setPrevious(this.left);
+		this.size++;
+	}
+
+	/**
+	 * Inserts the value at the beginning
+	 *
+	 * @param value
+	 *                  The value to insert
+	 */
+	public void insertLeft(final E value){
+		if(this.left==null){
+			this.insert(value);
+			return;
+		}
+		this.left=new Node<>(this.left, value, this.left.getNext());
+		this.size++;
+	}
+
+	/**
+	 * Inserts the value after the left based index
+	 *
+	 * @param  index
+	 *                   The index to insert the value (Inserts after)
+	 * @param  value
+	 *                   The value to insert
+	 * @return       Success of insertion
+	 */
+	@SuppressWarnings("unused")
+	public boolean insertLeft(final int index, final E value){
+		if(index==-1||this.left==null){
+			this.insert(value);
+			return true;
+		}
+		@NonNull
+		final Node<E> prev=this.getNodeLeft(index);
+		new Node<>(prev, value, prev.getNext());
+		this.size++;
+		return true;
+	}
+
+
+	/**
+	 * Inserts the value at the end
+	 *
+	 * @param value
+	 *                  The value to insert
+	 */
+	public void insertRight(final E value){
+		if(this.left==null){
+			this.insert(value);
+			return;
+		}
+		this.left=new Node<>(this.left.getPrevious(), value, this.left);
+		this.size++;
+	}
+
+	/**
+	 * Inserts the value after the right based index
+	 * @param index The index to insert the value (Inserts after)
+	 * @param value The value to insert
+	 * @return Success of insertion
+	 */
+	@SuppressWarnings("unused")
+	public boolean insertRight(final int index, final E value){
+		if(index==-1||this.left==null){
+			this.insert(value);
+			return true;
+		}
+		@NonNull
+		final Node<E> next=this.getNodeRight(index);
+		new Node<>(next.getPrevious(), value, next);
+		this.size++;
+		return true;
 	}
 }
