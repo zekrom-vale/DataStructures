@@ -63,7 +63,7 @@ E>{
 		if(index==0) return this.removeRight();
 		if(index==this.size-1) this.removeLeft();
 
-		final Node<E> prev=this.getNodeRight(index+1);
+		final Node<E> prev=this.getNodeRight(index-1);
 		if(prev==null)return null;
 
 		final Node<E> node=prev.getNext(), next=node.getNext();
@@ -133,7 +133,6 @@ E>{
 		return this.getNodeLeft(index).getValue();
 	}
 
-
 	/**
 	 * Returns the node of the index from the left
 	 *
@@ -155,6 +154,7 @@ E>{
 		}
 		return prev;
 	}
+
 
 	/**
 	 * Returns the node of the index from the right
@@ -187,6 +187,12 @@ E>{
 		return this.getNodeRight(index).getValue();
 	}
 
+	/**
+	 * Inserts the value when size is zero
+	 *
+	 * @param value
+	 *                  The value to insert
+	 */
 	private void insert(final E value){
 		this.left=new Node<>(value);
 		this.right=this.left;
@@ -233,11 +239,10 @@ E>{
 			this.size++;
 			return true;
 		}
-		new Node<>(prev, value, next);
+		new Node<>(prev, value, next);	//Object not unused 
 		this.size++;
 		return true;
 	}
-
 
 	/**
 	 * Inserts the value at the end
@@ -254,6 +259,7 @@ E>{
 		this.right=new Node<>(value, this.right);
 		this.size++;
 	}
+
 
 	/**
 	 * Inserts the value after the right based index
@@ -281,7 +287,6 @@ E>{
 		this.size++;
 		return true;
 	}
-
 
 	/**
 	 * Removes the first element
@@ -324,6 +329,7 @@ E>{
 		return value;
 	}
 
+
 	/**
 	 * Finds the value in the Linked List from the left
 	 *
@@ -340,6 +346,13 @@ E>{
 			node=node.getNext();
 		}
 		return null;
+	}
+
+	/**
+	 * @return the size
+	 */
+	public long size(){
+		return this.size;
 	}
 
 
