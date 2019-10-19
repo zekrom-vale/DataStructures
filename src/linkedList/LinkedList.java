@@ -31,6 +31,29 @@ E>{
 	public LinkedList(){
 		//Do nothing
 	}
+	
+	
+
+	/**
+	 * Removes the first element
+	 *
+	 * @return The removed element
+	 */
+	@SuppressWarnings("null")
+	public E deleteLeft(){
+		if(this.left==null) return null;
+		final E value=this.left.getValue();
+		this.left=this.left.getNext();
+		if(this.left==null){
+			this.right=null;
+			this.size--;
+			return value;
+		}
+		this.left.setPrevious(null);
+		this.size--;
+		return value;
+	}
+
 
 	/**
 	 * Removes the index from the left
@@ -40,16 +63,36 @@ E>{
 	 * @return       The removed value
 	 */
 	public E deleteLeft(final long index){
-		if(index==0) return this.removeLeft();
-		if(index==this.size-1) this.removeRight();
+		if(index==0) return this.deleteLeft();
+		if(index==this.size-1) this.deleteRight();
 
 		final Node<E> prev=this.getNodeLeft(index-1);
 		if(prev==null)return null;
 
 		final Node<E> node=prev.getNext(), next=node.getNext();
 		prev.setNext(next);
-		if(next!=null) return this.removeRight();
+		if(next!=null) return this.deleteRight();
 		return node.getValue();
+	}
+
+	/**
+	 * Removes the first element
+	 *
+	 * @return The removed element
+	 */
+	@SuppressWarnings("null")
+	public E deleteRight(){
+		if(this.right==null) return null;
+		final E value=this.right.getValue();
+		this.right=this.right.getPrevious();
+		if(this.right==null){
+			this.right=null;
+			this.size--;
+			return value;
+		}
+		this.right.setNext(null);
+		this.size--;
+		return value;
 	}
 
 	/**
@@ -60,15 +103,15 @@ E>{
 	 * @return       The removed value
 	 */
 	public E deleteRight(final long index){
-		if(index==0) return this.removeRight();
-		if(index==this.size-1) this.removeLeft();
+		if(index==0) return this.deleteRight();
+		if(index==this.size-1) this.deleteLeft();
 
 		final Node<E> prev=this.getNodeRight(index+1);
 		if(prev==null)return null;
 
 		final Node<E> node=prev.getNext(), next=node.getNext();
 		prev.setNext(next);
-		if(next!=null) return this.removeRight();
+		if(next!=null) return this.deleteRight();
 		return node.getValue();
 	}
 
@@ -280,48 +323,6 @@ E>{
 		new Node<>(prev, value, next);
 		this.size++;
 		return true;
-	}
-
-
-	/**
-	 * Removes the first element
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E removeLeft(){
-		if(this.left==null) return null;
-		final E value=this.left.getValue();
-		this.left=this.left.getNext();
-		if(this.left==null){
-			this.right=null;
-			this.size--;
-			return value;
-		}
-		this.left.setPrevious(null);
-		this.size--;
-		return value;
-	}
-
-
-	/**
-	 * Removes the first element
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E removeRight(){
-		if(this.right==null) return null;
-		final E value=this.right.getValue();
-		this.right=this.right.getPrevious();
-		if(this.right==null){
-			this.right=null;
-			this.size--;
-			return value;
-		}
-		this.right.setNext(null);
-		this.size--;
-		return value;
 	}
 
 	/**
