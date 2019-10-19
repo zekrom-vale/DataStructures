@@ -76,9 +76,10 @@ E>{
 		if(prev!=null) prev.next=this;
 	}
 	
-	public void delete(){
+	public E delete(){
 		if(this.previous!=null)this.previous.next=this.next;
 		if(this.next!=null)this.next.previous=this.previous;
+		return this.value;
 	}
 
 	/**
