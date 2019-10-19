@@ -206,7 +206,7 @@ E>{
 	@SuppressWarnings("null")
 	protected Node<E> getNodeRight(final long index){
 		if(index>=this.size) return null;
-		if(index>this.size/2) return this.getNodeRight(this.size-index-1);
+		if(index>this.size/2) return this.getNodeLeft(this.size-index-1);
 		@NonNull
 		Node<E> next=this.right;
 		int i=0;
