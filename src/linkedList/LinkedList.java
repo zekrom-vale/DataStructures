@@ -20,10 +20,10 @@ import org.eclipse.jdt.annotation.Nullable;
 public class LinkedList <@Nullable
 E>{
 	@Nullable
-	private Node<E> left=null;
+	protected Node<E> left=null;
 	@Nullable
-	private Node<E> right=null;
-	private long size=0;
+	protected Node<E> right=null;
+	protected long size=0;
 
 	/**
 	 * Returns a new linked list
@@ -187,7 +187,7 @@ E>{
 		return this.getNodeRight(index).getValue();
 	}
 
-	private void insert(final E value){
+	protected void insert(final E value){
 		this.left=new Node<>(value);
 		this.right=this.left;
 		this.size++;
