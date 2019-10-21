@@ -20,10 +20,10 @@ import org.eclipse.jdt.annotation.Nullable;
 public class LinkedList <@Nullable
 E>{
 	@Nullable
-	protected Node<E> left=null;
+	private Node<E> left=null;
 	@Nullable
-	protected Node<E> right=null;
-	protected long size=0;
+	private Node<E> right=null;
+	private long size=0;
 
 	/**
 	 * Returns a new linked list
@@ -31,8 +31,8 @@ E>{
 	public LinkedList(){
 		//Do nothing
 	}
-	
-	
+
+
 
 	/**
 	 * Removes the first element
@@ -42,6 +42,7 @@ E>{
 	public E deleteLeft(){
 		if(this.left==null) return null;
 		@Nullable
+		final
 		Node<E> node=this.left;
 		this.left=node.getNext();
 		final E value=node.delete();
@@ -79,9 +80,10 @@ E>{
 	 */
 	@SuppressWarnings("null")
 	public E deleteRight(){
-		
+
 		if(this.right==null) return null;
 		@Nullable
+		final
 		Node<E> node=this.right;
 		this.right=node.getPrevious();
 		final E value=node.delete();
@@ -278,7 +280,7 @@ E>{
 			this.size++;
 			return true;
 		}
-		new Node<>(prev, value, next);	//Object not unused 
+		new Node<>(prev, value, next);	//Object not unused
 		this.size++;
 		return true;
 	}
