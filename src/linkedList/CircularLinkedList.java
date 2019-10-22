@@ -1,7 +1,7 @@
 package linkedList;
 
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.ObjLongConsumer;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
@@ -29,7 +29,7 @@ E>{
 	 */
 	public static void main(final String[] args) throws Exception{
 		final CircularLinkedList<@Nullable Integer> list=new CircularLinkedList<>();
-		list.insertNext(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		list.insertNext(null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		list.loopUntilNext((x, i)->{
 			System.out.println(x.getPrevious()+", "+x+", "+x.getNext());
 		}, 40);
@@ -155,9 +155,12 @@ E>{
 	/**
 	 * Checks to see if the LinkedList is empty or has one element<br>
 	 * Does <b>not shift</b> the root
-	 * @param value The value to insert
-	 * @return {@code true} if the value was inserted
+	 *
+	 * @param  value
+	 *                       The value to insert
+	 * @return           {@code true} if the value was inserted
 	 * @throws Exception
+	 *                       E
 	 */
 	protected boolean insertCheck(final E value) throws Exception{
 		if(this.insertIfEmpty(value))return true;
@@ -171,9 +174,12 @@ E>{
 	/**
 	 * Checks to see if the LinkedList is empty or has one element<br>
 	 * <b>Shifts</b> the root
-	 * @param value The value to insert
-	 * @return {@code true} if the value was inserted
+	 *
+	 * @param  value
+	 *                       The value to insert
+	 * @return           {@code true} if the value was inserted
 	 * @throws Exception
+	 *                       E
 	 */
 	protected boolean insertCheckShift(final E value) throws Exception{
 		if(this.insertIfEmpty(value))return true;
@@ -186,9 +192,12 @@ E>{
 
 	/**
 	 * Inserts the value if the LinkedList is empty
-	 * @param value The value to insert
-	 * @return {@code true} if the value was inserted
+	 *
+	 * @param  value
+	 *                       The value to insert
+	 * @return           {@code true} if the value was inserted
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("null")
 	protected boolean insertIfEmpty(final E value) throws Exception{
@@ -204,9 +213,11 @@ E>{
 
 	/**
 	 * Inserts the value after the root
+	 *
 	 * @param  value
 	 *                       The value to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings({"unused", "null"})
 	public void insertNext(final E value) throws Exception{
@@ -221,6 +232,7 @@ E>{
 	 * @param  values
 	 *                       The values to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("unchecked")
 	public void insertNext(final E... values) throws Exception{
@@ -237,6 +249,7 @@ E>{
 	 * @param  value
 	 *                       The value to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("unused")
 	public void insertNext(final int index, final E value) throws Exception{
@@ -253,6 +266,7 @@ E>{
 	 * @param  value
 	 *                       The value to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings({"unused", "null"})
 	public void insertPrevious(final E value) throws Exception{
@@ -269,6 +283,7 @@ E>{
 	 * @param  value
 	 *                       The value to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("unused")
 	public void insertPrevious(final int index, final E value) throws Exception{
@@ -294,9 +309,10 @@ E>{
 	/**
 	 * Inserts the value at the root and the existing node is sifted to the next
 	 *
-	 * @param value
-	 *                  The value to insert
+	 * @param  value
+	 *                       The value to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("null")
 	public void insertShiftNext(final E value) throws Exception{
@@ -312,6 +328,7 @@ E>{
 	 * @param  values
 	 *                       The values to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("unchecked")
 	public void insertShiftNext(final E... values) throws Exception{
@@ -327,6 +344,7 @@ E>{
 	 * @param  values
 	 *                       The values to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("unchecked")
 	public void insertShiftPrevious(final E... values) throws Exception{
@@ -341,6 +359,7 @@ E>{
 	 * @param  value
 	 *                       The value to insert
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("null")
 	public void insertShiftPrevious(final E value) throws Exception{
@@ -355,6 +374,7 @@ E>{
 	 *
 	 * @return           The state of the array
 	 * @throws Exception
+	 *                       E
 	 */
 	public boolean isEmpty() throws Exception{
 		if(this.size==0&&this.root==null) return true;
@@ -370,10 +390,11 @@ E>{
 	 * @param  max
 	 *                       The amount of times to call the function
 	 * @throws Exception
+	 *                       E
 	 */
 	@SuppressWarnings("null")
 	public void loopUntilNext(
-		final BiConsumer<Node<E>, Long> consumer, final long max
+		final ObjLongConsumer<Node<E>> consumer, final long max
 		) throws Exception{
 		if(this.isEmpty()) return;
 		@NonNull
