@@ -19,11 +19,26 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 public class LinkedList <@Nullable
 E>{
+	public static void main(final String[] args){
+		final LinkedList<@Nullable
+		Integer> list=new LinkedList<>();
+		list.insertLeft(3);
+		System.out.println(list);
+		list.insertLeft(5);
+		System.out.println(list);
+		list.insertLeft(0, 7);
+		System.out.println(list);
+		list.removeLeft();
+		System.out.println(list);
+	}
 	@Nullable
 	private Node<E> left=null;
 	@Nullable
 	private Node<E> right=null;
+
 	private long size=0;
+
+
 
 	/**
 	 * Returns a new linked list
@@ -31,7 +46,6 @@ E>{
 	public LinkedList(){
 		//Do nothing
 	}
-
 
 
 	/**
@@ -54,7 +68,6 @@ E>{
 		this.size--;
 		return value;
 	}
-
 
 	/**
 	 * Removes the index from the left
@@ -117,22 +130,23 @@ E>{
 	 * Loops through all elements
 	 * @param consumer The method to execute on each value
 	 */
-	public void forEachLeft(final Consumer<E> consumer){
+	public void forEachLeft(final Consumer<Node<E>> consumer){
 		Node<E> node=this.left;
 		while(node!=null){
-			consumer.accept(node.getValue());
+			consumer.accept(node);
 			node=node.getNext();
 		}
 	}
+
 
 	/**
 	 * Loops through all elements and replace the value
 	 * @param op The method to execute on each value
 	 */
-	public void forEachLeft(final UnaryOperator<E> op){
+	public void forEachLeft(final UnaryOperator<Node<E>> op){
 		Node<E> node=this.left;
 		while(node!=null){
-			node.setValue(op.apply(node.getValue()));
+			node.setValue(op.apply(node).getValue());
 			node=node.getNext();
 		}
 	}
@@ -142,23 +156,22 @@ E>{
 	 * Loops through all elements
 	 * @param consumer The method to execute on each value
 	 */
-	public void forEachRight(final Consumer<E> consumer){
+	public void forEachRight(final Consumer<Node<E>> consumer){
 		Node<E> node=this.right;
 		while(node!=null){
-			consumer.accept(node.getValue());
+			consumer.accept(node);
 			node=node.getPrevious();
 		}
 	}
-
 
 	/**
 	 * Loops through all elements and replace the value
 	 * @param op The method to execute on each value
 	 */
-	public void forEachRight(final UnaryOperator<E> op){
+	public void forEachRight(final UnaryOperator<Node<E>> op){
 		Node<E> node=this.right;
 		while(node!=null){
-			node.setValue(op.apply(node.getValue()));
+			node.setValue(op.apply(node).getValue());
 			node=node.getPrevious();
 		}
 	}
@@ -173,6 +186,7 @@ E>{
 	public E getLeft(final int index){
 		return this.getNodeLeft(index).getValue();
 	}
+
 
 	/**
 	 * Returns the node of the index from the left
@@ -195,7 +209,6 @@ E>{
 		}
 		return prev;
 	}
-
 
 	/**
 	 * Returns the node of the index from the right
@@ -240,6 +253,7 @@ E>{
 		this.size++;
 	}
 
+
 	/**
 	 * Inserts the value at the beginning
 	 *
@@ -253,6 +267,19 @@ E>{
 		}
 		this.left=new Node<>(this.left, value);
 		this.size++;
+	}
+
+	/**
+	 * Inserts the value at the beginning
+	 *
+	 * @param values
+	 *                   The values to insert
+	 */
+	@SuppressWarnings("unchecked")
+	public void insertLeft(final E... values){
+		for(final E value : values){
+			this.insertLeft(value);
+		}
 	}
 
 	/**
@@ -285,6 +312,7 @@ E>{
 		return true;
 	}
 
+
 	/**
 	 * Inserts the value at the end
 	 *
@@ -300,7 +328,6 @@ E>{
 		this.right=new Node<>(value, this.right);
 		this.size++;
 	}
-
 
 	/**
 	 * Inserts the value after the right based index
@@ -329,6 +356,7 @@ E>{
 		return true;
 	}
 
+
 	/**
 	 * Removes the first element
 	 *
@@ -348,7 +376,6 @@ E>{
 		this.size--;
 		return value;
 	}
-
 
 	/**
 	 * Removes the first element
@@ -378,15 +405,16 @@ E>{
 	 *
 	 * @return          The value matching according to the function
 	 */
-	public E searchLeft(final Predicate<E> function){
+	public E searchLeft(final Predicate<Node<E>> function){
 
 		Node<E> node=this.left;
 		while(node!=null){
-			if(function.equals(node.getValue())) return node.getValue();
+			if(function.equals(node)) return node.getValue();
 			node=node.getNext();
 		}
 		return null;
 	}
+
 
 	/**
 	 * @return the size
@@ -394,7 +422,6 @@ E>{
 	public long size(){
 		return this.size;
 	}
-
 
 	/**
 	 * Returns the string representation of the LinkedList

@@ -20,12 +20,22 @@ public class CircularLinkedList <@Nullable
 E>{
 
 
+	/**
+	 * Main
+	 * 
+	 * @param  args
+	 *                       Arguments
+	 * @throws Exception
+	 */
 	public static void main(final String[] args) throws Exception{
 		final CircularLinkedList<@Nullable Integer> list=new CircularLinkedList<>();
 		list.insertNext(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		list.loopUntilNext((x, i)->{
 			System.out.println(x.getPrevious()+", "+x+", "+x.getNext());
 		}, 40);
+		System.out.println(list);
+		list.removeNext();
+		System.out.println(list);
 	}
 	@Nullable
 	private Node<E> root=null;
@@ -62,94 +72,6 @@ E>{
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Removes the first element
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E deleteLeft(){
-		if(this.root==null)return null;
-		@NonNull
-		final Node<E> node=this.root;
-		if(this.size==1){
-			this.size=0;
-			this.root=null;
-			return node.getValue();
-		}
-		this.root=this.root.getNext();
-		node.delete();
-		this.size--;
-		return node.getValue();
-	}
-
-	/**
-	 * Removes the index from the left
-	 *
-	 * @param  index
-	 *                   The index to remove
-	 * @return       The removed value
-	 */
-	@SuppressWarnings("null")
-	public E deleteLeft(final long index){
-		if(this.root==null) return null;
-		if(this.size==1){
-			final Node<E> node=this.root;
-			this.size=0;
-			this.root=null;
-			return node.getValue();
-		}
-		if(index==0) return this.deleteLeft();
-
-		final Node<E> node=this.getNodeLeft(index);
-		node.delete();
-		return node.getValue();
-	}
-
-	/**
-	 * Removes the first element
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E deleteRight(){
-		if(this.root==null)return null;
-		@NonNull
-		final Node<E> node=this.root;
-		if(this.size==1){
-			this.size=0;
-			this.root=null;
-			return node.getValue();
-		}
-		this.root=this.root.getPrevious();
-		node.delete();
-		this.size--;
-		return node.getValue();
-	}
-
-	/**
-	 * Removes the index from the right
-	 *
-	 * @param  index
-	 *                   The index to remove
-	 * @return       The removed value
-	 */
-	@SuppressWarnings("null")
-	public E deleteRight(final long index){
-		if(this.root==null) return null;
-		if(this.size==1){
-			final Node<E> node=this.root;
-			this.size=0;
-			this.root=null;
-			return node.getValue();
-		}
-		if(index==0) return this.deleteRight();
-
-		final Node<E> node=this.getNodeRight(index);
-		node.delete();
-		return node.getValue();
 	}
 
 	/**
@@ -193,12 +115,12 @@ E>{
 	 */
 	@SuppressWarnings("null")
 	protected @NonNull
-	Node<E> getNodeLeft(long index){
+	Node<E> getNodeNext(long index){
 		if(
 			this.root==null
 			) throw new NullPointerException("getNodeLeft Encountered a null root");
 		index=index%this.size;
-		if(index>this.size/2) return this.getNodeRight(this.size-index-1);
+		if(index>this.size/2) return this.getNodePrevious(this.size-index-1);
 		@NonNull
 		Node<E> prev=this.root;
 		int i=0;
@@ -209,7 +131,6 @@ E>{
 		return prev;
 	}
 
-
 	/**
 	 * Returns the node of the index from the right
 	 *
@@ -219,7 +140,7 @@ E>{
 	 */
 	@SuppressWarnings("null")
 	protected @NonNull
-	Node<E> getNodeRight(long index){
+	Node<E> getNodePrevious(long index){
 		if(
 			this.root==null
 			) throw new NullPointerException(
@@ -227,7 +148,7 @@ E>{
 				);
 
 		index=index%this.size;
-		if(index>this.size/2) return this.getNodeLeft(this.size-index-1);
+		if(index>this.size/2) return this.getNodeNext(this.size-index-1);
 		@NonNull
 		Node<E> next=this.root;
 		int i=0;
@@ -249,7 +170,6 @@ E>{
 		this.size++;
 	}
 
-
 	/**
 	 * Inserts the value at the root and the existing node is sifted to the next
 	 *
@@ -260,7 +180,7 @@ E>{
 	@SuppressWarnings("null")
 	public void insertNext(final E value) throws Exception{
 		if(this.check(value))return;
-		this.root=new Node<>(this.root, value, this.root.getNext());
+		this.root=new Node<>(this.root.getPrevious(), value, this.root);
 		this.size++;
 	}
 
@@ -273,8 +193,8 @@ E>{
 	 */
 	@SuppressWarnings("unchecked")
 	public void insertNext(final E... values) throws Exception{
-		for(final E value : values){
-			this.insertNext(value);
+		for(int i=0; i<values.length; i++){
+			this.insertNext(values[i]);
 		}
 	}
 
@@ -292,7 +212,7 @@ E>{
 	public void insertNext(final int index, final E value) throws Exception{
 		if(this.check(value)) return;
 		@NonNull
-		final Node<E> prev=this.getNodeLeft(index);
+		final Node<E> prev=this.getNodeNext(index);
 		new Node<>(prev, value, prev.getNext());
 		this.size++;
 	}
@@ -311,6 +231,7 @@ E>{
 		}
 	}
 
+
 	/**
 	 * Inserts the value at the root and the existing node is sifted to the previous
 	 *
@@ -321,7 +242,7 @@ E>{
 	@SuppressWarnings("null")
 	public void insertPrevious(final E value) throws Exception{
 		if(this.check(value)) return;
-		this.root=new Node<>(this.root.getPrevious(), value, this.root);
+		this.root=new Node<>(this.root, value, this.root.getNext());
 		this.size++;
 	}
 
@@ -338,10 +259,11 @@ E>{
 	public void insertPrevious(final int index, final E value) throws Exception{
 		if(this.check(value)) return;
 		@NonNull
-		final Node<E> next=this.getNodeRight(index);
+		final Node<E> next=this.getNodePrevious(index);
 		new Node<>(next.getPrevious(), value, next);
 		this.size++;
 	}
+
 
 	/**
 	 * Tests if the linked list is empty
@@ -378,6 +300,94 @@ E>{
 	}
 
 	/**
+	 * Removes the first element
+	 *
+	 * @return The removed element
+	 */
+	@SuppressWarnings("null")
+	public E removeNext(){
+		if(this.root==null)return null;
+		@NonNull
+		final Node<E> node=this.root;
+		if(this.size==1){
+			this.size=0;
+			this.root=null;
+			return node.getValue();
+		}
+		this.root=this.root.getNext();
+		node.delete();
+		this.size--;
+		return node.getValue();
+	}
+
+	/**
+	 * Removes the index from the left
+	 *
+	 * @param  index
+	 *                   The index to remove
+	 * @return       The removed value
+	 */
+	@SuppressWarnings("null")
+	public E removeNext(final long index){
+		if(this.root==null) return null;
+		if(this.size==1){
+			final Node<E> node=this.root;
+			this.size=0;
+			this.root=null;
+			return node.getValue();
+		}
+		if(index==0) return this.removeNext();
+
+		final Node<E> node=this.getNodeNext(index);
+		node.delete();
+		return node.getValue();
+	}
+
+	/**
+	 * Removes the first element
+	 *
+	 * @return The removed element
+	 */
+	@SuppressWarnings("null")
+	public E removePrevious(){
+		if(this.root==null)return null;
+		@NonNull
+		final Node<E> node=this.root;
+		if(this.size==1){
+			this.size=0;
+			this.root=null;
+			return node.getValue();
+		}
+		this.root=this.root.getPrevious();
+		node.delete();
+		this.size--;
+		return node.getValue();
+	}
+
+	/**
+	 * Removes the index from the right
+	 *
+	 * @param  index
+	 *                   The index to remove
+	 * @return       The removed value
+	 */
+	@SuppressWarnings("null")
+	public E removePrevious(final long index){
+		if(this.root==null) return null;
+		if(this.size==1){
+			final Node<E> node=this.root;
+			this.size=0;
+			this.root=null;
+			return node.getValue();
+		}
+		if(index==0) return this.removePrevious();
+
+		final Node<E> node=this.getNodePrevious(index);
+		node.delete();
+		return node.getValue();
+	}
+
+	/**
 	 * Returns a string representation of the object
 	 */
 	@SuppressWarnings("null")
@@ -390,7 +400,8 @@ E>{
 			e.printStackTrace();
 		}
 
-		final StringBuilder builder=new StringBuilder();
+		final StringBuilder builder
+		=new StringBuilder("CircularLinkedList[..., ");
 
 		Node<E> node=this.root;
 		for(int i=0; i<this.size; i++){
