@@ -19,6 +19,12 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 public class LinkedList <@Nullable
 E>{
+	/**
+	 * Main method
+	 *
+	 * @param args
+	 *                 Arguments
+	 */
 	public static void main(final String[] args){
 		final LinkedList<@Nullable
 		Integer> list=new LinkedList<>();
@@ -197,7 +203,7 @@ E>{
 	 */
 
 	@SuppressWarnings("null")
-	protected Node<E> getNodeLeft(final long index){
+	public Node<E> getNodeLeft(final long index){
 		if(index>=this.size) return null;
 		if(index>this.size/2) return this.getNodeRight(this.size-index-1);
 		@NonNull
@@ -219,7 +225,7 @@ E>{
 	 */
 
 	@SuppressWarnings("null")
-	protected Node<E> getNodeRight(final long index){
+	public Node<E> getNodeRight(final long index){
 		if(index>=this.size) return null;
 		if(index>this.size/2) return this.getNodeLeft(this.size-index-1);
 		@NonNull
