@@ -29,7 +29,7 @@ E>{
 	 */
 	public static void main(final String[] args) throws Exception{
 		final CircularLinkedList<@Nullable Integer> list=new CircularLinkedList<>();
-		list.insertShiftNext(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		list.insertNext(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		list.loopUntilNext((x, i)->{
 			System.out.println(x.getPrevious()+", "+x+", "+x.getNext());
 		}, 40);
@@ -88,7 +88,7 @@ E>{
 
 
 	/**
-	 * Returns the node of the index from the left
+	 * Returns the node of the index from the next elements, 0=root
 	 *
 	 * @param  index
 	 *                   The index to get the node
@@ -113,7 +113,7 @@ E>{
 	}
 
 	/**
-	 * Returns the node of the index from the right
+	 * Returns the node of the index from the previous elements, 0=root
 	 *
 	 * @param  index
 	 *                   The index to get the node
@@ -202,6 +202,65 @@ E>{
 		return false;
 	}
 
+	/**
+	 * Inserts the value after the root
+	 * @param  value
+	 *                       The value to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings({"unused", "null"})
+	public void insertNext(final E value) throws Exception{
+		if(this.insertCheck(value)) return;
+		new Node<>(this.root, value, this.root.getNext());
+		this.size++;
+	}
+
+	/**
+	 * Inserts the values at the root and the existing node is <b>not sifted</b> to the next
+	 *
+	 * @param  values
+	 *                       The values to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public void insertNext(final E... values) throws Exception{
+		for(int i=0; i<values.length; i++){
+			this.insertNext(values[i]);
+		}
+	}
+
+	/**
+	 * Inserts the value after the next based index
+	 *
+	 * @param  index
+	 *                       The index to insert the value (Inserts after)
+	 * @param  value
+	 *                       The value to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unused")
+	public void insertNext(final int index, final E value) throws Exception{
+		if(this.insertCheck(value)) return;
+		@NonNull
+		final Node<E> prev=this.getNodeNext(index);
+		new Node<>(prev, value, prev.getNext());
+		this.size++;
+	}
+
+	/**
+	 * Inserts the value after the root
+	 *
+	 * @param  value
+	 *                       The value to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings({"unused", "null"})
+	public void insertPrevious(final E value) throws Exception{
+		if(this.insertCheck(value)) return;
+		new Node<>(this.root.getPrevious(), value, this.root);
+		this.size++;
+	}
+
 	/***
 	 * Inserts the value after the previous based index
 	 *
@@ -213,12 +272,13 @@ E>{
 	 */
 	@SuppressWarnings("unused")
 	public void insertPrevious(final int index, final E value) throws Exception{
-		if(this.insertCheckShift(value)) return;
+		if(this.insertCheck(value)) return;
 		@NonNull
 		final Node<E> next=this.getNodePrevious(index);
 		new Node<>(next.getPrevious(), value, next);
 		this.size++;
 	}
+
 
 	/**
 	 * Inserts the value if there is only one value and <b>shifts</b> the root
@@ -258,24 +318,6 @@ E>{
 		for(int i=0; i<values.length; i++){
 			this.insertShiftNext(values[i]);
 		}
-	}
-
-	/**
-	 * Inserts the value after the next based index
-	 *
-	 * @param  index
-	 *                       The index to insert the value (Inserts after)
-	 * @param  value
-	 *                       The value to insert
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unused")
-	public void insertShiftNext(final int index, final E value) throws Exception{
-		if(this.insertCheckShift(value)) return;
-		@NonNull
-		final Node<E> prev=this.getNodeNext(index);
-		new Node<>(prev, value, prev.getNext());
-		this.size++;
 	}
 
 
