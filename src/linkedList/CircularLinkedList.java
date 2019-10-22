@@ -22,19 +22,19 @@ E>{
 
 	/**
 	 * Main
-	 * 
+	 *
 	 * @param  args
 	 *                       Arguments
 	 * @throws Exception
 	 */
 	public static void main(final String[] args) throws Exception{
 		final CircularLinkedList<@Nullable Integer> list=new CircularLinkedList<>();
-		list.insertNext(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		list.insertShiftNext(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		list.loopUntilNext((x, i)->{
 			System.out.println(x.getPrevious()+", "+x+", "+x.getNext());
 		}, 40);
 		System.out.println(list);
-		list.removeNext();
+		list.removeRootNext();
 		System.out.println(list);
 	}
 	@Nullable
@@ -53,26 +53,6 @@ E>{
 		//Do nothing
 	}
 
-
-	/**
-	 * @param value
-	 * @throws Exception
-	 */
-	@SuppressWarnings("null")
-	protected boolean check(final E value) throws Exception{
-		if(this.isEmpty()) {
-			this.root=new Node<>(value);
-			this.root.setNext(this.root);
-			this.root.setPrevious(this.root);
-			this.size++;
-			return true;
-		}
-		if(this.size==1){
-			this.insert(value);
-			return true;
-		}
-		return false;
-	}
 
 	/**
 	 * Iterates for every element in the linked list in the order they are provided, going to the Next
@@ -106,6 +86,7 @@ E>{
 		}
 	}
 
+
 	/**
 	 * Returns the node of the index from the left
 	 *
@@ -114,7 +95,7 @@ E>{
 	 * @return       The node of the index
 	 */
 	@SuppressWarnings("null")
-	protected @NonNull
+	public @NonNull
 	Node<E> getNodeNext(long index){
 		if(
 			this.root==null
@@ -139,7 +120,7 @@ E>{
 	 * @return       The node of the index
 	 */
 	@SuppressWarnings("null")
-	protected @NonNull
+	public @NonNull
 	Node<E> getNodePrevious(long index){
 		if(
 			this.root==null
@@ -160,90 +141,65 @@ E>{
 	}
 
 	/**
-	 * Inserts the value if there is only one value
+	 * Inserts the value if there is only one value and <b>does not</b> shifts the root
 	 *
 	 * @param value
 	 *                  The value to insert
-	 */
-	protected void insert(final E value){
-		this.root=new Node<>(this.root, value, this.root);
-		this.size++;
-	}
-
-	/**
-	 * Inserts the value at the root and the existing node is sifted to the next
-	 *
-	 * @param value
-	 *                  The value to insert
-	 * @throws Exception
-	 */
-	@SuppressWarnings("null")
-	public void insertNext(final E value) throws Exception{
-		if(this.check(value))return;
-		this.root=new Node<>(this.root.getPrevious(), value, this.root);
-		this.size++;
-	}
-
-	/**
-	 * Inserts the values at the root and the existing node is sifted to the next
-	 *
-	 * @param  values
-	 *                       The values to insert
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public void insertNext(final E... values) throws Exception{
-		for(int i=0; i<values.length; i++){
-			this.insertNext(values[i]);
-		}
-	}
-
-
-	/**
-	 * Inserts the value after the next based index
-	 *
-	 * @param  index
-	 *                       The index to insert the value (Inserts after)
-	 * @param  value
-	 *                       The value to insert
-	 * @throws Exception
 	 */
 	@SuppressWarnings("unused")
-	public void insertNext(final int index, final E value) throws Exception{
-		if(this.check(value)) return;
-		@NonNull
-		final Node<E> prev=this.getNodeNext(index);
-		new Node<>(prev, value, prev.getNext());
+	protected void insert(final E value){
+		new Node<>(this.root, value, this.root);
 		this.size++;
 	}
 
 	/**
-	 * Inserts the values at the root and the existing node is sifted to the previous
-	 *
-	 * @param  values
-	 *                       The values to insert
+	 * Checks to see if the LinkedList is empty or has one element<br>
+	 * Does <b>not shift</b> the root
+	 * @param value The value to insert
+	 * @return {@code true} if the value was inserted
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	public void insertPrevious(final E... values) throws Exception{
-		for(final E value : values){
-			this.insertPrevious(value);
+	protected boolean insertCheck(final E value) throws Exception{
+		if(this.insertIfEmpty(value))return true;
+		if(this.size==1){
+			this.insert(value);
+			return true;
 		}
+		return false;
 	}
 
+	/**
+	 * Checks to see if the LinkedList is empty or has one element<br>
+	 * <b>Shifts</b> the root
+	 * @param value The value to insert
+	 * @return {@code true} if the value was inserted
+	 * @throws Exception
+	 */
+	protected boolean insertCheckShift(final E value) throws Exception{
+		if(this.insertIfEmpty(value))return true;
+		if(this.size==1){
+			this.insertShift(value);
+			return true;
+		}
+		return false;
+	}
 
 	/**
-	 * Inserts the value at the root and the existing node is sifted to the previous
-	 *
-	 * @param  value
-	 *                       The value to insert
+	 * Inserts the value if the LinkedList is empty
+	 * @param value The value to insert
+	 * @return {@code true} if the value was inserted
 	 * @throws Exception
 	 */
 	@SuppressWarnings("null")
-	public void insertPrevious(final E value) throws Exception{
-		if(this.check(value)) return;
-		this.root=new Node<>(this.root, value, this.root.getNext());
-		this.size++;
+	protected boolean insertIfEmpty(final E value) throws Exception{
+		if(this.isEmpty()) {
+			this.root=new Node<>(value);
+			this.root.setNext(this.root);
+			this.root.setPrevious(this.root);
+			this.size++;
+			return true;
+		}
+		return false;
 	}
 
 	/***
@@ -257,10 +213,97 @@ E>{
 	 */
 	@SuppressWarnings("unused")
 	public void insertPrevious(final int index, final E value) throws Exception{
-		if(this.check(value)) return;
+		if(this.insertCheckShift(value)) return;
 		@NonNull
 		final Node<E> next=this.getNodePrevious(index);
 		new Node<>(next.getPrevious(), value, next);
+		this.size++;
+	}
+
+	/**
+	 * Inserts the value if there is only one value and <b>shifts</b> the root
+	 *
+	 * @param value
+	 *                  The value to insert
+	 */
+	protected void insertShift(final E value){
+		this.root=new Node<>(this.root, value, this.root);
+		this.size++;
+	}
+
+	/**
+	 * Inserts the value at the root and the existing node is sifted to the next
+	 *
+	 * @param value
+	 *                  The value to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings("null")
+	public void insertShiftNext(final E value) throws Exception{
+		if(this.insertCheckShift(value)) return;
+		this.root=new Node<>(this.root.getPrevious(), value, this.root);
+		this.size++;
+	}
+
+
+	/**
+	 * Inserts the values at the root and the existing node is sifted to the next
+	 *
+	 * @param  values
+	 *                       The values to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public void insertShiftNext(final E... values) throws Exception{
+		for(int i=0; i<values.length; i++){
+			this.insertShiftNext(values[i]);
+		}
+	}
+
+	/**
+	 * Inserts the value after the next based index
+	 *
+	 * @param  index
+	 *                       The index to insert the value (Inserts after)
+	 * @param  value
+	 *                       The value to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unused")
+	public void insertShiftNext(final int index, final E value) throws Exception{
+		if(this.insertCheckShift(value)) return;
+		@NonNull
+		final Node<E> prev=this.getNodeNext(index);
+		new Node<>(prev, value, prev.getNext());
+		this.size++;
+	}
+
+
+	/**
+	 * Inserts the values at the root and the existing node is sifted to the previous
+	 *
+	 * @param  values
+	 *                       The values to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public void insertShiftPrevious(final E... values) throws Exception{
+		for(final E value : values){
+			this.insertShiftPrevious(value);
+		}
+	}
+
+	/**
+	 * Inserts the value at the root and the existing node is sifted to the previous
+	 *
+	 * @param  value
+	 *                       The value to insert
+	 * @throws Exception
+	 */
+	@SuppressWarnings("null")
+	public void insertShiftPrevious(final E value) throws Exception{
+		if(this.insertCheckShift(value)) return;
+		this.root=new Node<>(this.root, value, this.root.getNext());
 		this.size++;
 	}
 
@@ -300,27 +343,6 @@ E>{
 	}
 
 	/**
-	 * Removes the first element
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E removeNext(){
-		if(this.root==null)return null;
-		@NonNull
-		final Node<E> node=this.root;
-		if(this.size==1){
-			this.size=0;
-			this.root=null;
-			return node.getValue();
-		}
-		this.root=this.root.getNext();
-		node.delete();
-		this.size--;
-		return node.getValue();
-	}
-
-	/**
 	 * Removes the index from the left
 	 *
 	 * @param  index
@@ -336,31 +358,10 @@ E>{
 			this.root=null;
 			return node.getValue();
 		}
-		if(index==0) return this.removeNext();
+		if(index==0) return this.removeRootNext();
 
 		final Node<E> node=this.getNodeNext(index);
 		node.delete();
-		return node.getValue();
-	}
-
-	/**
-	 * Removes the first element
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E removePrevious(){
-		if(this.root==null)return null;
-		@NonNull
-		final Node<E> node=this.root;
-		if(this.size==1){
-			this.size=0;
-			this.root=null;
-			return node.getValue();
-		}
-		this.root=this.root.getPrevious();
-		node.delete();
-		this.size--;
 		return node.getValue();
 	}
 
@@ -380,10 +381,52 @@ E>{
 			this.root=null;
 			return node.getValue();
 		}
-		if(index==0) return this.removePrevious();
+		if(index==0) return this.removeRootPrevious();
 
 		final Node<E> node=this.getNodePrevious(index);
 		node.delete();
+		return node.getValue();
+	}
+
+	/**
+	 * Removes the root element and shifts the root to the next
+	 *
+	 * @return The removed element
+	 */
+	@SuppressWarnings("null")
+	public E removeRootNext(){
+		if(this.root==null)return null;
+		@NonNull
+		final Node<E> node=this.root;
+		if(this.size==1){
+			this.size=0;
+			this.root=null;
+			return node.getValue();
+		}
+		this.root=this.root.getNext();
+		node.delete();
+		this.size--;
+		return node.getValue();
+	}
+
+	/**
+	 * Removes the root element and shifts the root to the previous
+	 *
+	 * @return The removed element
+	 */
+	@SuppressWarnings("null")
+	public E removeRootPrevious(){
+		if(this.root==null)return null;
+		@NonNull
+		final Node<E> node=this.root;
+		if(this.size==1){
+			this.size=0;
+			this.root=null;
+			return node.getValue();
+		}
+		this.root=this.root.getPrevious();
+		node.delete();
+		this.size--;
 		return node.getValue();
 	}
 
