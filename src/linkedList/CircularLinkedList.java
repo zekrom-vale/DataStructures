@@ -21,29 +21,6 @@ import org.eclipse.jdt.annotation.Nullable;
 public class CircularLinkedList <@Nullable
 E>{
 
-
-	/**
-	 * Main
-	 *
-	 * @param  args
-	 *                                         Arguments
-	 * @throws LengthRootMishatchException
-	 *                                         E
-	 */
-	public static void main(final String[] args)
-		throws LengthRootMishatchException{
-		final CircularLinkedList<@Nullable
-		Integer> list=new CircularLinkedList<>();
-		list.insertNext(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-		list.loopUntilNext((x, i)->{
-			System.out.println(x.getPrevious()+", "+x+", "+x.getNext());
-		}, 40);
-		System.out.println(list);
-		list.removeRootNext();
-		System.out.println(list);
-	}
-
-
 	/*
 	 * The root (or current) node of the CircularLinkedList, allowed to be null only if this.size==0
 	 */
@@ -62,6 +39,17 @@ E>{
 	 */
 	public CircularLinkedList(){
 		//Do nothing
+	}
+
+
+	/**
+	 * Returns a new CircularLinkedList
+	 *
+	 * @throws LengthRootMishatchException
+	 */
+	public CircularLinkedList(final E... values)
+		throws LengthRootMishatchException{
+		this.insertPrevious(values);
 	}
 
 
@@ -249,7 +237,24 @@ E>{
 	}
 
 	/**
-	 * Inserts the values at the root and the existing node is <b>not sifted</b> to the next
+	 * Inserts the values at the root and the existing node is <b>not sifted</b> to the next<br>
+	 * Same as the flowing code
+	 *
+	 * <pre>
+	 * <code>
+	 * CircularLinkedList&lt;E&gt; list=new CircularLinkedList<>();
+	 * E values={...};
+	 * for(int i=0; i&lt;values.length; i++){
+	 * 	list.insertNext(values[i]);
+	 * }
+	 * </code>
+	 * <code>
+	 * CircularLinkedList&lt;E&gt; list=new CircularLinkedList<>();
+	 * list.insertShiftNext({...});
+	 * list.shiftPrevious();
+	 * </code>
+	 * </pre>
+	 *
 	 *
 	 * @param  values
 	 *                                         The values to insert
@@ -263,6 +268,7 @@ E>{
 			this.insertNext(values[i]);
 		}
 	}
+
 
 	/**
 	 * Inserts the value after the next based index
@@ -282,6 +288,38 @@ E>{
 		final Node<E> prev=this.getNodeNext(index);
 		new Node<>(prev, value, prev.getNext());
 		this.size++;
+	}
+
+	/**
+	 * Inserts the values at the root and the existing node is <b>not sifted</b> to the previous<br>
+	 * Same as the flowing code
+	 *
+	 * <pre>
+	 * <code>
+	 * CircularLinkedList&lt;E&gt; list=new CircularLinkedList<>();
+	 * E values={...};
+	 * for(int i=0; i&lt;values.length; i++){
+	 * 	list.insertPrevious(values[i]);
+	 * }
+	 * </code>
+	 * <code>
+	 * CircularLinkedList&lt;E&gt; list=new CircularLinkedList<>();
+	 * list.insertShiftPrevious({...});
+	 * list.shiftNext();
+	 * </code>
+	 * </pre>
+	 *
+	 * @param  values
+	 *                                         The values to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
+	 */
+	@SuppressWarnings("unchecked")
+	public void insertPrevious(final E... values)
+		throws LengthRootMishatchException{
+		for(int i=0; i<values.length; i++){
+			this.insertPrevious(values[i]);
+		}
 	}
 
 	/**
@@ -350,7 +388,23 @@ E>{
 
 
 	/**
-	 * Inserts the values at the root and the existing node is sifted to the next
+	 * Inserts the values at the root and the existing node is sifted to the next<br>
+	 * Same as the flowing code
+	 *
+	 * <pre>
+	 * <code>
+	 * CircularLinkedList&lt;E&gt; list=new CircularLinkedList<>();
+	 * E values={...};
+	 * for(int i=0; i&lt;values.length; i++){
+	 * 	list.insertShiftNext(values[i]);
+	 * }
+	 * </code>
+	 * <code>
+	 * CircularLinkedList&lt;E&gt; list=new CircularLinkedList<>();
+	 * list.insertNext({...});
+	 * list.shiftNext();
+	 * </code>
+	 * </pre>
 	 *
 	 * @param  values
 	 *                                         The values to insert
@@ -365,9 +419,24 @@ E>{
 		}
 	}
 
-
 	/**
-	 * Inserts the values at the root and the existing node is sifted to the previous
+	 * Inserts the values at the root and the existing node is sifted to the previous<br>
+	 * Same as the flowing code
+	 *
+	 * <pre>
+	 * <code>
+	 * CircularLinkedList&lt;E&gt; list=new CircularLinkedList<>();
+	 * E values={...};
+	 * for(int i=0; i&lt;values.length; i++){
+	 * 	list.insertShiftPrevious(values[i]);
+	 * }
+	 * </code>
+	 * <code>
+	 * CircularLinkedList&lt;E&gt; list=new CircularLinkedList<>();
+	 * list.insertPrevious({...});
+	 * list.shiftPrevious();
+	 * </code>
+	 * </pre>
 	 *
 	 * @param  values
 	 *                                         The values to insert
