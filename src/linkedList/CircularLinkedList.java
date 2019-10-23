@@ -1,10 +1,9 @@
 package linkedList;
 
-import java.util.function.Consumer;
 import java.util.function.ObjLongConsumer;
 
-//Allows Eclipse to preform null checks, this is ignored by the JVM
-//Same with @Override and some other Annoctations
+// Allows Eclipse to perform null checks, this is ignored by the JVM
+// Same with @Override and some other Annotations
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -17,7 +16,7 @@ import org.eclipse.jdt.annotation.Nullable;
  *
  * @param  <E>
  *                 The type of the Linked list
- * @see            Node
+ * @see        Node
  */
 public class CircularLinkedList <@Nullable
 E>{
@@ -29,9 +28,11 @@ E>{
 	 * @param  args
 	 *                       Arguments
 	 * @throws Exception
+	 *                       E
 	 */
 	public static void main(final String[] args) throws Exception{
-		final CircularLinkedList<@Nullable Integer> list=new CircularLinkedList<>();
+		final CircularLinkedList<@Nullable
+		Integer> list=new CircularLinkedList<>();
 		list.insertNext(null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		list.loopUntilNext((x, i)->{
 			System.out.println(x.getPrevious()+", "+x+", "+x.getNext());
@@ -41,8 +42,9 @@ E>{
 		System.out.println(list);
 	}
 
+
 	/*
-	 * The root (or current) node of the CircularLinkedList, allowed to be null only if this.size==0 
+	 * The root (or current) node of the CircularLinkedList, allowed to be null only if this.size==0
 	 */
 	@Nullable
 	private Node<E> root=null;
@@ -52,6 +54,7 @@ E>{
 	 */
 
 	private long size=0;
+
 
 	/**
 	 * Returns a new CircularLinkedList
@@ -111,7 +114,7 @@ E>{
 			) throw new NullPointerException("getNodeLeft Encountered a null root");
 		index=index%this.size;	//Provide wrap around support
 		//If the index is greater than half of the size call from the other side max computational complexity n->n/2
-		if(index>this.size/2) return this.getNodePrevious(this.size-index-1); 
+		if(index>this.size/2) return this.getNodePrevious(this.size-index-1);
 		@NonNull
 		Node<E> prev=this.root;
 		int i=0;
@@ -176,7 +179,7 @@ E>{
 	 *                       E
 	 */
 	protected boolean insertCheck(final E value) throws Exception{
-		if(this.insertIfEmpty(value))return true;
+		if(this.insertIfEmpty(value)) return true;
 		if(this.size==1){
 			this.insert(value);
 			return true;
@@ -195,7 +198,7 @@ E>{
 	 *                       E
 	 */
 	protected boolean insertCheckShift(final E value) throws Exception{
-		if(this.insertIfEmpty(value))return true;
+		if(this.insertIfEmpty(value)) return true;
 		if(this.size==1){
 			this.insertShift(value);
 			return true;
@@ -214,7 +217,7 @@ E>{
 	 */
 	@SuppressWarnings("null")
 	protected boolean insertIfEmpty(final E value) throws Exception{
-		if(this.isEmpty()) {
+		if(this.isEmpty()){
 			this.root=new Node<>(value);
 			this.root.setNext(this.root);
 			this.root.setPrevious(this.root);
@@ -471,7 +474,7 @@ E>{
 	 */
 	@SuppressWarnings("null")
 	public E removeRootNext(){
-		if(this.root==null)return null;
+		if(this.root==null) return null;
 		@NonNull
 		final Node<E> node=this.root;
 		if(this.size==1){
@@ -492,7 +495,7 @@ E>{
 	 */
 	@SuppressWarnings("null")
 	public E removeRootPrevious(){
-		if(this.root==null)return null;
+		if(this.root==null) return null;
 		@NonNull
 		final Node<E> node=this.root;
 		if(this.size==1){
