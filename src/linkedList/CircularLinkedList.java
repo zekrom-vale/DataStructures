@@ -26,11 +26,12 @@ E>{
 	 * Main
 	 *
 	 * @param  args
-	 *                       Arguments
-	 * @throws Exception
-	 *                       E
+	 *                                         Arguments
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
-	public static void main(final String[] args) throws Exception{
+	public static void main(final String[] args)
+		throws LengthRootMishatchException{
 		final CircularLinkedList<@Nullable
 		Integer> list=new CircularLinkedList<>();
 		list.insertNext(null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
@@ -107,11 +108,13 @@ E>{
 	@SuppressWarnings("null")
 	public @NonNull
 	Node<E> getNodeNext(long index){
-		//Throw an null pointer exception if the root is null
+		//Throw an null pointer LengthRootMishatchException if the root is null
 		//TODO extract method
 		if(
 			this.root==null
-			) throw new NullPointerException("getNodeLeft Encountered a null root");
+		) throw new NullPointerException(
+				"getNodeLeft Encountered a null root"
+				);
 		index=index%this.size;	//Provide wrap around support
 		//If the index is greater than half of the size call from the other side max computational complexity n->n/2
 		if(index>this.size/2) return this.getNodePrevious(this.size-index-1);
@@ -135,7 +138,7 @@ E>{
 	@SuppressWarnings("null")
 	public @NonNull
 	Node<E> getNodePrevious(long index){
-		//Throw an null pointer exception if the root is null
+		//Throw an null pointer LengthRootMishatchException if the root is null
 		//TODO extract method
 		if(
 			this.root==null
@@ -173,12 +176,13 @@ E>{
 	 * Does <b>not shift</b> the root
 	 *
 	 * @param  value
-	 *                       The value to insert
-	 * @return           {@code true} if the value was inserted
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @return                             {@code true} if the value was inserted
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
-	protected boolean insertCheck(final E value) throws Exception{
+	protected boolean insertCheck(final E value)
+		throws LengthRootMishatchException{
 		if(this.insertIfEmpty(value)) return true;
 		if(this.size==1){
 			this.insert(value);
@@ -192,12 +196,13 @@ E>{
 	 * <b>Shifts</b> the root
 	 *
 	 * @param  value
-	 *                       The value to insert
-	 * @return           {@code true} if the value was inserted
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @return                             {@code true} if the value was inserted
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
-	protected boolean insertCheckShift(final E value) throws Exception{
+	protected boolean insertCheckShift(final E value)
+		throws LengthRootMishatchException{
 		if(this.insertIfEmpty(value)) return true;
 		if(this.size==1){
 			this.insertShift(value);
@@ -210,13 +215,14 @@ E>{
 	 * Inserts the value if the LinkedList is empty
 	 *
 	 * @param  value
-	 *                       The value to insert
-	 * @return           {@code true} if the value was inserted
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @return                             {@code true} if the value was inserted
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("null")
-	protected boolean insertIfEmpty(final E value) throws Exception{
+	protected boolean insertIfEmpty(final E value)
+		throws LengthRootMishatchException{
 		if(this.isEmpty()){
 			this.root=new Node<>(value);
 			this.root.setNext(this.root);
@@ -231,12 +237,12 @@ E>{
 	 * Inserts the value after the root
 	 *
 	 * @param  value
-	 *                       The value to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings({"unused", "null"})
-	public void insertNext(final E value) throws Exception{
+	public void insertNext(final E value) throws LengthRootMishatchException{
 		if(this.insertCheck(value)) return;
 		new Node<>(this.root, value, this.root.getNext());
 		this.size++;
@@ -246,12 +252,13 @@ E>{
 	 * Inserts the values at the root and the existing node is <b>not sifted</b> to the next
 	 *
 	 * @param  values
-	 *                       The values to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The values to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("unchecked")
-	public void insertNext(final E... values) throws Exception{
+	public void insertNext(final E... values)
+		throws LengthRootMishatchException{
 		for(int i=0; i<values.length; i++){
 			this.insertNext(values[i]);
 		}
@@ -261,14 +268,15 @@ E>{
 	 * Inserts the value after the next based index
 	 *
 	 * @param  index
-	 *                       The index to insert the value (Inserts after)
+	 *                                         The index to insert the value (Inserts after)
 	 * @param  value
-	 *                       The value to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("unused")
-	public void insertNext(final int index, final E value) throws Exception{
+	public void insertNext(final int index, final E value)
+		throws LengthRootMishatchException{
 		if(this.insertCheck(value)) return;
 		@NonNull
 		final Node<E> prev=this.getNodeNext(index);
@@ -280,12 +288,13 @@ E>{
 	 * Inserts the value after the root
 	 *
 	 * @param  value
-	 *                       The value to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings({"unused", "null"})
-	public void insertPrevious(final E value) throws Exception{
+	public void insertPrevious(final E value)
+		throws LengthRootMishatchException{
 		if(this.insertCheck(value)) return;
 		new Node<>(this.root.getPrevious(), value, this.root);
 		this.size++;
@@ -295,14 +304,15 @@ E>{
 	 * Inserts the value after the previous based index
 	 *
 	 * @param  index
-	 *                       The index to insert the value (Inserts after)
+	 *                                         The index to insert the value (Inserts after)
 	 * @param  value
-	 *                       The value to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("unused")
-	public void insertPrevious(final int index, final E value) throws Exception{
+	public void insertPrevious(final int index, final E value)
+		throws LengthRootMishatchException{
 		if(this.insertCheck(value)) return;
 		@NonNull
 		final Node<E> next=this.getNodePrevious(index);
@@ -326,12 +336,13 @@ E>{
 	 * Inserts the value at the root and the existing node is sifted to the next
 	 *
 	 * @param  value
-	 *                       The value to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("null")
-	public void insertShiftNext(final E value) throws Exception{
+	public void insertShiftNext(final E value)
+		throws LengthRootMishatchException{
 		if(this.insertCheckShift(value)) return;
 		this.root=new Node<>(this.root.getPrevious(), value, this.root);
 		this.size++;
@@ -342,12 +353,13 @@ E>{
 	 * Inserts the values at the root and the existing node is sifted to the next
 	 *
 	 * @param  values
-	 *                       The values to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The values to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("unchecked")
-	public void insertShiftNext(final E... values) throws Exception{
+	public void insertShiftNext(final E... values)
+		throws LengthRootMishatchException{
 		for(int i=0; i<values.length; i++){
 			this.insertShiftNext(values[i]);
 		}
@@ -358,12 +370,13 @@ E>{
 	 * Inserts the values at the root and the existing node is sifted to the previous
 	 *
 	 * @param  values
-	 *                       The values to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The values to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("unchecked")
-	public void insertShiftPrevious(final E... values) throws Exception{
+	public void insertShiftPrevious(final E... values)
+		throws LengthRootMishatchException{
 		for(final E value : values){
 			this.insertShiftPrevious(value);
 		}
@@ -373,12 +386,13 @@ E>{
 	 * Inserts the value at the root and the existing node is sifted to the previous
 	 *
 	 * @param  value
-	 *                       The value to insert
-	 * @throws Exception
-	 *                       E
+	 *                                         The value to insert
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("null")
-	public void insertShiftPrevious(final E value) throws Exception{
+	public void insertShiftPrevious(final E value)
+		throws LengthRootMishatchException{
 		if(this.insertCheckShift(value)) return;
 		this.root=new Node<>(this.root, value, this.root.getNext());
 		this.size++;
@@ -388,13 +402,16 @@ E>{
 	/**
 	 * Tests if the linked list is empty
 	 *
-	 * @return           The state of the array
-	 * @throws Exception
-	 *                       E
+	 * @return                             The state of the array
+	 * @throws LengthRootMishatchException
+	 *                                         If the size and root node mismatch<br>
+	 *                                         ie. {@code this.size==0 XOR this.root==null}
 	 */
-	public boolean isEmpty() throws Exception{
+	public boolean isEmpty() throws LengthRootMishatchException{
 		if(this.size==0&&this.root==null) return true;
-		if(this.size==0||this.root==null) throw new Exception();
+		if(
+			this.size==0||this.root==null
+			) throw new LengthRootMishatchException();
 		return false;
 	}
 
@@ -402,16 +419,16 @@ E>{
 	 * Loops until max-1
 	 *
 	 * @param  consumer
-	 *                       The function to do on each iteration
+	 *                                         The function to do on each iteration
 	 * @param  max
-	 *                       The amount of times to call the function
-	 * @throws Exception
-	 *                       E
+	 *                                         The amount of times to call the function
+	 * @throws LengthRootMishatchException
+	 *                                         E
 	 */
 	@SuppressWarnings("null")
 	public void loopUntilNext(
 		final ObjLongConsumer<Node<E>> consumer, final long max
-		) throws Exception{
+		) throws LengthRootMishatchException{
 		if(this.isEmpty()) return;
 		@NonNull
 		Node<E> node=this.root;
@@ -518,7 +535,7 @@ E>{
 		try{
 			if(this.isEmpty()) return "CircularLinkedList[]";
 		}
-		catch(final Exception e){
+		catch(final LengthRootMishatchException e){
 			e.printStackTrace();
 		}
 
