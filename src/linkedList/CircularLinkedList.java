@@ -34,7 +34,7 @@ E>{
 		throws LengthRootMishatchException{
 		final CircularLinkedList<@Nullable
 		Integer> list=new CircularLinkedList<>();
-		list.insertNext(null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		list.insertNext(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		list.loopUntilNext((x, i)->{
 			System.out.println(x.getPrevious()+", "+x+", "+x.getNext());
 		}, 40);
@@ -112,7 +112,7 @@ E>{
 		//TODO extract method
 		if(
 			this.root==null
-		) throw new NullPointerException(
+			) throw new NullPointerException(
 				"getNodeLeft Encountered a null root"
 				);
 		index=index%this.size;	//Provide wrap around support
@@ -524,6 +524,58 @@ E>{
 		node.delete();
 		this.size--;
 		return node.getValue();
+	}
+
+	/**
+	 * Shifts the root to the next element
+	 *
+	 * @throws LengthRootMishatchException
+	 *                                         E
+	 */
+	@SuppressWarnings("null")
+	public void shiftNext() throws LengthRootMishatchException{
+		if(this.isEmpty())return;
+		this.root=this.root.getNext();
+	}
+
+	/**
+	 * Shifts the root to the next element at index
+	 *
+	 * @param  index
+	 *                                         The index to get the node
+	 *
+	 * @throws LengthRootMishatchException
+	 *                                         E
+	 */
+	public void shiftNext(final long index) throws LengthRootMishatchException{
+		if(this.isEmpty()) return;
+		this.root=this.getNodeNext(index);
+	}
+
+	/**
+	 * Shifts the root to the previous element
+	 *
+	 * @throws LengthRootMishatchException
+	 *                                         E
+	 */
+	@SuppressWarnings("null")
+	public void shiftPrevious() throws LengthRootMishatchException{
+		if(this.isEmpty()) return;
+		this.root=this.root.getPrevious();
+	}
+
+	/**
+	 * Shifts the root to the previous element at index
+	 *
+	 * @param  index
+	 *                                         The index to get the node
+	 *
+	 * @throws LengthRootMishatchException
+	 *                                         E
+	 */
+	public void shiftPrevious(final long index) throws LengthRootMishatchException{
+		if(this.isEmpty()) return;
+		this.root=this.getNodePrevious(index);
 	}
 
 	/**
