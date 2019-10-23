@@ -19,7 +19,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * @see        Node
  */
 public class CircularLinkedList <@Nullable
-E>{
+E>extends LinkedCore{
 
 	/*
 	 * The root (or current) node of the CircularLinkedList, allowed to be null only if this.size==0

@@ -18,7 +18,7 @@ import org.eclipse.jdt.annotation.Nullable;
  *                 The type of the Linked list
  */
 public class LinkedList <@Nullable
-E>{
+E>extends LinkedCore{
 	/**
 	 * Main method
 	 *
@@ -415,7 +415,7 @@ E>{
 
 		Node<E> node=this.left;
 		while(node!=null){
-			if(function.equals(node)) return node.getValue();
+			if(function.test(node)) return node.getValue();
 			node=node.getNext();
 		}
 		return null;
