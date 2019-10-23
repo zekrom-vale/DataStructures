@@ -3,6 +3,8 @@ package linkedList;
 import java.util.function.Consumer;
 import java.util.function.ObjLongConsumer;
 
+//Allows Eclipse to preform null checks, this is ignored by the JVM
+//Same with @Override and some other Annoctations
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -11,10 +13,11 @@ import org.eclipse.jdt.annotation.Nullable;
  * CircularLinkedList Class<br>
  * Defines a circular double linked list
  *
- * @author     Zekrom
+ * @author     Shawn Graven (Zekrom)
  *
  * @param  <E>
  *                 The type of the Linked list
+ * @see            Node
  */
 public class CircularLinkedList <@Nullable
 E>{
@@ -37,11 +40,15 @@ E>{
 		list.removeRootNext();
 		System.out.println(list);
 	}
+
+	/*
+	 * The root (or current) node of the CircularLinkedList, allowed to be null only if this.size==0 
+	 */
 	@Nullable
 	private Node<E> root=null;
 
 	/*
-	 * Not using Right
+	 * The current size of the LinkedList
 	 */
 
 	private long size=0;
@@ -62,10 +69,10 @@ E>{
 	 *                     The function to do for each element, no change is made to the value
 	 */
 	@SuppressWarnings("null")
-	public void forEachNext(final Consumer<E> consumer){
+	public void forEachNext(final ObjLongConsumer<Node<E>> consumer){
 		Node<E> node=this.root;
-		for(int i=0; i<this.size; i++){
-			consumer.accept(node.getValue());
+		for(long i=0; i<this.size; i++){
+			consumer.accept(node, i);
 			node=node.getNext();
 		}
 	}
@@ -78,10 +85,10 @@ E>{
 	 *                     The function to do for each element, no change is made to the value
 	 */
 	@SuppressWarnings("null")
-	public void forEachPrevious(final Consumer<E> consumer){
+	public void forEachPrevious(final ObjLongConsumer<Node<E>> consumer){
 		Node<E> node=this.root;
-		for(int i=0; i<this.size; i++){
-			consumer.accept(node.getValue());
+		for(long i=0; i<this.size; i++){
+			consumer.accept(node, i);
 			node=node.getPrevious();
 		}
 	}
@@ -97,11 +104,14 @@ E>{
 	@SuppressWarnings("null")
 	public @NonNull
 	Node<E> getNodeNext(long index){
+		//Throw an null pointer exception if the root is null
+		//TODO extract method
 		if(
 			this.root==null
 			) throw new NullPointerException("getNodeLeft Encountered a null root");
-		index=index%this.size;
-		if(index>this.size/2) return this.getNodePrevious(this.size-index-1);
+		index=index%this.size;	//Provide wrap around support
+		//If the index is greater than half of the size call from the other side max computational complexity n->n/2
+		if(index>this.size/2) return this.getNodePrevious(this.size-index-1); 
 		@NonNull
 		Node<E> prev=this.root;
 		int i=0;
@@ -122,13 +132,16 @@ E>{
 	@SuppressWarnings("null")
 	public @NonNull
 	Node<E> getNodePrevious(long index){
+		//Throw an null pointer exception if the root is null
+		//TODO extract method
 		if(
 			this.root==null
 			) throw new NullPointerException(
 				"getNodeRight Encountered a null root"
 				);
 
-		index=index%this.size;
+		index=index%this.size;	//Provide wrap around support
+		//If the index is greater than half of the size call from the other side max computational complexity n->n/2
 		if(index>this.size/2) return this.getNodeNext(this.size-index-1);
 		@NonNull
 		Node<E> next=this.root;
