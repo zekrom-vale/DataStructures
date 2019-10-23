@@ -19,7 +19,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * @see        Node
  */
 public class CircularLinkedList <@Nullable
-E>extends LinkedCore{
+E>extends LinkedCore<E>{
 
 	/*
 	 * The root (or current) node of the CircularLinkedList, allowed to be null only if this.size==0
@@ -44,11 +44,8 @@ E>extends LinkedCore{
 
 	/**
 	 * Returns a new CircularLinkedList
-	 *
-	 * @throws LengthRootMishatchException
 	 */
-	public CircularLinkedList(final E... values)
-		throws LengthRootMishatchException{
+	public CircularLinkedList(final E... values){
 		this.insertPrevious(values);
 	}
 
@@ -226,12 +223,16 @@ E>extends LinkedCore{
 	 *
 	 * @param  value
 	 *                                         The value to insert
-	 * @throws LengthRootMishatchException
-	 *                                         E
 	 */
 	@SuppressWarnings({"unused", "null"})
-	public void insertNext(final E value) throws LengthRootMishatchException{
-		if(this.insertCheck(value)) return;
+	@Override
+	public void insertNext(final E value){
+		try{
+			if(this.insertCheck(value)) return;
+		}
+		catch(final LengthRootMishatchException e){
+			e.printStackTrace();
+		}
 		new Node<>(this.root, value, this.root.getNext());
 		this.size++;
 	}
@@ -258,12 +259,10 @@ E>extends LinkedCore{
 	 *
 	 * @param  values
 	 *                                         The values to insert
-	 * @throws LengthRootMishatchException
-	 *                                         E
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
-	public void insertNext(final E... values)
-		throws LengthRootMishatchException{
+	public void insertNext(final E... values){
 		for(int i=0; i<values.length; i++){
 			this.insertNext(values[i]);
 		}
@@ -274,20 +273,25 @@ E>extends LinkedCore{
 	 * Inserts the value after the next based index
 	 *
 	 * @param  index
-	 *                                         The index to insert the value (Inserts after)
+	 *                   The index to insert the value (Inserts after)
 	 * @param  value
-	 *                                         The value to insert
-	 * @throws LengthRootMishatchException
-	 *                                         E
+	 *                   The value to insert
+	 * @return
 	 */
+	@Override
 	@SuppressWarnings("unused")
-	public void insertNext(final int index, final E value)
-		throws LengthRootMishatchException{
-		if(this.insertCheck(value)) return;
+	public boolean insertNext(final long index, final E value){
+		try{
+			if(this.insertCheck(value)) return false;
+		}
+		catch(final LengthRootMishatchException e){
+			e.printStackTrace();
+		}
 		@NonNull
 		final Node<E> prev=this.getNodeNext(index);
 		new Node<>(prev, value, prev.getNext());
 		this.size++;
+		return true;
 	}
 
 	/**
@@ -311,12 +315,10 @@ E>extends LinkedCore{
 	 *
 	 * @param  values
 	 *                                         The values to insert
-	 * @throws LengthRootMishatchException
-	 *                                         E
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
-	public void insertPrevious(final E... values)
-		throws LengthRootMishatchException{
+	public void insertPrevious(final E... values){
 		for(int i=0; i<values.length; i++){
 			this.insertPrevious(values[i]);
 		}
@@ -327,13 +329,16 @@ E>extends LinkedCore{
 	 *
 	 * @param  value
 	 *                                         The value to insert
-	 * @throws LengthRootMishatchException
-	 *                                         E
 	 */
+	@Override
 	@SuppressWarnings({"unused", "null"})
-	public void insertPrevious(final E value)
-		throws LengthRootMishatchException{
-		if(this.insertCheck(value)) return;
+	public void insertPrevious(final E value){
+		try{
+			if(this.insertCheck(value)) return;
+		}
+		catch(final LengthRootMishatchException e){
+			e.printStackTrace();
+		}
 		new Node<>(this.root.getPrevious(), value, this.root);
 		this.size++;
 	}
@@ -342,20 +347,25 @@ E>extends LinkedCore{
 	 * Inserts the value after the previous based index
 	 *
 	 * @param  index
-	 *                                         The index to insert the value (Inserts after)
+	 *                   The index to insert the value (Inserts after)
 	 * @param  value
-	 *                                         The value to insert
-	 * @throws LengthRootMishatchException
-	 *                                         E
+	 *                   The value to insert
+	 * @return
 	 */
+	@Override
 	@SuppressWarnings("unused")
-	public void insertPrevious(final int index, final E value)
-		throws LengthRootMishatchException{
-		if(this.insertCheck(value)) return;
+	public boolean insertPrevious(final long index, final E value){
+		try{
+			if(this.insertCheck(value)) return false;
+		}
+		catch(final LengthRootMishatchException e){
+			e.printStackTrace();
+		}
 		@NonNull
 		final Node<E> next=this.getNodePrevious(index);
 		new Node<>(next.getPrevious(), value, next);
 		this.size++;
+		return true;
 	}
 
 
@@ -507,6 +517,13 @@ E>extends LinkedCore{
 		}
 	}
 
+	@Override
+	public @Nullable
+	E removeNext(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Removes the index from the left
 	 *
@@ -514,6 +531,7 @@ E>extends LinkedCore{
 	 *                   The index to remove
 	 * @return       The removed value
 	 */
+	@Override
 	@SuppressWarnings("null")
 	public E removeNext(final long index){
 		if(this.root==null) return null;
@@ -530,6 +548,13 @@ E>extends LinkedCore{
 		return node.getValue();
 	}
 
+	@Override
+	public @Nullable
+	E removePrevious(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Removes the index from the right
 	 *
@@ -537,6 +562,7 @@ E>extends LinkedCore{
 	 *                   The index to remove
 	 * @return       The removed value
 	 */
+	@Override
 	@SuppressWarnings("null")
 	public E removePrevious(final long index){
 		if(this.root==null) return null;
@@ -633,6 +659,7 @@ E>extends LinkedCore{
 		this.root=this.root.getPrevious();
 	}
 
+
 	/**
 	 * Shifts the root to the previous element at index
 	 *
@@ -642,10 +669,12 @@ E>extends LinkedCore{
 	 * @throws LengthRootMishatchException
 	 *                                         E
 	 */
-	public void shiftPrevious(final long index) throws LengthRootMishatchException{
+	public void shiftPrevious(final long index)
+		throws LengthRootMishatchException{
 		if(this.isEmpty()) return;
 		this.root=this.getNodePrevious(index);
 	}
+
 
 	/**
 	 * Returns a string representation of the object
@@ -661,7 +690,7 @@ E>extends LinkedCore{
 		}
 
 		final StringBuilder builder
-		=new StringBuilder("CircularLinkedList[..., ");
+			=new StringBuilder("CircularLinkedList[..., ");
 
 		Node<E> node=this.root;
 		for(int i=0; i<this.size; i++){

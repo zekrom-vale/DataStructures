@@ -18,7 +18,7 @@ import org.eclipse.jdt.annotation.Nullable;
  *                 The type of the Linked list
  */
 public class LinkedList <@Nullable
-E>extends LinkedCore{
+E>extends LinkedCore<E>{
 	/**
 	 * Main method
 	 *
@@ -28,13 +28,13 @@ E>extends LinkedCore{
 	public static void main(final String[] args){
 		final LinkedList<@Nullable
 		Integer> list=new LinkedList<>();
-		list.insertLeft(3);
+		list.insertPrevious(3);
 		System.out.println(list);
-		list.insertLeft(5);
+		list.insertPrevious(5);
 		System.out.println(list);
-		list.insertLeft(0, 7);
+		list.insertPrevious(0, 7);
 		System.out.println(list);
-		list.removeLeft();
+		list.removePrevious();
 		System.out.println(list);
 	}
 	@Nullable
@@ -55,84 +55,6 @@ E>extends LinkedCore{
 
 
 	/**
-	 * Removes the first element
-	 *
-	 * @return The removed element
-	 */
-	public E deleteLeft(){
-		if(this.left==null) return null;
-		@Nullable
-		final
-		Node<E> node=this.left;
-		this.left=node.getNext();
-		final E value=node.delete();
-		if(this.left==null){
-			this.right=null;
-			this.size=0;
-			return value;
-		}
-		this.size--;
-		return value;
-	}
-
-	/**
-	 * Removes the index from the left
-	 *
-	 * @param  index
-	 *                   The index to remove
-	 * @return       The removed value
-	 */
-	public E deleteLeft(final long index){
-		if(index==0) return this.deleteLeft();
-		if(index==this.size-1) this.deleteRight();
-
-		final Node<E> node=this.getNodeLeft(index);
-		if(node==null)return null;
-		node.delete();
-		return node.getValue();
-	}
-
-	/**
-	 * Removes the first element
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E deleteRight(){
-
-		if(this.right==null) return null;
-		@Nullable
-		final
-		Node<E> node=this.right;
-		this.right=node.getPrevious();
-		final E value=node.delete();
-		if(this.right==null){
-			this.left=null;
-			this.size=0;
-			return value;
-		}
-		this.size--;
-		return value;
-	}
-
-	/**
-	 * Removes the index from the right
-	 *
-	 * @param  index
-	 *                   The index to remove
-	 * @return       The removed value
-	 */
-	public E deleteRight(final long index){
-		if(index==0) return this.deleteRight();
-		if(index==this.size-1) this.deleteLeft();
-
-		final Node<E> node=this.getNodeRight(index);
-		if(node==null)return null;
-		node.delete();
-		return node.getValue();
-	}
-
-	/**
 	 * Loops through all elements
 	 * @param consumer The method to execute on each value
 	 */
@@ -143,7 +65,6 @@ E>extends LinkedCore{
 			node=node.getNext();
 		}
 	}
-
 
 	/**
 	 * Loops through all elements and replace the value
@@ -156,7 +77,6 @@ E>extends LinkedCore{
 			node=node.getNext();
 		}
 	}
-
 
 	/**
 	 * Loops through all elements
@@ -216,6 +136,7 @@ E>extends LinkedCore{
 		return prev;
 	}
 
+
 	/**
 	 * Returns the node of the index from the right
 	 *
@@ -260,79 +181,25 @@ E>extends LinkedCore{
 	}
 
 
-	/**
-	 * Inserts the value at the beginning
-	 *
-	 * @param value
-	 *                  The value to insert
-	 */
-	public void insertLeft(final E value){
-		if(this.left==null){
+	@Override
+	public void insertNext(@Nullable
+		final
+		E value){
+		if(this.right==null){
 			this.insert(value);
-			return;
-		}
-		this.left=new Node<>(this.left, value);
-		this.size++;
-	}
-
-	/**
-	 * Inserts the value at the beginning
-	 *
-	 * @param values
-	 *                   The values to insert
-	 */
-	@SuppressWarnings("unchecked")
-	public void insertLeft(final E... values){
-		for(final E value : values){
-			this.insertLeft(value);
-		}
-	}
-
-	/**
-	 * Inserts the value after the left based index
-	 *
-	 * @param  index
-	 *                   The index to insert the value (Inserts after)
-	 * @param  value
-	 *                   The value to insert
-	 * @return       Success of insertion
-	 */
-	@SuppressWarnings("unused")
-	public boolean insertLeft(final int index, final E value){
-
-		if(index==-1){
-			this.insertLeft(value);
-			return true;
-		}
-
-		final Node<E> prev=this.getNodeLeft(index);
-		if(prev==null) return false;
-		final Node<E> next=prev.getNext();
-		if(next==null){
-			this.right=new Node<>(prev, value);
-			this.size++;
-			return true;
-		}
-		new Node<>(prev, value, next);	//Object not unused
-		this.size++;
-		return true;
-	}
-
-
-	/**
-	 * Inserts the value at the end
-	 *
-	 * @param value
-	 *                  The value to insert
-	 */
-	public void insertRight(final E value){
-		if(this.left==null){
-			this.insert(value);
-			this.size++;
 			return;
 		}
 		this.right=new Node<>(value, this.right);
 		this.size++;
+	}
+
+	@Override
+	public void insertNext(@Nullable
+		final
+		E... values){
+		for(final E value : values){
+			this.insertNext(value);
+		}
 	}
 
 	/**
@@ -341,8 +208,9 @@ E>extends LinkedCore{
 	 * @param value The value to insert
 	 * @return Success of insertion
 	 */
+	@Override
 	@SuppressWarnings("unused")
-	public boolean insertRight(final int index, final E value){
+	public boolean insertNext(final long index, final E value){
 
 		if(index==-1){
 			this.insertRight(value);
@@ -362,25 +230,124 @@ E>extends LinkedCore{
 		return true;
 	}
 
+	/**
+	 * Inserts the value at the beginning
+	 *
+	 * @param value
+	 *                  The value to insert
+	 */
+	@Override
+	public void insertPrevious(final E value){
+		if(this.left==null){
+			this.insert(value);
+			return;
+		}
+		this.left=new Node<>(this.left, value);
+		this.size++;
+	}
+
+
+	/**
+	 * Inserts the value at the beginning
+	 *
+	 * @param values
+	 *                   The values to insert
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public void insertPrevious(final E... values){
+		for(final E value : values){
+			this.insertPrevious(value);
+		}
+	}
+
+	/**
+	 * Inserts the value after the left based index
+	 *
+	 * @param  index
+	 *                   The index to insert the value (Inserts after)
+	 * @param  value
+	 *                   The value to insert
+	 * @return       Success of insertion
+	 */
+	@Override
+	@SuppressWarnings("unused")
+	public boolean insertPrevious(final long index, final E value){
+
+		if(index==-1){
+			this.insertPrevious(value);
+			return true;
+		}
+
+		final Node<E> prev=this.getNodeLeft(index);
+		if(prev==null) return false;
+		final Node<E> next=prev.getNext();
+		if(next==null){
+			this.right=new Node<>(prev, value);
+			this.size++;
+			return true;
+		}
+		new Node<>(prev, value, next);	//Object not unused
+		this.size++;
+		return true;
+	}
+
+	/**
+	 * Inserts the value at the end
+	 *
+	 * @param value
+	 *                  The value to insert
+	 */
+	public void insertRight(final E value){
+		if(this.left==null){
+			this.insert(value);
+			this.size++;
+			return;
+		}
+		this.right=new Node<>(value, this.right);
+		this.size++;
+	}
 
 	/**
 	 * Removes the first element
 	 *
 	 * @return The removed element
 	 */
+	@Override
 	@SuppressWarnings("null")
-	public E removeLeft(){
-		if(this.left==null) return null;
-		final E value=this.left.getValue();
-		this.left=this.left.getNext();
-		if(this.left==null){
-			this.right=null;
-			this.size--;
+	public E removeNext(){
+
+		if(this.right==null) return null;
+		@Nullable
+		final
+		Node<E> node=this.right;
+		this.right=node.getPrevious();
+		final E value=node.delete();
+		if(this.right==null){
+			this.left=null;
+			this.size=0;
 			return value;
 		}
-		this.left.setPrevious(null);
 		this.size--;
 		return value;
+	}
+
+	/**
+	 * Removes the index from the right
+	 *
+	 * @param  index
+	 *                   The index to remove
+	 * @return       The removed value
+	 */
+	@Override
+	public E removeNext(final long index){
+		if(index==0) return this.removeNext();
+		if(index==this.size-1) this.removePrevious();
+
+		final Node<E> node=this.getNodeRight(index);
+		if(node==null)return null;
+		node.delete();
+		return node.getValue();
 	}
 
 	/**
@@ -389,18 +356,40 @@ E>extends LinkedCore{
 	 * @return The removed element
 	 */
 	@SuppressWarnings("null")
-	public E removeRight(){
-		if(this.right==null) return null;
-		final E value=this.right.getValue();
-		this.right=this.right.getPrevious();
-		if(this.right==null){
+	@Override
+	public E removePrevious(){
+		if(this.left==null) return null;
+		@Nullable
+		final
+		Node<E> node=this.left;
+		this.left=node.getNext();
+		final E value=node.delete();
+		if(this.left==null){
 			this.right=null;
-			this.size--;
+			this.size=0;
 			return value;
 		}
-		this.right.setNext(null);
 		this.size--;
 		return value;
+	}
+
+
+	/**
+	 * Removes the index from the left
+	 *
+	 * @param  index
+	 *                   The index to remove
+	 * @return       The removed value
+	 */
+	@Override
+	public E removePrevious(final long index){
+		if(index==0) return this.removePrevious();
+		if(index==this.size-1) this.removeNext();
+
+		final Node<E> node=this.getNodeLeft(index);
+		if(node==null)return null;
+		node.delete();
+		return node.getValue();
 	}
 
 	/**
@@ -428,6 +417,7 @@ E>extends LinkedCore{
 	public long size(){
 		return this.size;
 	}
+
 
 	/**
 	 * Returns the string representation of the LinkedList
