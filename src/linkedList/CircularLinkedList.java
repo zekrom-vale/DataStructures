@@ -44,7 +44,11 @@ E>extends LinkedCore<E>{
 
 	/**
 	 * Returns a new CircularLinkedList
+	 *
+	 * @param values
+	 *                   The values to insert
 	 */
+	@SafeVarargs
 	public CircularLinkedList(final E... values){
 		this.insertPrevious(values);
 	}
@@ -276,7 +280,7 @@ E>extends LinkedCore<E>{
 	 *                   The index to insert the value (Inserts after)
 	 * @param  value
 	 *                   The value to insert
-	 * @return
+	 * @return       A boolean indicating success
 	 */
 	@Override
 	@SuppressWarnings("unused")
@@ -350,7 +354,7 @@ E>extends LinkedCore<E>{
 	 *                   The index to insert the value (Inserts after)
 	 * @param  value
 	 *                   The value to insert
-	 * @return
+	 * @return       A boolean indicating success
 	 */
 	@Override
 	@SuppressWarnings("unused")
@@ -517,11 +521,26 @@ E>extends LinkedCore<E>{
 		}
 	}
 
+	/**
+	 * Removes the root element and shifts the root to the next
+	 *
+	 * @return The removed element
+	 */
 	@Override
-	public @Nullable
-	E removeNext(){
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("null")
+	public E removeNext(){
+		if(this.root==null) return null;
+		@NonNull
+		final Node<E> node=this.root;
+		if(this.size==1){
+			this.size=0;
+			this.root=null;
+			return node.getValue();
+		}
+		this.root=this.root.getNext();
+		node.delete();
+		this.size--;
+		return node.getValue();
 	}
 
 	/**
@@ -541,18 +560,33 @@ E>extends LinkedCore<E>{
 			this.root=null;
 			return node.getValue();
 		}
-		if(index==0) return this.removeRootNext();
+		if(index==0) return this.removeNext();
 
 		final Node<E> node=this.getNodeNext(index);
 		node.delete();
 		return node.getValue();
 	}
 
+	/**
+	 * Removes the root element and shifts the root to the previous
+	 *
+	 * @return The removed element
+	 */
 	@Override
-	public @Nullable
-	E removePrevious(){
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("null")
+	public E removePrevious(){
+		if(this.root==null) return null;
+		@NonNull
+		final Node<E> node=this.root;
+		if(this.size==1){
+			this.size=0;
+			this.root=null;
+			return node.getValue();
+		}
+		this.root=this.root.getPrevious();
+		node.delete();
+		this.size--;
+		return node.getValue();
 	}
 
 	/**
@@ -572,52 +606,10 @@ E>extends LinkedCore<E>{
 			this.root=null;
 			return node.getValue();
 		}
-		if(index==0) return this.removeRootPrevious();
+		if(index==0) return this.removePrevious();
 
 		final Node<E> node=this.getNodePrevious(index);
 		node.delete();
-		return node.getValue();
-	}
-
-	/**
-	 * Removes the root element and shifts the root to the next
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E removeRootNext(){
-		if(this.root==null) return null;
-		@NonNull
-		final Node<E> node=this.root;
-		if(this.size==1){
-			this.size=0;
-			this.root=null;
-			return node.getValue();
-		}
-		this.root=this.root.getNext();
-		node.delete();
-		this.size--;
-		return node.getValue();
-	}
-
-	/**
-	 * Removes the root element and shifts the root to the previous
-	 *
-	 * @return The removed element
-	 */
-	@SuppressWarnings("null")
-	public E removeRootPrevious(){
-		if(this.root==null) return null;
-		@NonNull
-		final Node<E> node=this.root;
-		if(this.size==1){
-			this.size=0;
-			this.root=null;
-			return node.getValue();
-		}
-		this.root=this.root.getPrevious();
-		node.delete();
-		this.size--;
 		return node.getValue();
 	}
 
@@ -690,7 +682,7 @@ E>extends LinkedCore<E>{
 		}
 
 		final StringBuilder builder
-			=new StringBuilder("CircularLinkedList[..., ");
+		=new StringBuilder("CircularLinkedList[..., ");
 
 		Node<E> node=this.root;
 		for(int i=0; i<this.size; i++){

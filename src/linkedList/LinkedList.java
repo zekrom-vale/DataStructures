@@ -181,10 +181,15 @@ E>extends LinkedCore<E>{
 	}
 
 
+	/**
+	 * Inserts the value at the end
+	 * 
+	 * @param value
+	 *                  The value to insert
+	 */
 	@Override
 	public void insertNext(@Nullable
-		final
-		E value){
+		final E value){
 		if(this.right==null){
 			this.insert(value);
 			return;
@@ -193,10 +198,16 @@ E>extends LinkedCore<E>{
 		this.size++;
 	}
 
+	/**
+	 * Inserts values at the end
+	 *
+	 * @param values
+	 *                   The values to insert at the end
+	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void insertNext(@Nullable
-		final
-		E... values){
+		final E... values){
 		for(final E value : values){
 			this.insertNext(value);
 		}

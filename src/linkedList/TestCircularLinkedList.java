@@ -24,7 +24,7 @@ public class TestCircularLinkedList{
 			System.out.println(x.getPrevious()+", "+x+", "+x.getNext());
 		}, 40);
 		System.out.println(list);
-		list.removeRootNext();
+		list.removeNext();
 		System.out.println(list);
 	}
 }
