@@ -28,13 +28,13 @@ E>extends LinkedCore<E>{
 	public static void main(final String[] args){
 		final LinkedList<@Nullable
 		Integer> list=new LinkedList<>();
-		list.insertPrevious(3);
+		list.insertHead(3);
 		System.out.println(list);
-		list.insertPrevious(5);
+		list.insertHead(5);
 		System.out.println(list);
-		list.insertPrevious(0, 7);
+		list.insertHead(0, 7);
 		System.out.println(list);
-		list.removePrevious();
+		list.removeHead();
 		System.out.println(list);
 	}
 	@Nullable
@@ -182,81 +182,20 @@ E>extends LinkedCore<E>{
 
 
 	/**
-	 * Inserts the value at the end
-	 * 
-	 * @param value
-	 *                  The value to insert
-	 */
-	@Override
-	public void insertNext(@Nullable
-		final E value){
-		if(this.right==null){
-			this.insert(value);
-			return;
-		}
-		this.right=new Node<>(value, this.right);
-		this.size++;
-	}
-
-	/**
-	 * Inserts values at the end
-	 *
-	 * @param values
-	 *                   The values to insert at the end
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void insertNext(@Nullable
-		final E... values){
-		for(final E value : values){
-			this.insertNext(value);
-		}
-	}
-
-	/**
-	 * Inserts the value after the right based index
-	 * @param index The index to insert the value (Inserts after)
-	 * @param value The value to insert
-	 * @return Success of insertion
-	 */
-	@Override
-	@SuppressWarnings("unused")
-	public boolean insertNext(final long index, final E value){
-
-		if(index==-1){
-			this.insertRight(value);
-			return true;
-		}
-
-		final Node<E> next=this.getNodeRight(index);
-		if(next==null) return false;
-		final Node<E> prev=next.getPrevious();
-		if(prev==null){
-			this.right=new Node<>(value, next);
-			this.size++;
-			return true;
-		}
-		new Node<>(prev, value, next);
-		this.size++;
-		return true;
-	}
-
-	/**
 	 * Inserts the value at the beginning
 	 *
 	 * @param value
 	 *                  The value to insert
 	 */
 	@Override
-	public void insertPrevious(final E value){
+	public void insertHead(final E value){
 		if(this.left==null){
 			this.insert(value);
 			return;
 		}
-		this.left=new Node<>(this.left, value);
+		this.left=new Node<>(value, this.left);
 		this.size++;
 	}
-
 
 	/**
 	 * Inserts the value at the beginning
@@ -266,9 +205,9 @@ E>extends LinkedCore<E>{
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void insertPrevious(final E... values){
+	public void insertHead(final E... values){
 		for(final E value : values){
-			this.insertPrevious(value);
+			this.insertHead(value);
 		}
 	}
 
@@ -283,10 +222,10 @@ E>extends LinkedCore<E>{
 	 */
 	@Override
 	@SuppressWarnings("unused")
-	public boolean insertPrevious(final long index, final E value){
+	public boolean insertHead(final long index, final E value){
 
 		if(index==-1){
-			this.insertPrevious(value);
+			this.insertHead(value);
 			return true;
 		}
 
@@ -309,14 +248,59 @@ E>extends LinkedCore<E>{
 	 * @param value
 	 *                  The value to insert
 	 */
-	public void insertRight(final E value){
-		if(this.left==null){
+	@Override
+	public void insertTail(@Nullable
+		final E value){
+		if(this.right==null){
 			this.insert(value);
-			this.size++;
 			return;
 		}
-		this.right=new Node<>(value, this.right);
+		this.right=new Node<>(this.right, value);
 		this.size++;
+	}
+
+
+	/**
+	 * Inserts values at the end
+	 *
+	 * @param values
+	 *                   The values to insert at the end
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void insertTail(@Nullable
+		final E... values){
+		for(final E value : values){
+			this.insertTail(value);
+		}
+	}
+
+	/**
+	 * Inserts the value after the right based index
+	 * @param index The index to insert the value (Inserts after)
+	 * @param value The value to insert
+	 * @return Success of insertion
+	 */
+	@Override
+	@SuppressWarnings("unused")
+	public boolean insertTail(final long index, final E value){
+
+		if(index==-1){
+			this.insertTail(value);
+			return true;
+		}
+
+		final Node<E> next=this.getNodeRight(index);
+		if(next==null) return false;
+		final Node<E> prev=next.getPrevious();
+		if(prev==null){
+			this.right=new Node<>(value, next);
+			this.size++;
+			return true;
+		}
+		new Node<>(prev, value, next);
+		this.size++;
+		return true;
 	}
 
 	/**
@@ -326,7 +310,7 @@ E>extends LinkedCore<E>{
 	 */
 	@Override
 	@SuppressWarnings("null")
-	public E removeNext(){
+	public E removeHead(){
 
 		if(this.right==null) return null;
 		@Nullable
@@ -351,9 +335,9 @@ E>extends LinkedCore<E>{
 	 * @return       The removed value
 	 */
 	@Override
-	public E removeNext(final long index){
-		if(index==0) return this.removeNext();
-		if(index==this.size-1) this.removePrevious();
+	public E removeHead(final long index){
+		if(index==0) return this.removeHead();
+		if(index==this.size-1) this.removeTail();
 
 		final Node<E> node=this.getNodeRight(index);
 		if(node==null)return null;
@@ -368,7 +352,7 @@ E>extends LinkedCore<E>{
 	 */
 	@SuppressWarnings("null")
 	@Override
-	public E removePrevious(){
+	public E removeTail(){
 		if(this.left==null) return null;
 		@Nullable
 		final
@@ -393,9 +377,9 @@ E>extends LinkedCore<E>{
 	 * @return       The removed value
 	 */
 	@Override
-	public E removePrevious(final long index){
-		if(index==0) return this.removePrevious();
-		if(index==this.size-1) this.removeNext();
+	public E removeTail(final long index){
+		if(index==0) return this.removeTail();
+		if(index==this.size-1) this.removeHead();
 
 		final Node<E> node=this.getNodeLeft(index);
 		if(node==null)return null;

@@ -14,27 +14,27 @@ public abstract class LinkedCore <E>{
 		return this.size;
 	}
 
-	public abstract void insertNext(E value);
+	public abstract void insertHead(E value);
 
 	@SuppressWarnings("unchecked")
-	public abstract void insertNext(E... value);
+	public abstract void insertHead(E... value);
 
-	public abstract boolean insertNext(long index, E value);
+	public abstract boolean insertHead(long index, E value);
 
-	public abstract void insertPrevious(E value);
+	public abstract void insertTail(E value);
 
 	@SuppressWarnings("unchecked")
-	public abstract void insertPrevious(E... value);
+	public abstract void insertTail(E... value);
 
-	public abstract boolean insertPrevious(long index, E value);
+	public abstract boolean insertTail(long index, E value);
 
-	public abstract E removeNext();
+	public abstract E removeHead();
 
-	public abstract E removeNext(long index);
+	public abstract E removeHead(long index);
 
-	public abstract E removePrevious();
+	public abstract E removeTail();
 
-	public abstract E removePrevious(long index);
+	public abstract E removeTail(long index);
 
 
 	@Override

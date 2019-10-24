@@ -1,5 +1,6 @@
 package linkedList;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
@@ -34,8 +35,26 @@ E>{
 	 *                  The value to add
 	 */
 	public Node(final E value){
-		this(value, null);
+		this.value=value;
+		this.previous=null;
+		this.next=null;
 	}
+
+	/**
+	 * Constructs a node with no previous value
+	 *
+	 * @param value
+	 *                  The value to add
+	 * @param node
+	 *                  The next Node
+	 */
+	public Node(final E value, final Node<E> node){
+		this.value=value;
+		this.next=node;
+		this.previous=null;
+		if(node!=null) node.previous=this;
+	}
+
 
 	/**
 	 * Constructs a node with no next value
@@ -45,7 +64,7 @@ E>{
 	 * @param node
 	 *                  The previous Node
 	 */
-	public Node(final E value, final Node<E> node){
+	public Node(final Node<E> node, final E value){
 		this.value=value;
 		this.previous=node;
 		this.next=null;
@@ -54,20 +73,15 @@ E>{
 
 
 	/**
-	 * Constructs a node with no previous value
+	 * Constructs a node
 	 *
 	 * @param value
 	 *                  The value to add
-	 * @param node
+	 * @param prev
 	 *                  The previous Node
+	 * @param next
+	 *                  The next Node
 	 */
-	public Node(final Node<E> node, final E value){
-		this.value=value;
-		this.next=node;
-		this.previous=null;
-		if(node!=null) node.previous=this;
-	}
-
 	public Node(final Node<E> prev, final E value, final Node<E> next){
 		this.value=value;
 		this.next=next;
@@ -75,7 +89,12 @@ E>{
 		if(next!=null) next.previous=this;
 		if(prev!=null) prev.next=this;
 	}
-	
+
+	/**
+	 * Removes the node and attaches previous and next elements together
+	 *
+	 * @return The removed value
+	 */
 	public E delete(){
 		if(this.previous!=null)this.previous.next=this.next;
 		if(this.next!=null)this.next.previous=this.previous;
@@ -104,6 +123,45 @@ E>{
 	}
 
 	/**
+	 * @param preveious the previous to set
+	 * @param next the next to set
+	 */
+	public void set(final Node<E> preveious, final Node<E> next) {
+		this.previous=preveious;
+		this.next=next;
+	}
+
+	/**
+	 * @param previous
+	 *                      the previous to set
+	 * @param next
+	 *                      the next to set
+	 */
+	public void setBi(final Node<E> previous, final Node<E> next){
+		this.setBiNext(next);
+		this.setBiPrevious(previous);
+	}
+
+	/**
+	 * @param next
+	 *                      the next to set
+	 */
+	public void setBiNext(final Node<E> next){
+		this.next=next;
+		if(next!=null)this.next.previous=this;
+	}
+
+
+	/**
+	 * @param previous
+	 *                     the previous to set
+	 */
+	public void setBiPrevious(final Node<E> previous){
+		this.previous=previous;
+		if(previous!=null) this.previous.next=this;
+	}
+
+	/**
 	 * @param next
 	 *                 the next to set
 	 */
@@ -112,11 +170,11 @@ E>{
 	}
 
 	/**
-	 * @param preveious
+	 * @param previous
 	 *                      the previous to set
 	 */
-	public void setPrevious(final Node<E> preveious){
-		this.previous=preveious;
+	public void setPrevious(final Node<E> previous){
+		this.previous=previous;
 	}
 
 	/**
@@ -125,10 +183,28 @@ E>{
 	public void setValue(final E value){
 		this.value=value;
 	}
-	
+
+	/**
+	 * Swaps the two nodes
+	 *
+	 * @param node1
+	 *                  The first node to swap
+	 * @param node2
+	 *                  The second node
+	 */
+	public void swap(@NonNull
+		final Node<E> node1, @NonNull
+		final Node<E> node2){
+		final Node<E> next=node1.next;
+		final Node<E> prev=node1.previous;
+		node1.setBi(node2.previous, node2.next);
+		node2.setBi(prev, next);
+	}
+
 	/**
 	 * @return A string representation of the value
 	 */
+	@SuppressWarnings("null")
 	@Override
 	public String toString(){
 		if(this.value==null) return "null";
