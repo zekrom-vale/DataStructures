@@ -1,3 +1,7 @@
+package linkedList;
+
+import org.eclipse.jdt.annotation.Nullable;
+
 public class Stack<@Nullable E>{
 	private final CircularLinkedList<E> list=new CircularLinkedList<>();
 	
