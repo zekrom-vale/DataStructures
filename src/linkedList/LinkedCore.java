@@ -51,4 +51,8 @@ public abstract class LinkedCore <E>{
 	public E getTail(final long index){
 		this.getTailNode(index).getValue();
 	}
+	
+	public boolean isEmpty(){
+		return this.size==0;
+	}
 }
