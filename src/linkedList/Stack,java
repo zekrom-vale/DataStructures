@@ -14,7 +14,6 @@ public class Stack<@Nullable E>{
 	}
 	
 	public E peek(){
-		//TODO
-		return list.???
+		return list.getHead(0);
 	}
 }
