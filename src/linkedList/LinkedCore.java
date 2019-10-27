@@ -177,4 +177,20 @@ E>{
 	 */
 	@Override
 	public abstract String toString();
+	
+	public abstract Node<E> getHeadNode(final long index);
+	
+	public E getHead(final long index){
+		this.getHeadNode(index).getValue();
+	}
+	
+	public abstract Node<E> getTailNode(final long index);
+	
+	public E getTail(final long index){
+		this.getTailNode(index).getValue();
+	}
+	
+	public boolean isEmpty(){
+		return this.size==0;
+	}
 }
