@@ -42,10 +42,6 @@ E>extends LinkedCore<E>{
 	@Nullable
 	private Node<E> right=null;
 
-	private long size=0;
-
-
-
 	/**
 	 * Returns a new linked list
 	 */
@@ -109,8 +105,8 @@ E>extends LinkedCore<E>{
 	 *                   The index to get
 	 * @return       The value at the index
 	 */
-	public E getLeft(final int index){
-		return this.getNodeLeft(index).getValue();
+	public E getHead(final int index){
+		return this.getNodeHead(index).getValue();
 	}
 
 
@@ -122,10 +118,11 @@ E>extends LinkedCore<E>{
 	 * @return       The node of the index
 	 */
 
+	@Override
 	@SuppressWarnings("null")
-	public Node<E> getNodeLeft(final long index){
+	public Node<E> getNodeHead(final long index){
 		if(index>=this.size) return null;
-		if(index>this.size/2) return this.getNodeRight(this.size-index-1);
+		if(index>this.size/2) return this.getNodeTail(this.size-index-1);
 		@NonNull
 		Node<E> prev=this.left;
 		int i=0;
@@ -145,10 +142,11 @@ E>extends LinkedCore<E>{
 	 * @return       The node of the index
 	 */
 
+	@Override
 	@SuppressWarnings("null")
-	public Node<E> getNodeRight(final long index){
+	public Node<E> getNodeTail(final long index){
 		if(index>=this.size) return null;
-		if(index>this.size/2) return this.getNodeLeft(this.size-index-1);
+		if(index>this.size/2) return this.getNodeHead(this.size-index-1);
 		@NonNull
 		Node<E> next=this.right;
 		int i=0;
@@ -164,8 +162,8 @@ E>extends LinkedCore<E>{
 	 * @param index The index to get
 	 * @return The value at the index
 	 */
-	public E getRight(final int index){
-		return this.getNodeRight(index).getValue();
+	public E getTail(final int index){
+		return this.getNodeTail(index).getValue();
 	}
 
 	/**
@@ -229,7 +227,7 @@ E>extends LinkedCore<E>{
 			return true;
 		}
 
-		final Node<E> prev=this.getNodeLeft(index);
+		final Node<E> prev=this.getNodeHead(index);
 		if(prev==null) return false;
 		final Node<E> next=prev.getNext();
 		if(next==null){
@@ -290,7 +288,7 @@ E>extends LinkedCore<E>{
 			return true;
 		}
 
-		final Node<E> next=this.getNodeRight(index);
+		final Node<E> next=this.getNodeTail(index);
 		if(next==null) return false;
 		final Node<E> prev=next.getPrevious();
 		if(prev==null){
@@ -339,7 +337,7 @@ E>extends LinkedCore<E>{
 		if(index==0) return this.removeHead();
 		if(index==this.size-1) this.removeTail();
 
-		final Node<E> node=this.getNodeRight(index);
+		final Node<E> node=this.getNodeTail(index);
 		if(node==null)return null;
 		node.delete();
 		return node.getValue();
@@ -381,7 +379,7 @@ E>extends LinkedCore<E>{
 		if(index==0) return this.removeTail();
 		if(index==this.size-1) this.removeHead();
 
-		final Node<E> node=this.getNodeLeft(index);
+		final Node<E> node=this.getNodeHead(index);
 		if(node==null)return null;
 		node.delete();
 		return node.getValue();

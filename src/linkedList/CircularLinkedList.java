@@ -27,13 +27,6 @@ E>extends LinkedCore<E>{
 	@Nullable
 	private Node<E> root=null;
 
-	/*
-	 * The current size of the LinkedList
-	 */
-
-	private long size=0;
-
-
 	/**
 	 * Returns a new CircularLinkedList
 	 */
@@ -94,16 +87,11 @@ E>extends LinkedCore<E>{
 	 *                   The index to get the node
 	 * @return       The node of the index
 	 */
+	@Override
 	@SuppressWarnings("null")
 	public @NonNull
 	Node<E> getNodeHead(long index){
-		//Throw an null pointer LengthRootMishatchException if the root is null
-		//TODO extract method
-		if(
-			this.root==null
-			) throw new NullPointerException(
-				"getNodeLeft Encountered a null root"
-				);
+		this.nullPointer();
 		index=index%this.size;	//Provide wrap around support
 		//If the index is greater than half of the size call from the other side max computational complexity n->n/2
 		if(index>this.size/2) return this.getNodeTail(this.size-index-1);
@@ -124,16 +112,11 @@ E>extends LinkedCore<E>{
 	 *                   The index to get the node
 	 * @return       The node of the index
 	 */
+	@Override
 	@SuppressWarnings("null")
 	public @NonNull
 	Node<E> getNodeTail(long index){
-		//Throw an null pointer LengthRootMishatchException if the root is null
-		//TODO extract method
-		if(
-			this.root==null
-			) throw new NullPointerException(
-				"getNodeRight Encountered a null root"
-				);
+		this.nullPointer();
 
 		index=index%this.size;	//Provide wrap around support
 		//If the index is greater than half of the size call from the other side max computational complexity n->n/2
@@ -147,6 +130,7 @@ E>extends LinkedCore<E>{
 		}
 		return next;
 	}
+
 
 	/**
 	 * Inserts the value if there is only one value and <b>does not</b> shifts the root
@@ -259,7 +243,6 @@ E>extends LinkedCore<E>{
 		return true;
 	}
 
-
 	/**
 	 * Inserts the value if the LinkedList is empty
 	 *
@@ -278,6 +261,7 @@ E>extends LinkedCore<E>{
 		}
 		return false;
 	}
+
 
 	/**
 	 * Inserts the value if there is only one value and <b>shifts</b> the root
@@ -332,7 +316,6 @@ E>extends LinkedCore<E>{
 		}
 	}
 
-
 	/**
 	 * Inserts the values at the root and the existing node is sifted to the Tail<br>
 	 * Same as the flowing code
@@ -362,6 +345,7 @@ E>extends LinkedCore<E>{
 		}
 	}
 
+
 	/**
 	 * Inserts the value at the root and the existing node is sifted to the Tail
 	 *
@@ -374,7 +358,6 @@ E>extends LinkedCore<E>{
 		this.root=new Node<>(this.root, value, this.root.getNext());
 		this.size++;
 	}
-
 
 	/**
 	 * Inserts the values at the root and the existing node is <b>not sifted</b> to the Tail<br>
@@ -405,6 +388,7 @@ E>extends LinkedCore<E>{
 			this.insertTail(values[i]);
 		}
 	}
+
 
 	/**
 	 * Inserts the value after the root
@@ -440,12 +424,12 @@ E>extends LinkedCore<E>{
 		return true;
 	}
 
-
 	/**
 	 * Tests if the linked list is empty
 	 *
 	 * @return                             The state of the array
 	 */
+	@Override
 	public boolean isEmpty(){
 		try{
 
@@ -459,6 +443,7 @@ E>extends LinkedCore<E>{
 		}
 		return false;
 	}
+
 
 	/**
 	 * Loops until max-1
@@ -500,6 +485,19 @@ E>extends LinkedCore<E>{
 			consumer.accept(node, i);
 			node=node.getPrevious();
 		}
+	}
+
+	/**
+	 * @throws NullPointerException
+	 */
+	protected void nullPointer() throws NullPointerException{
+		//Throw an null pointer Exception if the root is null
+		//TODO extract method
+		if(
+			this.root==null
+			) throw new NullPointerException(
+				"Encountered a null root"
+				);
 	}
 
 	/**
@@ -635,6 +633,14 @@ E>extends LinkedCore<E>{
 		this.root=this.getNodeTail(index);
 	}
 
+
+	public void swapHead(final long index1, final long index2){
+		Node.swap(this.getNodeHead(index1), this.getNodeHead(index2));
+	}
+
+	public void swapTail(final long index1, final long index2){
+		Node.swap(this.getNodeTail(index1), this.getNodeTail(index2));
+	}
 
 	/**
 	 * Returns a string representation of the object

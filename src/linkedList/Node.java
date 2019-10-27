@@ -15,6 +15,22 @@ import org.eclipse.jdt.annotation.Nullable;
 public class Node <@Nullable
 E>{
 	/**
+	 * Swaps the two nodes
+	 *
+	 * @param node1
+	 *                  The first node to swap
+	 * @param node2
+	 *                  The second node
+	 */
+	public static <@Nullable E>void swap(@NonNull
+		final Node<E> node1, @NonNull
+		final Node<E> node2){
+		final Node<E> next=node1.next;
+		final Node<E> prev=node1.previous;
+		node1.setBi(node2.previous, node2.next);
+		node2.setBi(prev, next);
+	}
+	/**
 	 * The next Node
 	 */
 	private Node<E> next;
@@ -22,11 +38,12 @@ E>{
 	 * The previous Node
 	 */
 	private Node<E> previous;
+
+
 	/**
 	 * The value of the Node
 	 */
 	private E value;
-
 
 	/**
 	 * Constructs a node with no previous or next value
@@ -39,6 +56,7 @@ E>{
 		this.previous=null;
 		this.next=null;
 	}
+
 
 	/**
 	 * Constructs a node with no previous value
@@ -70,7 +88,6 @@ E>{
 		this.next=null;
 		if(node!=null) node.next=this;
 	}
-
 
 	/**
 	 * Constructs a node
@@ -142,6 +159,7 @@ E>{
 		this.setBiPrevious(previous);
 	}
 
+
 	/**
 	 * @param next
 	 *                      the next to set
@@ -150,7 +168,6 @@ E>{
 		this.next=next;
 		if(next!=null)this.next.previous=this;
 	}
-
 
 	/**
 	 * @param previous
@@ -182,23 +199,6 @@ E>{
 	 */
 	public void setValue(final E value){
 		this.value=value;
-	}
-
-	/**
-	 * Swaps the two nodes
-	 *
-	 * @param node1
-	 *                  The first node to swap
-	 * @param node2
-	 *                  The second node
-	 */
-	public void swap(@NonNull
-		final Node<E> node1, @NonNull
-		final Node<E> node2){
-		final Node<E> next=node1.next;
-		final Node<E> prev=node1.previous;
-		node1.setBi(node2.previous, node2.next);
-		node2.setBi(prev, next);
 	}
 
 	/**
