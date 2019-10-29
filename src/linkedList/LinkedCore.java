@@ -16,7 +16,6 @@ E>{
 	 */
 	protected long size;
 
-
 	/**
 	 * Gets the head based index element
 	 *
@@ -28,7 +27,6 @@ E>{
 		return this.getNodeHead(index).getValue();
 	}
 
-
 	/**
 	 * Gets the head based index element
 	 *
@@ -36,7 +34,7 @@ E>{
 	 *                   The index to get the value at
 	 * @return       The Node at the index
 	 */
-	public abstract Node<E> getNodeHead(long index);
+	public abstract Node<E> getNodeHead(final long index);
 
 	/**
 	 * Gets the tail based index element
@@ -45,7 +43,7 @@ E>{
 	 *                   The index to get the value at
 	 * @return       The Node at the index
 	 */
-	public abstract Node<E> getNodeTail(long index);
+	public abstract Node<E> getNodeTail(final long index);
 
 	/**
 	 * Gets the size of the Linked List
@@ -96,6 +94,7 @@ E>{
 	 */
 	public abstract boolean insertHead(long index, E value);
 
+
 	/**
 	 * Inserts the values at the tail of the LinkedList
 	 *
@@ -131,7 +130,6 @@ E>{
 	public boolean isEmpty(){
 		return this.size==0;
 	}
-
 
 	/**
 	 * Prints the LinkedList to the console
@@ -177,20 +175,4 @@ E>{
 	 */
 	@Override
 	public abstract String toString();
-	
-	public abstract Node<E> getHeadNode(final long index);
-	
-	public E getHead(final long index){
-		this.getHeadNode(index).getValue();
-	}
-	
-	public abstract Node<E> getTailNode(final long index);
-	
-	public E getTail(final long index){
-		this.getTailNode(index).getValue();
-	}
-	
-	public boolean isEmpty(){
-		return this.size==0;
-	}
 }

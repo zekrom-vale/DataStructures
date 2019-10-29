@@ -1,6 +1,7 @@
 package linkedList;
 
 import java.util.function.ObjLongConsumer;
+import java.util.function.Predicate;
 
 // Allows Eclipse to perform null checks, this is ignored by the JVM
 // Same with @Override and some other Annotations
@@ -17,7 +18,42 @@ import org.eclipse.jdt.annotation.Nullable;
  * @param  <E>
  *                 The type of the Linked list
  * @see        Node
+ * @see        LinkedCore
+ *
+ * @see        <br>
+ * @see        #insertHead(Object)
+ * @see        #insertShiftHead(Object)
+ * @see        #insertTail(Object)
+ * @see        #insertShiftTail(Object)
+ *
+ * @see        <br>
+ * @see        #removeHead()
+ * @see        #removeHead(long)
+ * @see        #removeTail()
+ * @see        #removeTail(long)
+ *
+ * @see        <br>
+ * @see        #findHead(Predicate)
+ * @see        #findTail(Predicate)
+ * @see        #print()
+ *
+ * @see        <br>
+ * @see        #shiftNext()
+ * @see        #shiftPrevious()
+ *
+ * @see        <br>
+ * @see        #getHead(long)
+ * @see        #getNodeHead(long)
+ * @see        #getTail(long)
+ * @see        #getNodeTail(long)
+ * @see        #getRoot()
+ * @see        #getNodeRoot()
+ *
+ * @see        <br>
+ * @see        #toString()
+ *
  */
+@SuppressWarnings("javadoc")
 public class CircularLinkedList <@Nullable
 E>extends LinkedCore<E>{
 
@@ -44,6 +80,43 @@ E>extends LinkedCore<E>{
 	@SafeVarargs
 	public CircularLinkedList(final E... values){
 		this.insertTail(values);
+	}
+
+
+	/**
+	 * Loops through the CircularArrayList until an element is found
+	 * @param consumer The function to test the value
+	 * @return The value or {@code null}
+	 */
+	@SuppressWarnings("null")
+	public E findHead(final Predicate<E> consumer){
+
+		if(this.isEmpty()) return null;
+		@NonNull
+		Node<E> node=this.root;
+		for(long i=0; i<this.size; i++){
+			if(consumer.test(node.getValue()))return node.getValue();
+			node=node.getNext();
+		}
+		return null;
+	}
+
+	/**
+	 * Loops through the CircularArrayList until an element is found in reverse
+	 * @param consumer The function to test the value
+	 * @return The value or {@code null}
+	 */
+	@SuppressWarnings("null")
+	public E findTail(final Predicate<E> consumer){
+
+		if(this.isEmpty()) return null;
+		@NonNull
+		Node<E> node=this.root;
+		for(long i=0; i<this.size; i++){
+			if(consumer.test(node.getValue()))return node.getValue();
+			node=node.getPrevious();
+		}
+		return null;
 	}
 
 
@@ -106,6 +179,14 @@ E>extends LinkedCore<E>{
 	}
 
 	/**
+	 * Gets the root node
+	 * @return The node of the root
+	 */
+	public Node<E> getNodeRoot(){
+		return this.root;
+	}
+
+	/**
 	 * Returns the node of the index from the Tail elements, 0=root
 	 *
 	 * @param  index
@@ -131,6 +212,15 @@ E>extends LinkedCore<E>{
 		return next;
 	}
 
+	/**
+	 * Gets the root node value
+	 * @return the value of the root node, {@code null} if there is no root
+	 */
+	@SuppressWarnings("null")
+	public E getRoot(){
+		if(this.isEmpty())return null;
+		return this.root.getValue();
+	}
 
 	/**
 	 * Inserts the value if there is only one value and <b>does not</b> shifts the root
@@ -177,6 +267,7 @@ E>extends LinkedCore<E>{
 		}
 		return false;
 	}
+
 
 	/**
 	 * Inserts the value after the root
@@ -287,6 +378,7 @@ E>extends LinkedCore<E>{
 		this.size++;
 	}
 
+
 	/**
 	 * Inserts the values at the root and the existing node is sifted to the Head<br>
 	 * Same as the flowing code
@@ -345,7 +437,6 @@ E>extends LinkedCore<E>{
 		}
 	}
 
-
 	/**
 	 * Inserts the value at the root and the existing node is sifted to the Tail
 	 *
@@ -358,6 +449,7 @@ E>extends LinkedCore<E>{
 		this.root=new Node<>(this.root, value, this.root.getNext());
 		this.size++;
 	}
+
 
 	/**
 	 * Inserts the values at the root and the existing node is <b>not sifted</b> to the Tail<br>
@@ -388,7 +480,6 @@ E>extends LinkedCore<E>{
 			this.insertTail(values[i]);
 		}
 	}
-
 
 	/**
 	 * Inserts the value after the root
@@ -444,7 +535,6 @@ E>extends LinkedCore<E>{
 		return false;
 	}
 
-
 	/**
 	 * Loops until max-1
 	 *
@@ -488,7 +578,10 @@ E>extends LinkedCore<E>{
 	}
 
 	/**
+	 * Check if the root is not null, if it is null throw an error
+	 *
 	 * @throws NullPointerException
+	 *                                  E
 	 */
 	protected void nullPointer() throws NullPointerException{
 		//Throw an null pointer Exception if the root is null
@@ -601,6 +694,7 @@ E>extends LinkedCore<E>{
 		this.root=this.root.getNext();
 	}
 
+
 	/**
 	 * Shifts the root to the next element at index
 	 *
@@ -612,6 +706,7 @@ E>extends LinkedCore<E>{
 		this.root=this.getNodeHead(index);
 	}
 
+
 	/**
 	 * Shifts the root to the previous element
 	 */
@@ -620,7 +715,6 @@ E>extends LinkedCore<E>{
 		if(this.isEmpty()) return;
 		this.root=this.root.getPrevious();
 	}
-
 
 	/**
 	 * Shifts the root to the previous element at index
@@ -633,11 +727,28 @@ E>extends LinkedCore<E>{
 		this.root=this.getNodeTail(index);
 	}
 
-
+	/**
+	 * Swaps the nodes at the head based index
+	 *
+	 * @param   index1
+	 *                     First index to swap
+	 * @param   index2
+	 *                     Second index to swap
+	 * @apiNote        Not optimized
+	 */
 	public void swapHead(final long index1, final long index2){
 		Node.swap(this.getNodeHead(index1), this.getNodeHead(index2));
 	}
 
+	/**
+	 * Swaps the nodes at the tail based index
+	 *
+	 * @param   index1
+	 *                     First index to swap
+	 * @param   index2
+	 *                     Second index to swap
+	 * @apiNote        Not optimized
+	 */
 	public void swapTail(final long index1, final long index2){
 		Node.swap(this.getNodeTail(index1), this.getNodeTail(index2));
 	}
@@ -661,5 +772,4 @@ E>extends LinkedCore<E>{
 		builder.append("...]");
 		return builder.toString();
 	}
-
 }
