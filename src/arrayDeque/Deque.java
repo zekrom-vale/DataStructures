@@ -1,7 +1,7 @@
 /**
  *
  */
-package problem1;
+package arrayDeque;
 
 import linkedList.Node;
 

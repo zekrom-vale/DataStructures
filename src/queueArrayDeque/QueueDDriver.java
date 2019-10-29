@@ -1,7 +1,7 @@
 /**
  *
  */
-package problem2;
+package queueArrayDeque;
 
 /**
  * Class QueueDDriver<br>

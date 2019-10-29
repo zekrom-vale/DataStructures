@@ -1,6 +1,6 @@
-package problem2;
+package queueArrayDeque;
 
-import problem1.ArrayDeque;
+import arrayDeque.ArrayDeque;
 
 /**
  * Class QueueD<br>
@@ -42,7 +42,7 @@ public class QueueD <E>{
 	/**
 	 * Is the Queue empty?
 	 * @return A boolean indicating if the QueueD is empty
-	 * @see    problem1.ArrayDeque#isEmpty()
+	 * @see    arrayDeque.ArrayDeque#isEmpty()
 	 */
 	public boolean isEmpty(){
 		return this.deque.isEmpty();
@@ -51,7 +51,7 @@ public class QueueD <E>{
 	/**
 	 * Is the Queue full?
 	 * @return A boolean indicating if the QueueD is full (ie no values can be inserted)
-	 * @see    problem1.ArrayDeque#isFull()
+	 * @see    arrayDeque.ArrayDeque#isFull()
 	 */
 	public boolean isFull(){
 		return this.deque.isFull();
@@ -60,7 +60,7 @@ public class QueueD <E>{
 	/**
 	 * Returns the next value without removing it
 	 * @return The next value to be removed
-	 * @see    problem1.ArrayDeque#peekRight()
+	 * @see    arrayDeque.ArrayDeque#peekRight()
 	 */
 	public E peek(){
 		return this.deque.peekRight();
@@ -69,7 +69,7 @@ public class QueueD <E>{
 	/**
 	 * Removes the next element and returns it
 	 * @return The removed value
-	 * @see    problem1.ArrayDeque#deleteLeft()
+	 * @see    arrayDeque.ArrayDeque#deleteLeft()
 	 */
 	public E pop(){
 		return this.deque.deleteLeft();
@@ -78,7 +78,7 @@ public class QueueD <E>{
 	/**
 	 * Prints the Queue as it interpreted
 	 *
-	 * @see problem1.ArrayDeque#print()
+	 * @see arrayDeque.ArrayDeque#print()
 	 */
 	public void print(){
 		this.deque.print();
@@ -96,7 +96,7 @@ public class QueueD <E>{
 	 * Adds the given values
 	 * @param  values The values to insert, first one is first in
 	 * @return The amount of elements inserted
-	 * @see           problem1.ArrayDeque#insertRight(java.lang.Object[])
+	 * @see           arrayDeque.ArrayDeque#insertRight(java.lang.Object[])
 	 */
 	@SuppressWarnings("unchecked")
 	public int push(final E... values){
@@ -107,7 +107,7 @@ public class QueueD <E>{
 	 * @param  value
 	 *                   The value to add
 	 * @return       Success of the insertion
-	 * @see          problem1.ArrayDeque#insertRight(java.lang.Object)
+	 * @see          arrayDeque.ArrayDeque#insertRight(java.lang.Object)
 	 */
 	public boolean push(final E value){
 		return this.deque.insertRight(value);
@@ -115,7 +115,7 @@ public class QueueD <E>{
 
 	/**
 	 * @return The size of the QueueD
-	 * @see problem1.ArrayDeque#size()
+	 * @see arrayDeque.ArrayDeque#size()
 	 */
 	public int size(){
 		return this.deque.size();
@@ -123,7 +123,7 @@ public class QueueD <E>{
 
 	/**
 	 * @return The string representation of the Queue
-	 * @see    problem1.ArrayDeque#toString()
+	 * @see    arrayDeque.ArrayDeque#toString()
 	 */
 	@Override
 	public String toString(){
