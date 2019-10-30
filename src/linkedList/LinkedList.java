@@ -12,7 +12,8 @@ import org.eclipse.jdt.annotation.Nullable;
  * LinkedList Class<br>
  * Defines a double linked list
  *
- * @author     Zekrom
+ * @author     Shawn Graven (Zekrom)
+ * @date       10/23/19
  *
  * @param  <E>
  *                 The type of the Linked list

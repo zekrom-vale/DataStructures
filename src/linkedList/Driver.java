@@ -3,10 +3,12 @@ package linkedList;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
+ * Driver class tests the {@link CircularLinkedList}
+ * 
  * @author Shawn Graven (Zekrom)
  * @date   10/23/19
  */
-public class TestCircularLinkedList{
+public class Driver{
 	/**
 	 * Main
 	 *

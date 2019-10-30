@@ -3,6 +3,8 @@ package linkedList;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
+ * LinkedCore defines an abstract class to implement standard methods
+ * 
  * @author     Shawn Graven (Zekrom)
  * @date       10/24/19
  *

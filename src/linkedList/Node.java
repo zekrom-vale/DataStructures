@@ -6,7 +6,8 @@ import org.eclipse.jdt.annotation.Nullable;
 /**
  * Defines a linked list node with forward and backwards reference
  *
- * @author     Zekrom
+ * @author     Shawn Graven
+ * @date       10/18/19
  *
  * @param  <E>
  *                 The type of the linked list node

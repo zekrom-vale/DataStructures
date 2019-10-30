@@ -14,6 +14,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * Defines a circular double linked list
  *
  * @author     Shawn Graven (Zekrom)
+ * @date       10/29/19
  *
  * @param  <E>
  *                 The type of the Linked list
