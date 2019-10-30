@@ -51,6 +51,7 @@ import org.eclipse.jdt.annotation.Nullable;
  *
  * @see        <br>
  * @see        #toString()
+ * @see        #print()
  *
  */
 @SuppressWarnings("javadoc")
@@ -616,7 +617,7 @@ E>extends LinkedCore<E>{
 	}
 
 	/**
-	 * Removes the index from the left
+	 * Removes the head based index
 	 *
 	 * @param  index
 	 *                   The index to remove
@@ -662,7 +663,7 @@ E>extends LinkedCore<E>{
 	}
 
 	/**
-	 * Removes the index from the right
+	 * Removes the tail based index
 	 *
 	 * @param  index
 	 *                   The index to remove
