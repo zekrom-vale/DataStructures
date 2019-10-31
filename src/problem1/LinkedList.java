@@ -1,4 +1,4 @@
-package linkedList;
+package problem1;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

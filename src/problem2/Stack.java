@@ -1,8 +1,8 @@
-package stackList;
+package problem2;
 
 import org.eclipse.jdt.annotation.Nullable;
 
-import linkedList.CircularLinkedList;
+import problem1.CircularLinkedList;
 
 /**
  * Class Stack implements a stack based on the {@link CircularLinkedList} class
@@ -37,7 +37,7 @@ public class Stack<@Nullable E>{
 
 	/**
 	 * @return {@code true} if the stack is empty
-	 * @see linkedList.CircularLinkedList#isEmpty()
+	 * @see problem1.CircularLinkedList#isEmpty()
 	 */
 	public boolean isEmpty(){
 		return this.list.isEmpty();

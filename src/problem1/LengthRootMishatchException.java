@@ -1,4 +1,4 @@
-package linkedList;
+package problem1;
 
 /**
  * @author Zekrom

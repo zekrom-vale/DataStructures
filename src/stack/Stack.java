@@ -1,6 +1,6 @@
 package stack;
 
-import linkedList.Node;
+import problem1.Node;
 
 /**
  * Stack/LIFO/FILO Data Structure<br>
