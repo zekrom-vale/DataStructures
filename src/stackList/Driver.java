@@ -1,4 +1,4 @@
-package problem2;
+package stackList;
 
 import org.eclipse.jdt.annotation.Nullable;
 

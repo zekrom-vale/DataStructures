@@ -1,4 +1,4 @@
-package problem1;
+package linkedList;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;

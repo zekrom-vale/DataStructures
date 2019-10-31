@@ -3,7 +3,7 @@
  */
 package arrayDeque;
 
-import problem1.Node;
+import linkedList.Node;
 
 /**
  * @author Zekrom
