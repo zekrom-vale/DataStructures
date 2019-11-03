@@ -81,4 +81,40 @@ public class Node<@Nonnull E extends Comparable<E>>{
 		if(this.right==null)return this;
 		return this.right.rightMost();
 	}
+	
+	public long countNodes(){
+		
+		if(this.right!=null){
+			if(this.left!=null){
+				return this.left.countNodes()+1+this.right.countNodes();
+			}
+			return this.right.countNodes()+1;
+		}
+		if(this.left!=null){
+			return this.left.countNodes()+1;
+		}
+		return 0;
+	}
+	
+	public long countLeaves(){
+		if(this.right!=null){
+			if(this.left!=null){
+				return this.left.countLeaves()+this.right.countLeaves();
+			}
+			return this.right.countLeaves();
+		}
+		if(this.left!=null){
+			return this.left.countLeaves();
+		}
+		return 1;
+	}
+	
+	public long height(){
+		if(this.right==null){
+			if(this.left==null)return 1;
+			return this.left.height()+1;
+		}
+		if(this.left==null)return this.right.height()+1;
+		return Math.max(this.left.height(), this.right.height())+1;
+	}
 }
