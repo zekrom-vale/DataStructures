@@ -65,4 +65,14 @@ public class Node<@Nonnull E extends Comparable<E>>{
 	protected void remove(@Nonnull Node<E> node, @Nonnull Node<E> parent){
 		
 	}
+	
+	public Node<E> leftMost(){
+		if(this.left==null)return this;
+		return this.left.leftMost();
+	}
+	
+	public Node<E> rightMost(){
+		if(this.right==null)return this;
+		return this.right.rightMost();
+	}
 }
