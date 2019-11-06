@@ -75,11 +75,14 @@ E extends Comparable<E>>{
 			) return false;
 
 
-		//We know that the sub trees are valid BianarySearchTrees
+		//We know that the sub trees are valid BianarySearchTrees so check the tree
+		//Valid if left sub-tree max is less than the root
 		if(
-			root.left!=null&&root.compareTo(root.getLeft())<=0
+			root.getLeft()!=null&&root.compareTo(root.getRight())<=0
 			) return false;
-		if(root.right!=null&&root.compareTo(root.getRight())>0
+		//Valid if right sub-tree min is greater or equal to the root
+		if(
+			root.getRight()!=null&&root.compareTo(root.getLeft())>0
 			) return false;
 		return true;
 	}
@@ -196,6 +199,21 @@ E extends Comparable<E>>{
 	}
 
 	/**
+	 * Inserts the value in the appropriate spot in the tree
+	 *
+	 * @param values
+	 *                   The values to insert
+	 * @see          tree.Node#insert(java.lang.Comparable)
+	 */
+	@SuppressWarnings("unchecked")
+	public void insert(@NonNull
+		final E... values){
+		for(final E e : values){
+			this.insert(e);
+		}
+	}
+
+	/**
 	 * Tests if the node is a valid BianarySearchTree
 	 *
 	 * @return {@code true} if valid, {@code false} if invalid
@@ -210,14 +228,24 @@ E extends Comparable<E>>{
 	 * @param  value
 	 *                   The value to remove
 	 * @return       {@code true} if it exists and was removed {@code false} if it is not found
-	 * @see          tree.Node#remove(java.lang.Comparable)
+	 * @see          tree.Node#remove2(java.lang.Comparable)
 	 */
 	@SuppressWarnings("null")
 	public boolean remove(@NonNull
 		final
 		E value){
 		if(this.root==null) return false;
-		return this.root.remove(value);
+		return this.root.remove2(value);
+	}
+
+	@Override
+	public String toString(){
+		final StringBuilder builder=new StringBuilder("BianarySearchTree [");
+		this.forEach(x->{
+			builder.append(x).append(", ");
+		});
+		builder.append("]");
+		return builder.toString();
 	}
 }
 

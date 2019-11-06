@@ -13,13 +13,13 @@ import org.eclipse.jdt.annotation.Nullable;
 public class Node <@NonNull
 E extends Comparable<E>> implements Comparable<Node<E>>{
 	@Nullable
-	Node<E> left;
+	private Node<E> left;
 
 	@Nullable
-	Node<E> right;
+	private Node<E> right;
 
 	@NonNull
-	E value;
+	private E value;
 
 
 	/**
@@ -97,6 +97,39 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		return 0;
 	}
 
+	public boolean equals(final Node<E> obj){
+		return this.value.equals(obj.value);
+	}
+
+	@Override
+	public boolean equals(final Object obj){
+		return this.value.equals(obj);
+	}
+
+	@SuppressWarnings("null")
+	public boolean exists(final E value){
+		if(this.value.compareTo(value)==0)return true;
+
+		if(this.value.compareTo(value)<0){
+			if(this.left==null)return false;
+			return this.left.exists(value);
+		}
+		if(this.right==null)return false;
+		return this.right.exists(value);
+	}
+
+	@SuppressWarnings("null")
+	public Node<E> find(final E value){
+		if(this.value.compareTo(value)==0)return this;
+
+		if(this.value.compareTo(value)<0){
+			if(this.left==null)return null;
+			return this.left.find(value);
+		}
+		if(this.right==null)return null;
+		return this.right.find(value);
+	}
+
 	/**
 	 * @return the left
 	 */
@@ -116,6 +149,11 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 */
 	public E getValue(){
 		return this.value;
+	}
+
+	@Override
+	public int hashCode(){
+		return this.value.hashCode();
 	}
 
 	/**
@@ -158,14 +196,83 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	}
 
 	/**
+	 * Inserts the node in the appropriate spot in the tree
+	 *
+	 * @param node
+	 *                 The node to add
+	 */
+	@SuppressWarnings("null")
+	public void insert(final Node<E> node){
+		if(this.compareTo(node)<0){
+			if(this.left==null){
+				this.left=node;
+				return;
+			}
+			this.left.insert(node);
+			return;
+		}
+		if(this.right==null){
+			this.right=node;
+			return;
+		}
+		this.right.insert(node);
+	}
+
+	/**
+	 * Checks if the node is a valid BianarySearchTree
+	 *
+	 * @return {@code true} if valid, {@code false} if invalid
+	 */
+	public boolean isValid(){
+		//Check to see if the sub trees are valid BianarySearchTrees
+		if(this.right!=null&&!this.right.isValid())return false;
+		if(this.left!=null&&!this.left.isValid())return false;
+
+		//We know that the sub trees are valid BianarySearchTrees so check the tree
+		//Valid if left sub-tree max is less than the root
+		if(
+			this.getLeft()!=null&&this.compareTo(this.getRight())<=0
+			) return false;
+		//Valid if right sub-tree min is greater or equal to the root
+		if(
+			this.getRight()!=null&&this.compareTo(this.getLeft())>0
+			) return false;
+
+		return false;
+	}
+
+	/**
+	 * Gets the right most node
+	 *
+	 * @return The maximum node
+	 */
+	@SuppressWarnings("null")
+	public Node<E> max(){
+		if(this.right==null) return this;
+		return this.right.max();
+	}
+
+	/**
 	 * Gets the left most node
 	 *
 	 * @return The minimum node
 	 */
 	@SuppressWarnings("null")
-	public Node<E> leftMost(){
-		if(this.left==null)return this;
-		return this.left.leftMost();
+	public Node<E> min(){
+		if(this.left==null) return this;
+		return this.left.min();
+	}
+
+	/**
+	 * Removes the given value
+	 *
+	 * @param  value
+	 *                   The value to remove
+	 * @return       {@code true} if it exists and was removed {@code false} if it is not found
+	 */
+	public boolean remove(final E value){
+		//TODO
+		return false;
 	}
 
 	/**
@@ -176,14 +283,14 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 * @return       {@code true} if it exists and was removed {@code false} if it is not found
 	 */
 	@SuppressWarnings("null")
-	public boolean remove(final E value){
+	public boolean remove2(final E value){
 		if(this.value.compareTo(value)<0){
 			if(this.left==null)return false;
 			if(this.left.value.compareTo(value)==0){
 				this.left.removeLeft(this);
 				return true;
 			}
-			return this.left.remove(value);
+			return this.left.remove2(value);
 		}
 		else{
 			if(this.right==null)return false;
@@ -191,7 +298,7 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 				this.right.removeRight(this);
 				return true;
 			}
-			return this.right.remove(value);
+			return this.right.remove2(value);
 		}
 	}
 
@@ -203,8 +310,12 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 */
 	protected void removeLeft(@NonNull
 		final Node<E> parent){
+		if(this.right==null){
+			parent.left=this.left;
+			return;
+		}
 		parent.left=this.right;
-		this.leftMost().left=this.left;
+		this.min().left=this.left;
 	}
 
 	/**
@@ -215,19 +326,12 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 */
 	protected void removeRight(@NonNull
 		final Node<E> parent){
+		if(this.right==null){
+			parent.right=this.left;
+			return;
+		}
 		parent.right=this.right;
-		this.leftMost().left=this.left;
-	}
-
-	/**
-	 * Gets the right most node
-	 *
-	 * @return The maximum node
-	 */
-	@SuppressWarnings("null")
-	public Node<E> rightMost(){
-		if(this.right==null) return this;
-		return this.right.rightMost();
+		this.min().left=this.left;
 	}
 
 	/**
@@ -252,5 +356,10 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 */
 	public void setValue(final E value){
 		this.value=value;
+	}
+
+	@Override
+	public String toString(){
+		return this.value.toString();
 	}
 }
