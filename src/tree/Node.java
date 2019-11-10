@@ -1,5 +1,7 @@
 package tree;
 
+import java.util.function.Consumer;
+
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -8,6 +10,10 @@ import org.eclipse.jdt.annotation.Nullable;
  *
  * @param  <E>
  *                 The type of the node
+ * @see        #countNodes()
+ * @see        #countInternalNodes()
+ * @see        #countLeaves()
+ * @see        #height()
  */
 @SuppressWarnings("hiding")
 public class Node <@NonNull
@@ -49,12 +55,37 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		this.right=right;
 	}
 
+	public int compareTo(final E value){
+		return this.value.compareTo(value);
+	}
+
 	@Override
 	public int compareTo(final Node<@NonNull
 		E> node){
 		return this.value.compareTo(node.value);
 	}
 
+
+	/**
+	 * Counts the amount of internal nodes in the tree<br>
+	 * The nodes that do have children
+	 *
+	 * @return the number of internal nodes
+	 */
+	@SuppressWarnings("null")
+	public long countInternalNodes(){
+
+		if(this.right!=null){
+			if(this.left!=null){
+				return this.left.countInternalNodes()+1+this.right.countInternalNodes();
+			}
+			return this.right.countInternalNodes()+1;
+		}
+		if(this.left!=null){
+			return this.left.countInternalNodes()+1;
+		}
+		return 0;
+	}
 
 	/**
 	 * Counts the amount of leaves in the tree<br>
@@ -77,8 +108,7 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	}
 
 	/**
-	 * Counts the amount of internal nodes in the tree<br>
-	 * The nodes that do have children
+	 * Counts the amount of nodes in the tree
 	 *
 	 * @return the number of internal nodes
 	 */
@@ -94,7 +124,7 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		if(this.left!=null){
 			return this.left.countNodes()+1;
 		}
-		return 0;
+		return 1;
 	}
 
 	public boolean equals(final Node<E> obj){
@@ -128,6 +158,12 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		}
 		if(this.right==null)return null;
 		return this.right.find(value);
+	}
+
+	public void forEach(final Consumer<Node<E>> consumer){
+		if(this.right!=null) this.right.forEach(consumer);
+		consumer.accept(this);
+		if(this.left!=null) this.left.forEach(consumer);
 	}
 
 	/**
@@ -270,9 +306,15 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 *                   The value to remove
 	 * @return       {@code true} if it exists and was removed {@code false} if it is not found
 	 */
-	public boolean remove(final E value){
-		//TODO
-		return false;
+	public boolean remove(@NonNull
+		final E value){
+		if(this.equals(value)){
+			//TODO remove
+		}
+		if(this.compareTo(value)<0){
+			return this.left==null?false:this.left.remove(value);
+		}
+		return this.right==null?false:this.right.remove(value);
 	}
 
 	/**

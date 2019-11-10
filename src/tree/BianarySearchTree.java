@@ -12,20 +12,12 @@ import org.eclipse.jdt.annotation.Nullable;
  *
  * @param  <E>
  *                 The type of the BianarySearchTree
+ * @see        #countNodes()
+ * @see        #countLeaves()
+ * @see        #height()
  */
 public class BianarySearchTree <@NonNull
 E extends Comparable<E>>{
-	/**
-	 * Loops through the BianarySearchTree in order
-	 * @param node the root node of the current tree or sub-tree
-	 * @param consumer The function to perform on each node
-	 */
-	private static <@NonNull E extends Comparable<E>>void forEach(final Node<E> node, final Consumer<E> consumer){
-		if(node==null) return;
-		BianarySearchTree.forEach(node.getLeft(), consumer);
-		consumer.accept(node.getValue());
-		BianarySearchTree.forEach(node.getRight(), consumer);
-	}
 
 	/**
 	 * Loops through the BianarySearchTree
@@ -148,8 +140,12 @@ E extends Comparable<E>>{
 	 * Loops through the BianarySearchTree in order
 	 * @param consumer The function to perform on each node
 	 */
-	public void forEach(final Consumer<E> consumer){
-		BianarySearchTree.forEach(this.root, consumer);
+	@SuppressWarnings("null")
+	public void forEach(final Consumer<Node<E>> consumer){
+		if(this.root==null){
+			return;
+		}
+		this.root.forEach(consumer);
 	}
 
 
@@ -195,7 +191,7 @@ E extends Comparable<E>>{
 		final
 		E value){
 		if(this.root==null) this.root=new Node<>(value);
-		this.root.insert(value);
+		else this.root.insert(value);
 	}
 
 	/**
@@ -208,8 +204,8 @@ E extends Comparable<E>>{
 	@SuppressWarnings("unchecked")
 	public void insert(@NonNull
 		final E... values){
-		for(final E e : values){
-			this.insert(e);
+		for(int i=0; i<values.length; i++){
+			this.insert(values[i]);
 		}
 	}
 
@@ -235,7 +231,7 @@ E extends Comparable<E>>{
 		final
 		E value){
 		if(this.root==null) return false;
-		return this.root.remove2(value);
+		return this.root.remove(value);
 	}
 
 	@Override

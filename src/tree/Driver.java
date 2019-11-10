@@ -9,6 +9,9 @@ public class Driver{
 		Integer> tree=new BianarySearchTree<>();
 		tree.insert(50, 70, 30, 80, 34, 32, 9, 47, 18);
 		System.out.println(tree);
+		System.out.println(tree.countNodes());
+		System.out.println(tree.countLeaves());
+		System.out.println(tree.height());
 	}
 
 }
