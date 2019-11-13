@@ -237,9 +237,8 @@ E extends Comparable<E>>{
 	@Override
 	public String toString(){
 		final StringBuilder builder=new StringBuilder(
-			this.countNodes()*5/Integer.MAX_VALUE>1?(int)this.countNodes()*5:
-				Integer.MAX_VALUE
-		);
+			(int)(this.countNodes()*5)
+			);
 		builder.append("BianarySearchTree [");
 		this.forEach(x->{
 			builder.append(x).append(", ");
