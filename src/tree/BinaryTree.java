@@ -1,4 +1,3 @@
-package problems123;
 /**
 * Class BinaryTree defines a BinaryTree used for searching
 */
