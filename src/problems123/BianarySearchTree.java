@@ -1,4 +1,4 @@
-package tree;
+package problems123;
 
 import java.util.function.Consumer;
 
@@ -115,7 +115,7 @@ E extends Comparable<E>>{
 	 * The nodes that do not have children
 	 *
 	 * @return the number of leaves
-	 * @see    tree.Node#countLeaves()
+	 * @see    problems123.Node#countLeaves()
 	 */
 	@SuppressWarnings("null")
 	public long countLeaves(){
@@ -128,7 +128,7 @@ E extends Comparable<E>>{
 	 * The nodes that do have children
 	 *
 	 * @return the number of internal nodes
-	 * @see    tree.Node#countNodes()
+	 * @see    problems123.Node#countNodes()
 	 */
 	@SuppressWarnings("null")
 	public long countNodes(){
@@ -171,7 +171,7 @@ E extends Comparable<E>>{
 	 * The deepest node's depth plus 1
 	 *
 	 * @return The height of the tree
-	 * @see    tree.Node#height()
+	 * @see    problems123.Node#height()
 	 */
 	@SuppressWarnings("null")
 	public long height(){
@@ -184,7 +184,7 @@ E extends Comparable<E>>{
 	 *
 	 * @param value
 	 *                  The value to insert
-	 * @see         tree.Node#insert(java.lang.Comparable)
+	 * @see         problems123.Node#insert(java.lang.Comparable)
 	 */
 	@SuppressWarnings("null")
 	public void insert(@NonNull
@@ -199,7 +199,7 @@ E extends Comparable<E>>{
 	 *
 	 * @param values
 	 *                   The values to insert
-	 * @see          tree.Node#insert(java.lang.Comparable)
+	 * @see          problems123.Node#insert(java.lang.Comparable)
 	 */
 	@SuppressWarnings("unchecked")
 	public void insert(@NonNull
@@ -224,7 +224,7 @@ E extends Comparable<E>>{
 	 * @param  value
 	 *                   The value to remove
 	 * @return       {@code true} if it exists and was removed {@code false} if it is not found
-	 * @see          tree.Node#remove2(java.lang.Comparable)
+	 * @see          problems123.Node#remove2(java.lang.Comparable)
 	 */
 	@SuppressWarnings("null")
 	public boolean remove(@NonNull
@@ -237,9 +237,8 @@ E extends Comparable<E>>{
 	@Override
 	public String toString(){
 		final StringBuilder builder=new StringBuilder(
-			this.countNodes()*5/Integer.MAX_VALUE>1?(int)this.countNodes()*5:
-				Integer.MAX_VALUE
-		);
+			(int)(this.countNodes()*5)
+			);
 		builder.append("BianarySearchTree [");
 		this.forEach(x->{
 			builder.append(x).append(", ");
