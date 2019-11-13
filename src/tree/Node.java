@@ -18,12 +18,21 @@ import org.eclipse.jdt.annotation.Nullable;
 @SuppressWarnings("hiding")
 public class Node <@NonNull
 E extends Comparable<E>> implements Comparable<Node<E>>{
+	/**
+	 * The left subtree
+	 */
 	@Nullable
 	private Node<E> left;
 
+	/**
+	 * The right subtree
+	 */
 	@Nullable
 	private Node<E> right;
 
+	/**
+	 * The value of the current node
+	 */
 	@NonNull
 	private E value;
 
@@ -55,10 +64,26 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		this.right=right;
 	}
 
+	/**
+	 * Allows comparison without calling the values if a value is known<br>
+	 * Utility method
+	 *
+	 * @param  value
+	 *                   The value to compare with the nodes value
+	 * @return       integer
+	 */
 	public int compareTo(final E value){
 		return this.value.compareTo(value);
 	}
 
+	/**
+	 * Allows comparison without calling the values<br>
+	 * Utility method
+	 *
+	 * @param  node
+	 *                  The node to compare with the nodes value
+	 * @return      integer
+	 */
 	@Override
 	public int compareTo(final Node<@NonNull
 		E> node){
@@ -127,15 +152,36 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		return 1;
 	}
 
+	/**
+	 * Tests if two nodes are equal
+	 *
+	 * @param  obj
+	 *                 The other node
+	 * @return     {@code true} if they are the same
+	 */
 	public boolean equals(final Node<E> obj){
 		return this.value.equals(obj.value);
 	}
 
+	/**
+	 * Tests if this node's value is equal to a value
+	 *
+	 * @param  obj
+	 *                 The other node
+	 * @return     {@code true} if they are the same
+	 */
 	@Override
 	public boolean equals(final Object obj){
 		return this.value.equals(obj);
 	}
 
+	/**
+	 * Checks if the value exists in the tree
+	 *
+	 * @param  value
+	 *                   The value to check for
+	 * @return       {@code true} if it exists
+	 */
 	@SuppressWarnings("null")
 	public boolean exists(final E value){
 		if(this.value.compareTo(value)==0)return true;
@@ -148,6 +194,13 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		return this.right.exists(value);
 	}
 
+	/**
+	 * Finds the value in the tree and returns the node
+	 *
+	 * @param  value
+	 *                   The value to find
+	 * @return       The first node containing the value, {@code null} if not found
+	 */
 	@SuppressWarnings("null")
 	public Node<E> find(final E value){
 		if(this.value.compareTo(value)==0)return this;
@@ -160,6 +213,12 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		return this.right.find(value);
 	}
 
+	/**
+	 * Iterates through the tree in order
+	 *
+	 * @param consumer
+	 *                     The operation to do on each node
+	 */
 	public void forEach(final Consumer<Node<E>> consumer){
 		if(this.right!=null) this.right.forEach(consumer);
 		consumer.accept(this);
@@ -187,6 +246,9 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		return this.value;
 	}
 
+	/**
+	 * @return The hashcode of the object
+	 */
 	@Override
 	public int hashCode(){
 		return this.value.hashCode();
@@ -234,8 +296,9 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	/**
 	 * Inserts the node in the appropriate spot in the tree
 	 *
-	 * @param node
-	 *                 The node to add
+	 * @param   node
+	 *                   The node to add
+	 * @apiNote      Does not check if the subtree is a valid binary search tree
 	 */
 	@SuppressWarnings("null")
 	public void insert(final Node<E> node){
@@ -255,7 +318,7 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	}
 
 	/**
-	 * Checks if the node is a valid BianarySearchTree
+	 * Checks if the node and dependents are valid BianarySearchTrees
 	 *
 	 * @return {@code true} if valid, {@code false} if invalid
 	 */
@@ -302,19 +365,32 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	/**
 	 * Removes the given value
 	 *
-	 * @param  value
-	 *                   The value to remove
-	 * @return       {@code true} if it exists and was removed {@code false} if it is not found
+	 * @param      value
+	 *                       The value to remove
+	 * @return           {@code true} if it exists and was removed {@code false} if it is not found
+	 * @deprecated
 	 */
+	@Deprecated
+	@SuppressWarnings("null")
 	public boolean remove(@NonNull
 		final E value){
-		if(this.equals(value)){
-			//TODO remove
-		}
 		if(this.compareTo(value)<0){
-			return this.left==null?false:this.left.remove(value);
+			if(this.left==null) return false;
+			if(this.right.compareTo(value)==0){
+				//TODO remove
+				return true;
+			}
+			return this.left.remove(value);
 		}
-		return this.right==null?false:this.right.remove(value);
+		else{
+
+			if(this.left==null) return false;
+			if(this.left.compareTo(value)==0){
+				//TODO remove
+				return true;
+			}
+			return this.left.remove(value);
+		}
 	}
 
 	/**
@@ -326,9 +402,9 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 */
 	@SuppressWarnings("null")
 	public boolean remove2(final E value){
-		if(this.value.compareTo(value)<0){
+		if(this.compareTo(value)<0){
 			if(this.left==null)return false;
-			if(this.left.value.compareTo(value)==0){
+			if(this.left.compareTo(value)==0){
 				this.left.removeLeft(this);
 				return true;
 			}
@@ -336,7 +412,7 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		}
 		else{
 			if(this.right==null)return false;
-			if(this.right.value.compareTo(value)==0){
+			if(this.right.compareTo(value)==0){
 				this.right.removeRight(this);
 				return true;
 			}
@@ -400,6 +476,9 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 		this.value=value;
 	}
 
+	/**
+	 * Returns a string representation of the node's value
+	 */
 	@Override
 	public String toString(){
 		return this.value.toString();

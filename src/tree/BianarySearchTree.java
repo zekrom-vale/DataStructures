@@ -236,12 +236,16 @@ E extends Comparable<E>>{
 
 	@Override
 	public String toString(){
-		final StringBuilder builder=new StringBuilder("BianarySearchTree [");
+		final StringBuilder builder=new StringBuilder(
+			this.countNodes()*5/Integer.MAX_VALUE>1?(int)this.countNodes()*5:
+				Integer.MAX_VALUE
+		);
+		builder.append("BianarySearchTree [");
 		this.forEach(x->{
 			builder.append(x).append(", ");
 		});
-		builder.append("]");
-		return builder.toString();
+		return new StringBuilder(builder.substring(0, builder.length()-2))
+			.append(']').toString();
 	}
 }
 
