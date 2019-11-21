@@ -102,7 +102,8 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 
 		if(this.right!=null){
 			if(this.left!=null){
-				return this.left.countInternalNodes()+1+this.right.countInternalNodes();
+				return this.left.countInternalNodes()+1+
+					this.right.countInternalNodes();
 			}
 			return this.right.countInternalNodes()+1;
 		}
@@ -184,13 +185,13 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 */
 	@SuppressWarnings("null")
 	public boolean exists(final E value){
-		if(this.value.compareTo(value)==0)return true;
+		if(this.value.compareTo(value)==0) return true;
 
 		if(this.value.compareTo(value)<0){
-			if(this.left==null)return false;
+			if(this.left==null) return false;
 			return this.left.exists(value);
 		}
-		if(this.right==null)return false;
+		if(this.right==null) return false;
 		return this.right.exists(value);
 	}
 
@@ -203,13 +204,13 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 */
 	@SuppressWarnings("null")
 	public Node<E> find(final E value){
-		if(this.value.compareTo(value)==0)return this;
+		if(this.value.compareTo(value)==0) return this;
 
 		if(this.value.compareTo(value)<0){
-			if(this.left==null)return null;
+			if(this.left==null) return null;
 			return this.left.find(value);
 		}
-		if(this.right==null)return null;
+		if(this.right==null) return null;
 		return this.right.find(value);
 	}
 
@@ -263,10 +264,10 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	@SuppressWarnings("null")
 	public long height(){
 		if(this.right==null){
-			if(this.left==null)return 1;
+			if(this.left==null) return 1;
 			return this.left.height()+1;
 		}
-		if(this.left==null)return this.right.height()+1;
+		if(this.left==null) return this.right.height()+1;
 		return Math.max(this.left.height(), this.right.height())+1;
 	}
 
@@ -324,8 +325,8 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	 */
 	public boolean isValid(){
 		//Check to see if the sub trees are valid BianarySearchTrees
-		if(this.right!=null&&!this.right.isValid())return false;
-		if(this.left!=null&&!this.left.isValid())return false;
+		if(this.right!=null&&!this.right.isValid()) return false;
+		if(this.left!=null&&!this.left.isValid()) return false;
 
 		//We know that the sub trees are valid BianarySearchTrees so check the tree
 		//Valid if left sub-tree max is less than the root
@@ -365,91 +366,41 @@ E extends Comparable<E>> implements Comparable<Node<E>>{
 	/**
 	 * Removes the given value
 	 *
-	 * @param      value
-	 *                       The value to remove
-	 * @return           {@code true} if it exists and was removed {@code false} if it is not found
-	 * @deprecated
-	 */
-	@Deprecated
-	@SuppressWarnings("null")
-	public boolean remove(@NonNull
-		final E value){
-		if(this.compareTo(value)<0){
-			if(this.left==null) return false;
-			if(this.right.compareTo(value)==0){
-				//TODO remove
-				return true;
-			}
-			return this.left.remove(value);
-		}
-		else{
-
-			if(this.left==null) return false;
-			if(this.left.compareTo(value)==0){
-				//TODO remove
-				return true;
-			}
-			return this.left.remove(value);
-		}
-	}
-
-	/**
-	 * Removes the given value
-	 *
 	 * @param  value
 	 *                   The value to remove
 	 * @return       {@code true} if it exists and was removed {@code false} if it is not found
+	 *               Referenced
+	 *               https://www.java2novice.com/java-interview-programs/delete-node-binary-search-tree-bst/
 	 */
 	@SuppressWarnings("null")
-	public boolean remove2(final E value){
-		if(this.compareTo(value)<0){
-			if(this.left==null)return false;
-			if(this.left.compareTo(value)==0){
-				this.left.removeLeft(this);
-				return true;
-			}
-			return this.left.remove2(value);
+	public Node<E> remove(final E value){
+		if(this.compareTo(value)>0){
+			this.left=this.left.remove(value);
+		}
+		else if(this.compareTo(value)<0){
+			this.right=this.right.remove(value);
 		}
 		else{
-			if(this.right==null)return false;
-			if(this.right.compareTo(value)==0){
-				this.right.removeRight(this);
-				return true;
+			// node with no leaf nodes
+			if(this.left==null&&this.right==null){
+				return null;
 			}
-			return this.right.remove2(value);
+			else if(this.left==null){
+				// node with one node (no left node)
+				return this.right;
+			}
+			else if(this.right==null){
+				// node with one node (no right node)
+				return this.left;
+			}
+			else{
+				// nodes with two nodes
+				// search for min number in right sub tree
+				this.value=this.right.min().value;
+				this.right=this.right.remove(this.value);
+			}
 		}
-	}
-
-	/**
-	 * Removes the current node from the parent
-	 *
-	 * @param parent
-	 *                   The parent of the node
-	 */
-	protected void removeLeft(@NonNull
-		final Node<E> parent){
-		if(this.right==null){
-			parent.left=this.left;
-			return;
-		}
-		parent.left=this.right;
-		this.min().left=this.left;
-	}
-
-	/**
-	 * Removes the current node from the parent
-	 *
-	 * @param parent
-	 *                   The parent of the node
-	 */
-	protected void removeRight(@NonNull
-		final Node<E> parent){
-		if(this.right==null){
-			parent.right=this.left;
-			return;
-		}
-		parent.right=this.right;
-		this.min().left=this.left;
+		return this;
 	}
 
 	/**

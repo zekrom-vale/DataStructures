@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+import hashTable.Collection;
+
 /**
  * Class BianarySearchTree
  *
@@ -17,7 +19,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * @see        #height()
  */
 public class BianarySearchTree <@NonNull
-E extends Comparable<E>>{
+E extends Comparable<E>> implements Collection<E>{
 
 	/**
 	 * Loops through the BianarySearchTree
@@ -111,6 +113,38 @@ E extends Comparable<E>>{
 	}
 
 	/**
+	 * Inserts the value in the appropriate spot in the tree
+	 *
+	 * @param value
+	 *                  The value to insert
+	 * @see         tree.Node#insert(java.lang.Comparable)
+	 */
+	@Override
+	@SuppressWarnings("null")
+	public boolean add(@NonNull
+		final
+		E value){
+		if(this.root==null) this.root=new Node<>(value);
+		else this.root.insert(value);
+		return true;
+	}
+
+	/**
+	 * Inserts the value in the appropriate spot in the tree
+	 *
+	 * @param values
+	 *                   The values to insert
+	 * @see          tree.Node#insert(java.lang.Comparable)
+	 */
+	@SuppressWarnings("unchecked")
+	public void add(@NonNull
+		final E... values){
+		for(int i=0; i<values.length; i++){
+			this.add(values[i]);
+		}
+	}
+
+	/**
 	 * Counts the amount of leaves in the tree<br>
 	 * The nodes that do not have children
 	 *
@@ -122,6 +156,7 @@ E extends Comparable<E>>{
 		if(this.root==null)return 0;
 		return this.root.countLeaves();
 	}
+
 
 	/**
 	 * Counts the amount of internal nodes in the tree<br>
@@ -136,6 +171,14 @@ E extends Comparable<E>>{
 		return this.root.countNodes();
 	}
 
+
+	@Override
+	@SuppressWarnings("null")
+	public boolean exists(final E value){
+		if(this.root==null)return false;
+		return this.root.exists(value);
+	}
+
 	/**
 	 * Loops through the BianarySearchTree in order
 	 * @param consumer The function to perform on each node
@@ -148,7 +191,6 @@ E extends Comparable<E>>{
 		this.root.forEach(consumer);
 	}
 
-
 	/**
 	 * Loops through the BianarySearchTree
 	 * @param consumer The function to perform on each node
@@ -156,7 +198,6 @@ E extends Comparable<E>>{
 	public void forEachPost(final Consumer<E> consumer){
 		BianarySearchTree.forEachPost(this.root, consumer);
 	}
-
 
 	/**
 	 * Loops through the BianarySearchTree
@@ -180,36 +221,6 @@ E extends Comparable<E>>{
 	}
 
 	/**
-	 * Inserts the value in the appropriate spot in the tree
-	 *
-	 * @param value
-	 *                  The value to insert
-	 * @see         tree.Node#insert(java.lang.Comparable)
-	 */
-	@SuppressWarnings("null")
-	public void insert(@NonNull
-		final
-		E value){
-		if(this.root==null) this.root=new Node<>(value);
-		else this.root.insert(value);
-	}
-
-	/**
-	 * Inserts the value in the appropriate spot in the tree
-	 *
-	 * @param values
-	 *                   The values to insert
-	 * @see          tree.Node#insert(java.lang.Comparable)
-	 */
-	@SuppressWarnings("unchecked")
-	public void insert(@NonNull
-		final E... values){
-		for(int i=0; i<values.length; i++){
-			this.insert(values[i]);
-		}
-	}
-
-	/**
 	 * Tests if the node is a valid BianarySearchTree
 	 *
 	 * @return {@code true} if valid, {@code false} if invalid
@@ -224,14 +235,15 @@ E extends Comparable<E>>{
 	 * @param  value
 	 *                   The value to remove
 	 * @return       {@code true} if it exists and was removed {@code false} if it is not found
-	 * @see          tree.Node#remove2(java.lang.Comparable)
+	 * @see          tree.Node#remove(java.lang.Comparable)
 	 */
+	@Override
 	@SuppressWarnings("null")
-	public boolean remove(@NonNull
+	public E remove(@NonNull
 		final
 		E value){
-		if(this.root==null) return false;
-		return this.root.remove(value);
+		if(this.root==null) return null;
+		return this.root.remove(value).getValue();
 	}
 
 	@Override
@@ -247,4 +259,3 @@ E extends Comparable<E>>{
 			.append(']').toString();
 	}
 }
-
