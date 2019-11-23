@@ -1,2 +1,3 @@
 module stack{
-	requires org.eclipse.jdt.annotation;}
+	requires org.eclipse.jdt.annotation;
+}
