@@ -5,6 +5,10 @@ import org.eclipse.jdt.annotation.Nullable;
 
 /**
 * Class KeyValue wraps the key and value inside of an object allowing it to be used in any container without modification
+ *
+ * @author     Shawn Graven
+ * @date       11/25/19
+ *
 * @param <K> They Key type, must impliment {@code Comparable<K>}
 * @param <V> The Value type, due to wraping it allows this value to be null
 */
