@@ -3,19 +3,37 @@ package heap;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+/**
+* Class KeyValue wraps the key and value inside of an object allowing it to be used in any container without modification
+* @param <K> They Key type, must impliment {@code Comparable<K>}
+* @param <V> The Value type, due to wraping it allows this value to be null
+*/
 @SuppressWarnings("hiding")
 public class KeyValue <@NonNull
 K extends Comparable<K>, @Nullable
 V> implements Comparable<KeyValue<K, V>>{
+	/**
+	* The Key of the KeyValue
+	*/
 	private K key;
+	/**
+	* The Value of the KeyValue
+	*/
 	private V value;
 
-
+	/**
+	* Creates a new KeyValue pair
+	* @param key the key determining the order
+	* @param value the value assosiated with the key
+	*/
 	public KeyValue(final K key, final V value){
 		this.setKey(key);
 		this.setValue(value);
 	}
-
+	
+	/**
+	* Utility method that compares the keys of two KeyValue objects
+	*/
 	@Override
 	public int compareTo(final KeyValue<K, V> kV){
 		return this.key.compareTo(kV.key);
@@ -50,6 +68,9 @@ V> implements Comparable<KeyValue<K, V>>{
 		this.value=value;
 	}
 
+	/**
+	* @return A string representation of the KeyValue pair
+	*/
 	@Override
 	public String toString(){
 		return "["+this.key+":"+this.value+"]";
