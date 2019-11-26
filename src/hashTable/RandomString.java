@@ -8,21 +8,20 @@ public class RandomString{
 	private final int offset;
 	private final Random random=new Random();
 
-
 	public RandomString(final int min, final int max, final int maxSize){
 		this.offset=min;
 		this.delta=max-min;
 		this.maxSize=maxSize;
-		System.out.println(this.offset+":"+this.delta);
 	}
 
 	private char genChar(){
-		return (char)(this.random.nextGaussian()*this.delta+this.offset);
+		return (char)(this.random.nextDouble()*this.delta+
+			this.offset);
 	}
 
 	public String string(){
 		final StringBuilder builder=new StringBuilder(this.delta);
-		for(int i=(int)(this.random.nextGaussian()*this.maxSize); i>=0; i--){
+		for(int i=(int)(this.random.nextDouble()*this.maxSize); i>=0; i--){
 			builder.append(this.genChar());
 		}
 		return builder.toString();
