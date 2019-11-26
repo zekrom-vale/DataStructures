@@ -7,13 +7,15 @@ import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Class Heap<br>
- * A loosely sorted max heap based on the array
+ * A loosely sorted max heap based on the array<br>
+ * Does not support a KeyValue pair directly but can be done via composition
  *
  * @author     Shawn Graven
  * @date       11/25/19
  *
  * @param  <E>
  *                 The type of the heap, must implement {@link Comparable}
+ * @see KeyValue
  */
 public class Heap <@Nullable
 E extends Comparable<E>>{
@@ -64,6 +66,7 @@ E extends Comparable<E>>{
 	@SuppressWarnings("null")
 	public boolean add(@NonNull
 		final E value){
+		//Simply set arr[0] to value if empty
 		if(this.arr[0]==null){
 			this.arr[0]=value;
 			this.size=1;
@@ -76,6 +79,7 @@ E extends Comparable<E>>{
 		int parent=Heap.parent(this.size);
 		int child=this.size++;
 		while(this.get(parent).compareTo(this.get(child))<0){
+			//Swap if out of order
 			this.swap(parent, child);
 			if(parent==0) break;
 			child=parent;
@@ -88,6 +92,7 @@ E extends Comparable<E>>{
 	 * @return the depth of the given index
 	 */
 	protected int depth(final int index){
+		//Does not support log base 2 so using the base change formula ln(x)/ln(n)=log_n(x)
 		return (int)Math.ceil(Math.log(index+2)/Math.log(2))-1;
 	}
 
@@ -95,6 +100,7 @@ E extends Comparable<E>>{
 	 * @return the index from the right of the tree of the given index
 	 */
 	protected int fromRight(final int index){
+		//The first node in the row is 2^depth, knowing this we can calculate how far from the right the node is
 		return index-(int)Math.pow(2, this.depth(index))+1;
 	}
 
@@ -103,7 +109,7 @@ E extends Comparable<E>>{
 	 */
 	@SuppressWarnings("unchecked")
 	protected E get(final int index) {
-		return (E)this.getRaw(index);
+		return (E)this.getRaw(index);//Imposible externaly to get an error
 	}
 
 	/**
@@ -115,6 +121,10 @@ E extends Comparable<E>>{
 		return index<this.arr.length?this.arr[index]:null;
 	}
 
+	/**
+	* Checks if the Heap is empty
+	* @return {@code true} if there is no data in the Heap, {@code false} if there is some data
+	*/
 	public boolean isEmpty(){
 		return this.size==0;
 	}
@@ -126,7 +136,9 @@ E extends Comparable<E>>{
 	@SuppressWarnings({"null"})
 	public @Nullable
 	E remove(){
-		if(this.size==0) return null;
+		//Don't do anything if empty
+		if(this.isEmpty()) return null;
+		//Simplify the steps if there is only one value as no chaecks are required
 		if(this.size==1){
 			final E value=this.get(--this.size);
 			this.arr[0]=null;
@@ -185,8 +197,13 @@ E extends Comparable<E>>{
 		this.arr[index2]=obj;
 	}
 
+	/**
+	* Converts the Object into a string representation
+	* @return a string representation of the Heap
+	*/
 	@Override
 	public String toString(){
+		//Why define your own code when they define it!
 		return "Heep "+Arrays.toString(this.arr);
 	}
 }
