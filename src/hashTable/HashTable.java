@@ -12,17 +12,17 @@ E, S extends Collection<E>> implements Collection<E>{
 	public static final String METHOD="Chaining";
 	private final S[] arr;
 	/**
-	* The method returning a new S object
-	*/
+	 * The method returning a new S object
+	 */
 	@NonNull
 	private final Supplier<S> supplier;
 
 	/**
-	* Creates a new HashTable
-	* @param capacity the size of the array to create, should be prime
-	* @param supplier a method that returns a new container
-	* @apinote supplier will be called at the start to get the class of the type
-	*/
+	 * Creates a new HashTable
+	 * @param capacity the size of the array to create, should be prime
+	 * @param supplier a method that returns a new container
+	 * @apinote supplier will be called at the start to get the class of the type
+	 */
 	@SuppressWarnings({"unchecked", "null"})
 	public HashTable(final int capacity, @NonNull
 		final Supplier<@NonNull
@@ -32,10 +32,10 @@ E, S extends Collection<E>> implements Collection<E>{
 	}
 
 	/**
-	* Inserts a new element into the hash table
-	* @param value The value to add
-	* @return {@code true} if there is room to insert
-	*/
+	 * Inserts a new element into the hash table
+	 * @param value The value to add
+	 * @return {@code true} if there is room to insert
+	 */
 	@Override
 	public boolean add(final E value){
 		final int index=this.hashCode(value);
@@ -44,8 +44,8 @@ E, S extends Collection<E>> implements Collection<E>{
 	}
 
 	/**
-	* Checks if the value exists in the hash table
-	*/
+	 * Checks if the value exists in the hash table
+	 */
 	@Override
 	public boolean exists(final E value){
 		final int index=this.hashCode(value);
@@ -59,14 +59,23 @@ E, S extends Collection<E>> implements Collection<E>{
 	 * @return The corrected hash value
 	 */
 	private int hashCode(final E value){
+		if(value instanceof String){
+			final String string=(String)value;
+			int hash=0;
+			final int prime=32, shift=0x61;
+			for(int i=0; i<string.length(); i++){
+				hash=(hash*prime+string.charAt(i)-shift)%this.arr.length;
+			}
+			return hash;
+		}
 		return Math.abs(value.hashCode())%this.arr.length;
 	}
 
 	/**
-	* Removes the given value
-	* @param value the value to remove
-	* @return {@code true} if the value exists and was deleted
-	*/
+	 * Removes the given value
+	 * @param value the value to remove
+	 * @return {@code true} if the value exists and was deleted
+	 */
 	@Override
 	public @Nullable
 	E remove(final E value){
@@ -76,8 +85,8 @@ E, S extends Collection<E>> implements Collection<E>{
 	}
 
 	/**
-	* @return A string representation of the hash table
-	*/
+	 * @return A string representation of the hash table
+	 */
 	@Override
 	public String toString(){
 		final StringBuilder builder=new StringBuilder();
