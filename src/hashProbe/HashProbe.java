@@ -25,7 +25,7 @@ E>{
 
 	/**
 	 * Creates a new HashProbe
-	 * 
+	 *
 	 * @param capacity
 	 *                     The size of the hash array, can only fit up to that much
 	 */
@@ -36,7 +36,7 @@ E>{
 
 	/**
 	 * Inserts the value into the HashProbe
-	 * 
+	 *
 	 * @param  value
 	 *                   The value to add
 	 * @return       {@code true} if successful {@code false} if full
@@ -48,7 +48,7 @@ E>{
 
 	/**
 	 * Internal add method
-	 * 
+	 *
 	 * @param  value
 	 *                   The warped value to add
 	 * @param  hash
@@ -74,6 +74,13 @@ E>{
 		return false;
 	}
 
+	/**
+	 * Checks if the value exists in the HashProbe
+	 *
+	 * @param  value
+	 *                   The value to find
+	 * @return       {@code true} if it was found
+	 */
 	public boolean exists(final E value){
 		return this.getIndex(value)!=-1;
 	}
@@ -95,9 +102,14 @@ E>{
 	}
 
 	/**
+	 * Internal getIndex method
+	 * 
 	 * @param value
+	 *                  The value to look for
 	 * @param index
+	 *                  The current index to look at
 	 * @param start
+	 *                  Where the search started to prevent infinite loops
 	 */
 	private byte getIndexInner(final E value, final int index, final int start){
 		if(this.arr[index].equals(value)) return 1;
@@ -125,6 +137,11 @@ E>{
 		return Math.abs(value.hashCode())%this.arr.length;
 	}
 
+	/**
+	 * @param  value
+	 *                   The value to remove from the HashProbe
+	 * @return       {@code true} if successful
+	 */
 	public boolean remove(final E value) {
 		final int index=this.getIndex(value);
 		if(index==-1)return false;
@@ -132,6 +149,9 @@ E>{
 		return true;
 	}
 
+	/**
+	 * Returns a string representation of the HashProbe
+	 */
 	@Override
 	public String toString(){
 		final StringBuilder builder=new StringBuilder();
