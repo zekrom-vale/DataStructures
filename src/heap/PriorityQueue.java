@@ -6,6 +6,10 @@ import org.eclipse.jdt.annotation.Nullable;
 /**
 * Class PriorityQueue composition (Has-A) Heap<br>
 * Impliments the Priority Queue via a Heap of KeyValue pairs
+ *
+ * @author     Shawn Graven
+ * @date       11/26/19
+ *
 * @param <K> The Key type that sorts the PriorityQueue
 * @param <V> The value to store in the PriorityQueue
 */
