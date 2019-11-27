@@ -6,7 +6,8 @@ import org.eclipse.jdt.annotation.Nullable;
  * Class Wraper wraps an object allowing it to be null without actually being null<br>
  * This is a way to avoid magic values and to implement it with generics
  *
- * @author     Zekrom
+ * @author     Shawn Graven
+ * @date       11/26/19
  *
  * @param  <E>
  *                 The type that is wraped

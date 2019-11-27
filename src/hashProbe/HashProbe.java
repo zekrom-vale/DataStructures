@@ -103,7 +103,7 @@ E>{
 
 	/**
 	 * Internal getIndex method
-	 * 
+	 *
 	 * @param value
 	 *                  The value to look for
 	 * @param index
@@ -125,16 +125,20 @@ E>{
 	 * @return The adjusted hash code
 	 */
 	protected int hashCode(final E value){
+		//Override of hash code for strings
 		if(value instanceof String){
 			final String string=(String)value;
 			int hash=0;
-			final int prime=32, shift=0x61;
+			final int prime=32, shift='a';
 			for(int i=0; i<string.length(); i++){
-				hash=(hash*prime+string.charAt(i)-shift)%this.arr.length;
+				hash=(hash*prime+string.charAt(i)-shift)%(this.arr.length-1);
 			}
-			return hash;
+			return Math.abs(hash);//Avoid error with values under 'a' like !@#$%^&*()_+
 		}
-		return Math.abs(value.hashCode())%this.arr.length;
+		//Otherwise call the hashCode method, make it positive, and cut to size of the array
+		//String did have cases where a negative value did appear so that is why there is the abs method
+		return Math.abs(value.hashCode()%this.arr.length);
+		//Math.abs(Integer.MIN_VALUE)==Integer.MIN_VALUE so must do mod first
 	}
 
 	/**

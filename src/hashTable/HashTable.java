@@ -7,12 +7,12 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
-* Class HashTable resolves colission by inserting the value into an expandable container<br>
-* This implimenttation does not use any container in specific but it must impliment {@code hashTable.Collection<?>}<br>
-* This allows the HashTable to use it self, whitch may use it self, and any other container instead of just stuck to one
-* @param <E> The type stored in the hash table
-* @param <S> The collection that will be used to contain the values inserted
-*/
+ * Class HashTable resolves colission by inserting the value into an expandable container<br>
+ * This implimenttation does not use any container in specific but it must impliment {@code hashTable.Collection<?>}<br>
+ * This allows the HashTable to use it self, whitch may use it self, and any other container instead of just stuck to one
+ * @param <E> The type stored in the hash table
+ * @param <S> The collection that will be used to contain the values inserted
+ */
 public class HashTable <@NonNull
 E, S extends Collection<E>> implements Collection<E>{
 
@@ -74,15 +74,17 @@ E, S extends Collection<E>> implements Collection<E>{
 		if(value instanceof String){
 			final String string=(String)value;
 			int hash=0;
-			final int prime=32, shift=(int)'a';//Very nice that you can cast from char to int
+			final int prime=32, shift='a';
 			for(int i=0; i<string.length(); i++){
-				hash=(hash*prime+string.charAt(i)-shift)%this.arr.length;
+				hash=(hash*prime+string.charAt(i)-shift)%(this.arr.length-1);
 			}
-			return hash;
+			System.out.println(hash);
+			return Math.abs(hash);
 		}
 		//Otherwise call the hashCode method, make it positive, and cut to size of the array
-		//String did have cases where a negative value did apper so that is why there is the abs method
-		return Math.abs(value.hashCode())%this.arr.length;
+		//String did have cases where a negative value did appear so that is why there is the abs method
+		return Math.abs(value.hashCode()%this.arr.length);
+		//Math.abs(Integer.MIN_VALUE)==Integer.MIN_VALUE so must do mod first
 	}
 
 	/**
