@@ -15,6 +15,12 @@ import org.eclipse.jdt.annotation.Nullable;
  *
  * @param  <E>
  *                 The type of the HashProbe
+ * @see        #add(Object)
+ * @see        #remove(Object)
+ * @see        #exists(Object)
+ * @see        #hashCode()
+ * @see        Driver
+ * @see        Wraper
  */
 public class HashProbe <@NonNull
 E>{

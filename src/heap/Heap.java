@@ -15,7 +15,14 @@ import org.eclipse.jdt.annotation.Nullable;
  *
  * @param  <E>
  *                 The type of the heap, must implement {@link Comparable}
- * @see KeyValue
+ * @see        #add(Comparable)
+ * @see        #remove()
+ * @see        #isEmpty()
+ * @see        #left(int)
+ * @see        #right(int)
+ * @see        #parent(int)
+ * @see        KeyValue
+ * @see        PriorityQueue
  */
 public class Heap <@Nullable
 E extends Comparable<E>>{
@@ -122,9 +129,9 @@ E extends Comparable<E>>{
 	}
 
 	/**
-	* Checks if the Heap is empty
-	* @return {@code true} if there is no data in the Heap, {@code false} if there is some data
-	*/
+	 * Checks if the Heap is empty
+	 * @return {@code true} if there is no data in the Heap, {@code false} if there is some data
+	 */
 	public boolean isEmpty(){
 		return this.size==0;
 	}
@@ -198,9 +205,9 @@ E extends Comparable<E>>{
 	}
 
 	/**
-	* Converts the Object into a string representation
-	* @return a string representation of the Heap
-	*/
+	 * Converts the Object into a string representation
+	 * @return a string representation of the Heap
+	 */
 	@Override
 	public String toString(){
 		//Why define your own code when they define it!
