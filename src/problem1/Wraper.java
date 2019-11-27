@@ -1,4 +1,4 @@
-package hashProbe;
+package problem1;
 
 import org.eclipse.jdt.annotation.Nullable;
 

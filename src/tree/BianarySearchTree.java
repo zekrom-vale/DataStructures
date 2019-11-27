@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
-import hashTable.Collection;
+import problem2.Collection;
 
 /**
  * Class BianarySearchTree

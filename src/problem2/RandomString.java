@@ -1,4 +1,4 @@
-package hashTable;
+package problem2;
 
 import java.util.Random;
 
