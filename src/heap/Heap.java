@@ -1,4 +1,4 @@
-package problem3;
+package heap;
 
 import java.util.Arrays;
 

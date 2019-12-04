@@ -1,4 +1,4 @@
-package problem2;
+package hashTable;
 
 import java.lang.reflect.Array;
 import java.util.function.Supplier;

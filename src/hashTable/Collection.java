@@ -1,4 +1,4 @@
-package problem2;
+package hashTable;
 
 import org.eclipse.jdt.annotation.Nullable;
 /**

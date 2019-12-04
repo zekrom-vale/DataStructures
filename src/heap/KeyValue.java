@@ -1,4 +1,4 @@
-package problem3;
+package heap;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;

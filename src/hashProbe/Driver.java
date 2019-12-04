@@ -1,8 +1,8 @@
-package problem1;
+package hashProbe;
 
 import org.eclipse.jdt.annotation.NonNull;
 
-import problem2.RandomString;
+import hashTable.RandomString;
 
 /**
  * Class Driver tests LinearProbeHashTable
