@@ -1,143 +1,147 @@
 package shortest_path_weighted_directed;
+
 /*
  * demonstrates shortest path with weighted, directed graphs
  */
-class Graph
-{
-	private final int MAX_VERTS = 20;
-	private final int INFINITY = 1000000;
-	private Vertex vertexList[]; // list of vertices
-	private int adjMat[][];      // adjacency matrix
-	private int nVerts;          // current number of vertices
-	private int nTree;           // number of verts in tree
-	private DistPar sPath[];     // array for shortest-path data
+class Graph{
+	private final int adjMat[][];      // adjacency matrix
 	private int currentVert;     // current vertex
+	private final int INFINITY=1_000_000_000;
+	private final int MAX_VERTS=20;
+	private int nTree;           // number of verts in tree
+	private int nVerts;          // current number of vertices
+	private final DistPar sPath[];     // array for shortest-path data
 	private int startToCurrent;  // distance to currentVert
+	private final Vertex vertexList[]; // list of vertices
 	//-------------------------------------------------------------
-	public Graph()               // constructor
-	   {
-	   vertexList = new Vertex[MAX_VERTS];
-	                                      // adjacency matrix
-	   adjMat = new int[MAX_VERTS][MAX_VERTS];
-	   nVerts = 0;
-	   nTree = 0;
-	   for(int j=0; j<MAX_VERTS; j++)     // set adjacency
-	      for(int k=0; k<MAX_VERTS; k++)  //     matrix
-	         adjMat[j][k] = INFINITY;     //     to infinity
-	   sPath = new DistPar[MAX_VERTS];    // shortest paths
-	   }  // end constructor
-	//-------------------------------------------------------------
-	public void addVertex(char lab)
-	   {
-	   vertexList[nVerts++] = new Vertex(lab);
-	   }
-	//-------------------------------------------------------------
-	public void addEdge(int start, int end, int weight)
-	   {
-	   adjMat[start][end] = weight;  // (directed)
-	   }
-	//-------------------------------------------------------------
-	public void path()                // find all shortest paths
-	   {
-	   int startTree = 0;             // start at vertex 0
-	   vertexList[startTree].isInTree = true;
-	   nTree = 1;                     // put it in tree
-	
-	   // transfer row of distances from adjMat to sPath
-	   for(int j=0; j<nVerts; j++)
-	      {
-	      int tempDist = adjMat[startTree][j];
-	      sPath[j] = new DistPar(startTree, tempDist);
-	      }
-	
-	   // until all vertices are in the tree
-	   while(nTree < nVerts)
-	      {
-	      int indexMin = getMin();    // get minimum from sPath
-	      int minDist = sPath[indexMin].distance;
-	
-	      if(minDist == INFINITY)     // if all infinite
-	         {                        // it means all vertices are in tree,
-	         System.out.println("There are unreachable vertices");
-	         break;                   // sPath is complete
-	         }
-	      else
-	         {                        // reset currentVert
-	         currentVert = indexMin;  // to closest vert
-	         startToCurrent = sPath[indexMin].distance;  // minimum distance from startTree to currentVert
-	         }
-	      // put current vertex in tree
-	      vertexList[currentVert].isInTree = true;
-	      nTree++;
-	      adjust_sPath();             // update sPath[] array
-	      }  // end while(nTree<nVerts)
-	
-	   displayPaths();                // display sPath[] contents
-	
-	   nTree = 0;                     // clear tree
-	   for(int j=0; j<nVerts; j++)
-	      vertexList[j].isInTree = false;
-	   }  // end path()
-	//-------------------------------------------------------------
-public int getMin()               // get entry from sPath with minimum distance
-   {                            
-   int minDist = INFINITY;        // assume minimum
-   int indexMin = 0;
-   for(int j=1; j<nVerts; j++)    // for each vertex,
-      {                           // if it's in tree and
-      if( !vertexList[j].isInTree &&  // smaller than old one
-                            sPath[j].distance < minDist )
-         {
-         minDist = sPath[j].distance;
-         indexMin = j;            // update minimum
-         }
-      }  // end for
-   return indexMin;               // return index of minimum
-   }  // end getMin()
-//-------------------------------------------------------------
-public void adjust_sPath()  //updating shortest-path array column by column
-   {
-   // adjust values in shortest-path array sPath
-   int column = 1;                // skip starting vertex
-   while(column < nVerts)         // go across columns
-      {
-      // if this column's vertex already in tree, skip it
-      if( vertexList[column].isInTree )
-         {
-         column++;
-         continue;
-         }
-      // calculate distance for one sPath entry
-                    // get edge from currentVert to column
-      int currentToFringe = adjMat[currentVert][column];
-                    // add distance from start
-      int startToFringe = startToCurrent + currentToFringe;
-                    // get distance of current sPath entry
-      int sPathDist = sPath[column].distance;
 
-      // compare distance from start with sPath entry
-      if(startToFringe < sPathDist)   // if shorter,
-         {                            // update sPath
-         sPath[column].parentVert = currentVert;
-         sPath[column].distance = startToFringe;
-         }
-      column++;
-      }  // end while(column < nVerts)
-}  // end adjust_sPath()
-//-------------------------------------------------------------
-public void displayPaths()
-   {
-   for(int j=0; j<nVerts; j++) // display contents of sPath[]
-      {
-      System.out.print(vertexList[j].label + "="); // B=
-      if(sPath[j].distance == INFINITY)
-         System.out.print("inf");                  // inf
-      else
-         System.out.print(sPath[j].distance);      // 50
-      char parent = vertexList[ sPath[j].parentVert ].label;
-      System.out.print("(" + parent + ") ");       // (A)
-      }
-   System.out.println("");
-   }
-//-------------------------------------------------------------
+
+	public Graph()               // constructor
+	{
+		this.vertexList=new Vertex[this.MAX_VERTS];
+		// adjacency matrix
+		this.adjMat=new int[this.MAX_VERTS][this.MAX_VERTS];
+		this.nVerts=0;
+		this.nTree=0;
+		for(int j=0; j<this.MAX_VERTS; j++)     // set adjacency
+			for(int k=0; k<this.MAX_VERTS; k++)  //     matrix
+				this.adjMat[j][k]=this.INFINITY;     //     to infinity
+		this.sPath=new DistPar[this.MAX_VERTS];    // shortest paths
+	}  // end constructor
+	//-------------------------------------------------------------
+
+	public void addEdge(final int start, final int end, final int weight){
+		this.adjMat[start][end]=weight;  // (directed)
+	}
+
+	//-------------------------------------------------------------
+	public void addVertex(final char lab){
+		this.vertexList[this.nVerts++]=new Vertex(lab);
+	}
+
+	//-------------------------------------------------------------
+	public void adjust_sPath()  //updating shortest-path array column by column
+	{
+		// adjust values in shortest-path array sPath
+		int column=1;                // skip starting vertex
+		while(column<this.nVerts)         // go across columns
+		{
+			// if this column's vertex already in tree, skip it
+			if(this.vertexList[column].isInTree){
+				column++;
+				continue;
+			}
+			// calculate distance for one sPath entry
+			// get edge from currentVert to column
+			final int currentToFringe=this.adjMat[this.currentVert][column];
+			// add distance from start
+			final int startToFringe=this.startToCurrent+currentToFringe;
+			// get distance of current sPath entry
+			final int sPathDist=this.sPath[column].distance;
+
+			// compare distance from start with sPath entry
+			if(startToFringe<sPathDist)   // if shorter,
+			{                            // update sPath
+				this.sPath[column].parentVert=this.currentVert;
+				this.sPath[column].distance=startToFringe;
+			}
+			column++;
+		}  // end while(column < nVerts)
+	}  // end adjust_sPath()
+	//-------------------------------------------------------------
+
+	public void displayPaths(){
+		for(int j=0; j<this.nVerts; j++) // display contents of sPath[]
+		{
+			System.out.print(this.vertexList[j].label+"="); // B=
+			if(this.sPath[j].distance==this.INFINITY) System.out.print("inf");                  // inf
+			else System.out.print(this.sPath[j].distance);      // 50
+			final char parent=this.vertexList[this.sPath[j].parentVert].label;
+			System.out.print("("+parent+") ");       // (A)
+		}
+		System.out.println("");
+	}
+
+	//-------------------------------------------------------------
+	//-------------------------------------------------------------
+	public int getMin()               // get entry from sPath with minimum distance
+	{
+		int minDist=this.INFINITY;        // assume minimum
+		int indexMin=0;
+		for(int j=1; j<this.nVerts; j++) if(
+			!this.vertexList[j].isInTree&&  // smaller than old one
+			this.sPath[j].distance<minDist
+			){
+			minDist=this.sPath[j].distance;
+			indexMin=j;            // update minimum
+		}
+		return indexMin;               // return index of minimum
+	}  // end getMin()
+	//-------------------------------------------------------------
+
+	public void path(final int index)                // find all shortest paths
+	{
+		final int startTree=index;             // start at vertex 0
+		this.vertexList[startTree].isInTree=true;
+		this.nTree=1;                     // put it in tree
+
+		// transfer row of distances from adjMat to sPath
+		for(int j=0; j<this.nVerts; j++){
+			final int tempDist=this.adjMat[startTree][j];
+			this.sPath[j]=new DistPar(startTree, tempDist);
+		}
+
+		// until all vertices are in the tree
+		while(this.nTree<this.nVerts){
+			final int indexMin=this.getMin();    // get minimum from sPath
+			final int minDist=this.sPath[indexMin].distance;
+
+			if(minDist==this.INFINITY)     // if all infinite
+			{                        // it means all vertices are in tree,
+				System.out.println("There are unreachable vertices");
+				break;                   // sPath is complete
+			}
+			else{                        // reset currentVert
+				this.currentVert=indexMin;  // to closest vert
+				this.startToCurrent=this.sPath[indexMin].distance;  // minimum distance from startTree to currentVert
+			}
+			// put current vertex in tree
+			this.vertexList[this.currentVert].isInTree=true;
+			this.nTree++;
+			this.adjust_sPath();             // update sPath[] array
+		}  // end while(nTree<nVerts)
+
+		this.displayPaths();                // display sPath[] contents
+
+		this.nTree=0;                     // clear tree
+		for(int j=0; j<this.nVerts; j++) this.vertexList[j].isInTree=false;
+	}  // end path()
+
+	public void paths(){
+		for(int i=0; i<this.nVerts; i++){
+			System.out.print(this.vertexList[i].label+"\t");
+			this.path(i);
+			System.out.println();
+		}
+	}
 }  // end class Graph
