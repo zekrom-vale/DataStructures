@@ -35,21 +35,25 @@ class Graph2
 		vertex2.list.insertTail(vertex1);
 	}
 
-	public void addVertex(final char lab)
-	{
-		this.vertexList.insertTail(new Vertex(lab));
+	public Vertex addVertex(final char lab){
+		final Vertex vertex=new Vertex(lab);
+		this.vertexList.insertTail();
+		return vertex;
 	}
 
-	public void bfs(final Vertex vertex){
+	public LinkedList<@Nullable
+	Vertex> bfs(final Vertex vertex){
 		final LinkedList<@Nullable Vertex> order=new LinkedList<>();
 		vertex.bfs(order, this.queue);
-
+		return order;
 	}
 
-	public void dfs(final Vertex vertex){
+	public LinkedList<@Nullable
+	Vertex> dfs(final Vertex vertex){
 		final LinkedList<@Nullable
 		Vertex> order=new LinkedList<>();
 		vertex.dfs(order, this.stack);
+		return order;
 	}
 
 	public void displayVertex(final Vertex v){

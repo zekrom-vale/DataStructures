@@ -114,4 +114,9 @@ class Vertex
 			});
 		}
 	}
+
+	@Override
+	public String toString(){
+		return this.label+"";
+	}
 }

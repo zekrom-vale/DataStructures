@@ -40,6 +40,15 @@ E>{
 
 	/**
 	 * @return
+	 * @see    linkedList.CircularLinkedList#getRoot()
+	 */
+	public @Nullable
+	E peek(){
+		return this.list.getRoot();
+	}
+
+	/**
+	 * @return
 	 * @see linkedList.CircularLinkedList#removeHead()
 	 */
 	public @Nullable
