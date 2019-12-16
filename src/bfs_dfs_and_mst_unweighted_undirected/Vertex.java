@@ -6,7 +6,14 @@ import linkedList.LinkedList;
 import queue.Queue;
 import queue.Stack;
 
-class Vertex
+
+/**
+ * The container for the vertex
+ *
+ * @author Shawn Graven
+ * @date   12/15/19
+ */
+public class Vertex
 {
 	public char label;
 	public LinkedList<@Nullable

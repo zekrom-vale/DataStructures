@@ -8,9 +8,16 @@ import linkedList.LinkedList;
 import queue.Queue;
 import queue.Stack;
 
-/*
- * demonstrates depth-first search (DFS), breath-first search (BFS),
- * 	and minimum spanning tree (MST)
+/**
+ * demonstrates depth-first search (DFS), breath-first search (BFS), and minimum spanning tree
+ * (MST)<br>
+ * Implemented via the adjacency list
+ *
+ * @author Shawn Graven
+ * @date   12/15/19
+ *
+ * @see    Driver
+ * @see    Vertex
  */
 class Graph2
 {

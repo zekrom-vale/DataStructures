@@ -1,5 +1,11 @@
 package shortest_path_weighted_directed;
 
+/**
+ * Class PathApp Tests the Graph's path and paths method
+ * 
+ * @author Shawn Graven*
+ * @date   12/15/19
+ */
 class PathApp
 {
 	public static void main(final String[] args)

@@ -5,8 +5,13 @@ import org.eclipse.jdt.annotation.Nullable;
 import queue.Queue;
 import queue.Stack;
 
-/*
+/**
  * demonstrates depth-first search (DFS), breath-first search (BFS), and minimum spanning tree (MST)
+ *
+ * @author Shawn Graven
+ * @date   12/15/19
+ *
+ * @see    Driver
  */
 class Graph{
 	private final int adjMat[][];      // adjacency matrix

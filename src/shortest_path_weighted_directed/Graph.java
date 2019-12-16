@@ -1,9 +1,16 @@
 package shortest_path_weighted_directed;
 
-/*
+
+/**
  * demonstrates shortest path with weighted, directed graphs
+ *
+ * @author Shawn Graven*
+ * @date   12/15/19
+ *
+ * @see    #paths()
+ * @see    #path(int)
  */
-class Graph{
+public class Graph{
 	private final int adjMat[][];      // adjacency matrix
 	private int currentVert;     // current vertex
 	private final int INFINITY=1_000_000_000;
@@ -101,7 +108,7 @@ class Graph{
 
 	public void path(final int index)                // find all shortest paths
 	{
-		final int startTree=index;             // start at vertex 0
+		final int startTree=index;             // start at index
 		this.vertexList[startTree].isInTree=true;
 		this.nTree=1;                     // put it in tree
 
@@ -138,6 +145,7 @@ class Graph{
 	}  // end path()
 
 	public void paths(){
+		//Simply loop for each vertex and call path(i)
 		for(int i=0; i<this.nVerts; i++){
 			System.out.print(this.vertexList[i].label+"\t");
 			this.path(i);
