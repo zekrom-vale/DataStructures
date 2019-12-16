@@ -9,6 +9,13 @@ import org.eclipse.jdt.annotation.Nullable;
 import linkedList.LinkedList;
 import linkedList.Node;
 
+/**
+ * Simple wrapper to hold the vertex and linked vertexes for the adjacency list
+ *
+ * @author Shawn Graven
+ * @date   12/15/19
+ */
+
 public class Wrapper{
 
 	@Nullable
