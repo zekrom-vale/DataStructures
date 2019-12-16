@@ -1,4 +1,4 @@
-package problem12;
+package bfs_dfs_and_mst_unweighted_undirected;
 
 public class Driver{
 

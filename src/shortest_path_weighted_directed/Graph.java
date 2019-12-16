@@ -1,4 +1,4 @@
-package problem3;
+package shortest_path_weighted_directed;
 
 
 /**
