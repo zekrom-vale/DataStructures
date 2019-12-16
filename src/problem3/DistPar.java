@@ -1,4 +1,4 @@
-package shortest_path_weighted_directed;
+package problem3;
 /*
  * Keep tracking the parent with distance
  * the resulting object put into the sPath[] array (shortest-path array)

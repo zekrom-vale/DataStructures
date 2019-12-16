@@ -1,4 +1,4 @@
-package shortest_path_weighted_directed;
+package problem3;
 
 class Vertex
 {

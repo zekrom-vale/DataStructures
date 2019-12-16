@@ -1,4 +1,4 @@
-package bfs_dfs_and_mst_unweighted_undirected;
+package problem12;
 
 public class SearchApp {
 

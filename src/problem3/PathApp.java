@@ -1,4 +1,4 @@
-package shortest_path_weighted_directed;
+package problem3;
 
 /**
  * Class PathApp Tests the Graph's path and paths method
